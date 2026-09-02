@@ -129,6 +129,12 @@ def init_db():
                 last_updated TEXT
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS bot_settings (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+        ''')
         conn.commit()
         conn.close()
         print("✅ High-Speed Database initialized successfully.")
@@ -136,6 +142,27 @@ def init_db():
         print(f"Init DB Error: {e}")
 
 init_db()
+
+def get_setting(key, default_val=""):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT value FROM bot_settings WHERE key = ?', (key,))
+        row = cursor.fetchone()
+        conn.close()
+        return row[0] if row else default_val
+    except Exception:
+        return default_val
+
+def set_setting(key, value):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('INSERT OR REPLACE INTO bot_settings (key, value) VALUES (?, ?)', (key, str(value)))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"Set setting error: {e}")
 
 def get_or_create_user(user_id, username="", first_name=""):
     try:
@@ -284,9 +311,39 @@ web_thread = threading.Thread(target=start_health_server, daemon=True)
 web_thread.start()
 
 # ----------------- تهيئة كائن البوت -----------------
-bot = telebot.TeleBot(BOT_TOKEN, parse_mode="Markdown", threaded=True, num_threads=32)
+bot = telebot.TeleBot(BOT_TOKEN, threaded=True, num_threads=32)
 user_states = {}
 user_click_lock = {}
+
+def safe_send_message(chat_id, text, reply_markup=None, parse_mode="Markdown"):
+    try:
+        return bot.send_message(chat_id, text, reply_markup=reply_markup, parse_mode=parse_mode)
+    except Exception:
+        try:
+            return bot.send_message(chat_id, text, reply_markup=reply_markup, parse_mode=None)
+        except Exception as e:
+            print(f"safe_send_message error: {e}")
+            return None
+
+def safe_edit_message_text(chat_id, message_id, text, reply_markup=None, parse_mode="Markdown"):
+    try:
+        return bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, reply_markup=reply_markup, parse_mode=parse_mode)
+    except Exception:
+        try:
+            return bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, reply_markup=reply_markup, parse_mode=None)
+        except Exception as e:
+            print(f"safe_edit_message_text error: {e}")
+            return None
+
+def safe_reply_to(message, text, reply_markup=None, parse_mode="Markdown"):
+    try:
+        return bot.reply_to(message, text, reply_markup=reply_markup, parse_mode=parse_mode)
+    except Exception:
+        try:
+            return bot.reply_to(message, text, reply_markup=reply_markup, parse_mode=None)
+        except Exception as e:
+            print(f"safe_reply_to error: {e}")
+            return None
 
 def send_activation_log(user_id, country_title, service_name, phone, code, price_str, order_id):
     try:
@@ -412,16 +469,73 @@ def hero_request(params):
             continue
     return "ERROR_CONNECTION"
 
+def get_plus_api_url():
+    return get_setting("plus_api_url", PLUS_API_URL).strip()
+
+def get_plus_api_key():
+    return get_setting("plus_api_key", PLUS_API_KEY).strip()
+
 def plus_request(params):
-    params['api_key'] = PLUS_API_KEY
-    for endpoint in PLUS_ENDPOINTS:
+    current_key = get_plus_api_key()
+    current_url = get_plus_api_url()
+    params['api_key'] = current_key
+    
+    endpoints_to_try = []
+    if current_url:
+        endpoints_to_try.append(current_url)
+    for ep in PLUS_ENDPOINTS:
+        if ep and ep not in endpoints_to_try:
+            endpoints_to_try.append(ep)
+            
+    for endpoint in endpoints_to_try:
         try:
-            res = session.get(endpoint, params=params, timeout=7)
+            res = session.get(endpoint, params=params, timeout=8)
             if res.status_code == 200 and res.text.strip():
                 return res.text.strip()
         except Exception:
             continue
     return "ERROR_CONNECTION"
+
+def test_plus_connection():
+    current_key = get_plus_api_key()
+    current_url = get_plus_api_url()
+    if not current_url:
+        return "❌ لم يتم ضبط رابط موقع بلاس بعد."
+    
+    # 1. اختبار إذا كان موقع رشق SMM (API v2)
+    try:
+        if "api/v2" in current_url or "smm" in current_url.lower():
+            r = session.post(current_url, data={"key": current_key, "action": "balance"}, timeout=7)
+            if r.status_code == 200:
+                try:
+                    js = r.json()
+                    if "balance" in js:
+                        return f"✅ متصل بنجاح (سيرفر رشق SMM)!\n💰 رصيدك في الموقع: {js['balance']} {js.get('currency', '$')}"
+                    elif "error" in js:
+                        return f"⚠️ استجاب السيرفر لكن مع تنبيه: {js['error']}"
+                except Exception:
+                    return f"✅ استجاب السيرفر برمز HTTP 200:\n{r.text[:100]}"
+    except Exception:
+        pass
+
+    # 2. اختبار إذا كان موقع أرقام وتفعيلات SMS (handler_api.php)
+    try:
+        r = session.get(current_url, params={"api_key": current_key, "action": "getBalance"}, timeout=7)
+        if r.status_code == 200:
+            txt = r.text.strip()
+            if txt.startswith("ACCESS_BALANCE:"):
+                return f"✅ متصل بنجاح (سيرفر أرقام وتفعيل)!\n💰 رصيدك بالموقع: {txt.split(':')[1]} روبل"
+            elif txt == "BAD_KEY":
+                return f"⚠️ السيرفر متصل لكن مفتاح API غير صالح (BAD_KEY).\nيرجى نسخ المفتاح الصحيح من حسابك بالموقع."
+            return f"✅ رد السيرفر (HTTP 200):\n{txt[:120]}"
+        elif r.status_code in [404, 502, 503]:
+            return f"❌ خطأ من السيرفر (HTTP {r.status_code}): الرابط غير صحيح أو الصفحة غير موجودة."
+    except requests.exceptions.Timeout:
+        return "⌛ فشل الاتصال: انتهت مهلة الانتظار (Timeout).\nالسيرفر إما محجوب أو الرابط غير متاح."
+    except Exception as e:
+        return f"❌ تعذر الاتصال بالسيرفر: {str(e)[:120]}"
+
+    return "❌ لم يتم الحصول على استجابة صالحة. تأكد من صحة الرابط ومفتاح API."
 
 # دالة جلب السعر الفعلي من المزود مع إضافة هامش الربح 30% تلقائياً
 price_cache = {}
@@ -704,16 +818,51 @@ def build_countries_page_keyboard(app_code, server_key, page=0):
     markup.add(types.InlineKeyboardButton("✤ ↩️ عودة للسيرفرات ✤", callback_data=f"srv_{app_code}"))
     return markup
 
-def build_smm_keyboard():
-    markup = types.InlineKeyboardMarkup(row_width=1)
-    for smm_id, smm_info in catalog.SMM_SERVICES.items():
-        # احتساب سعر الألف مع هامش ربح 30%
-        unit_p = smm_info["raw_unit_price"] * (1.0 + PROFIT_MARGIN)
-        per_1k = smm_info["raw_per_1000"] * (1.0 + PROFIT_MARGIN)
-        btn_title = f"{smm_info['title']} - {per_1k:.3f}$/1000"
-        markup.add(types.InlineKeyboardButton(btn_title, callback_data=f"smm_king_start_{smm_id}"))
+def build_smm_categories_keyboard():
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    markup.add(
+        types.InlineKeyboardButton("🟢 رشق تيليجرام ✈️", callback_data="smm_sec_tg"),
+        types.InlineKeyboardButton("🟣 رشق إنستغرام 📸", callback_data="smm_sec_ig")
+    )
+    markup.add(
+        types.InlineKeyboardButton("⚫ رشق تيك توك 🎵", callback_data="smm_sec_tt"),
+        types.InlineKeyboardButton("🎮 شحن الألعاب 🎯", callback_data="smm_sec_games")
+    )
     markup.add(types.InlineKeyboardButton("🔙 العودة للقائمة الرئيسية", callback_data="back_to_main"))
     return markup
+
+def build_smm_section_services_keyboard(section_name):
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    for smm_id, smm_info in catalog.SMM_SERVICES.items():
+        if smm_info.get("section") == section_name:
+            per_1k = smm_info["raw_per_1000"] * (1.0 + PROFIT_MARGIN)
+            btn_title = f"{smm_info['title']} - {per_1k:.3f}$/1000"
+            markup.add(types.InlineKeyboardButton(btn_title, callback_data=f"smm_king_start_{smm_id}"))
+    markup.add(types.InlineKeyboardButton("🔙 رجوع للأقسام", callback_data="btn_services_games"))
+    return markup
+
+def build_smm_service_card_text(smm_info):
+    raw_unit = smm_info["raw_unit_price"]
+    unit_p = round(raw_unit * (1.0 + PROFIT_MARGIN), 6)
+    per_1k = round(smm_info["raw_per_1000"] * (1.0 + PROFIT_MARGIN), 4)
+    
+    return (
+        f"📋 تفاصيل ومواصفات الخدمة بنظام الملك:\n\n"
+        f"👑 الخدمة: {smm_info['title']}\n"
+        f"📂 القسم: {smm_info['section']}\n\n"
+        f"⚡ وقت البدء: فوري خلال ثوانٍ\n"
+        f"👤 الجودة: {smm_info['quality']}\n"
+        f"🚀 السرعة: {smm_info['speed']}\n"
+        f"🛡️ الضمان: {smm_info['guarantee']}\n"
+        f"🔄 التعويض: {smm_info['compensation']}\n"
+        f"🚫 زر الإلغاء: {smm_info['cancel_btn']}\n"
+        f"💰 سعر الألف: ${per_1k}\n"
+        f"💵 سعر العضو: ${unit_p:.6f}\n"
+        f"🔢 أقل كمية: {smm_info['min_qty']} | أقصى كمية: {smm_info['max_qty']:,}\n\n"
+        f"🔗 نوع الرابط المطلوب: {smm_info['link_type']}\n\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f": الآن من فضلك أرسل رابط الطلب:"
+    )
 
 def build_admin_main_keyboard():
     markup = types.InlineKeyboardMarkup(row_width=2)
@@ -735,7 +884,7 @@ def build_admin_main_keyboard():
     )
     markup.add(
         types.InlineKeyboardButton("💳 فحص Hero SMS", callback_data="admin_check_provider"),
-        types.InlineKeyboardButton("🚀 فحص Plus API", callback_data="admin_check_plus")
+        types.InlineKeyboardButton("💎 فحص وإعداد Plus", callback_data="admin_check_plus")
     )
     markup.add(types.InlineKeyboardButton("🔙 العودة للواجهة الرئيسية", callback_data="back_to_main"))
     return markup
@@ -1096,6 +1245,28 @@ def handle_all_text_messages(message):
                     continue
             bot.send_message(user_id_str, f"✅ **اكتملت الإذاعة بنجاح!**\nتم التوصيل إلى **{sent_count}** مستخدم.")
 
+        elif action == "admin_input_plus_url" and user_id_str == str(ADMIN_ID):
+            new_url = text.strip()
+            set_setting("plus_api_url", new_url)
+            safe_reply_to(
+                message,
+                f"✅ تم حفظ وتحديث رابط موقع بلاس بنجاح:\n`{new_url}`",
+                reply_markup=types.InlineKeyboardMarkup().add(
+                    types.InlineKeyboardButton("🔄 فحص الاتصال الآن", callback_data="admin_check_plus")
+                )
+            )
+
+        elif action == "admin_input_plus_key" and user_id_str == str(ADMIN_ID):
+            new_key = text.strip()
+            set_setting("plus_api_key", new_key)
+            safe_reply_to(
+                message,
+                f"✅ تم حفظ وتحديث مفتاح API بلاس بنجاح:\n`{new_key}`",
+                reply_markup=types.InlineKeyboardMarkup().add(
+                    types.InlineKeyboardButton("🔄 فحص الاتصال الآن", callback_data="admin_check_plus")
+                )
+            )
+
     except Exception as e:
         print(f"Handle Text Error: {e}")
 
@@ -1144,11 +1315,47 @@ def router_callback(call):
 
         # ----------------- قسم خدمات الرشق (نظام الملك) -----------------
         elif data == "btn_services_games":
-            markup = build_smm_keyboard()
-            bot.edit_message_text(
+            markup = build_smm_categories_keyboard()
+            safe_edit_message_text(
                 chat_id=chat_id,
                 message_id=call.message.message_id,
-                text="👑 **قسم خدمات الرشق وشحن الألعاب (نظام الملك المعتمد):**\n\nاختر الخدمة المطلوبة للمتابعة:",
+                text="👑 **قسم خدمات الرشق وشحن الألعاب (نظام الملك المعتمد):**\n\nاختر القسم أو المنصة المطلوبة للمتابعة:",
+                reply_markup=markup
+            )
+
+        elif data == "smm_sec_tg":
+            markup = build_smm_section_services_keyboard("رشق تيليجرام")
+            safe_edit_message_text(
+                chat_id=chat_id,
+                message_id=call.message.message_id,
+                text="🟢 **خدمات رشق تيليجرام (نظام الملك السريع):**\n\nاختر الخدمة المطلوبة:",
+                reply_markup=markup
+            )
+
+        elif data == "smm_sec_ig":
+            markup = build_smm_section_services_keyboard("رشق إنستغرام")
+            safe_edit_message_text(
+                chat_id=chat_id,
+                message_id=call.message.message_id,
+                text="🟣 **خدمات رشق إنستغرام (نظام الملك السريع):**\n\nاختر الخدمة المطلوبة:",
+                reply_markup=markup
+            )
+
+        elif data == "smm_sec_tt":
+            markup = build_smm_section_services_keyboard("رشق تيك توك")
+            safe_edit_message_text(
+                chat_id=chat_id,
+                message_id=call.message.message_id,
+                text="⚫ **خدمات رشق تيك توك (نظام الملك السريع):**\n\nاختر الخدمة المطلوبة:",
+                reply_markup=markup
+            )
+
+        elif data == "smm_sec_games":
+            markup = build_smm_section_services_keyboard("شحن الألعاب")
+            safe_edit_message_text(
+                chat_id=chat_id,
+                message_id=call.message.message_id,
+                text="🎮 **خدمات شحن الألعاب المباشرة بالـ ID:**\n\nاختر اللعبة المطلوبة:",
                 reply_markup=markup
             )
 
@@ -1164,16 +1371,13 @@ def router_callback(call):
                 "smm_id": smm_id
             }
 
-            # عرض الشاشة الأولى لنظام الملك بالضبط
-            king_text = (
-                f"{smm_info['desc']}\n\n"
-                f": الآن من فضلك أرسل رابط الطلب:"
-            )
+            # عرض البطاقة الكاملة بالمواصفات المطابقة للنموذج
+            king_text = build_smm_service_card_text(smm_info)
             
             cancel_markup = types.InlineKeyboardMarkup().add(
-                types.InlineKeyboardButton("🔙 إلغاء والعودة للرشق", callback_data="btn_services_games")
+                types.InlineKeyboardButton("🔙 إلغاء والعودة للأقسام", callback_data="btn_services_games")
             )
-            bot.edit_message_text(
+            safe_edit_message_text(
                 chat_id=chat_id,
                 message_id=call.message.message_id,
                 text=king_text,
@@ -1186,7 +1390,7 @@ def router_callback(call):
             order_data = user_states.pop(state_key, None)
             
             if not order_data:
-                bot.send_message(chat_id, "⚠️ انتهت صلاحية هذا الطلب أو تم تنفيذه بالفعل. يرجى البدء من جديد.")
+                safe_send_message(chat_id, "⚠️ انتهت صلاحية هذا الطلب أو تم تنفيذه بالفعل. يرجى البدء من جديد.")
                 return
 
             smm_id = order_data["smm_id"]
@@ -1198,7 +1402,7 @@ def router_callback(call):
             # فحص الرصيد النهائي
             bal_usd, _, _, _, _, _ = get_or_create_user(user_id)
             if bal_usd < total_cost and str(user_id) != str(ADMIN_ID):
-                bot.send_message(chat_id, f"❌ رصيدك غير كافٍ لإتمام العملية. التكلفة: ${total_cost:.5f}، رصيدك: ${bal_usd:.2f}")
+                safe_send_message(chat_id, f"❌ رصيدك غير كافٍ لإتمام العملية. التكلفة: ${total_cost:.5f}، رصيدك: ${bal_usd:.2f}")
                 return
 
             # خصم المبلغ من المحفظة
@@ -1234,7 +1438,7 @@ def router_callback(call):
                     f"🔗 • الرابط : `{target_link}`\n"
                     f"━━━━━━━━━━━━━━━━━━"
                 )
-                bot.send_message(ADMIN_ID, admin_alert)
+                safe_send_message(ADMIN_ID, admin_alert)
             except Exception:
                 pass
 
@@ -1259,7 +1463,7 @@ def router_callback(call):
             order_markup.add(types.InlineKeyboardButton("🔄 تحديث الطلب", callback_data=f"king_refresh_{order_id}"))
             order_markup.add(types.InlineKeyboardButton("🔙 القائمة الرئيسية", callback_data="back_to_main"))
 
-            bot.edit_message_text(
+            safe_edit_message_text(
                 chat_id=chat_id,
                 message_id=call.message.message_id,
                 text=success_order_text,
@@ -1710,12 +1914,54 @@ def router_callback(call):
         elif data == "admin_check_plus":
             if str(user_id) != str(ADMIN_ID):
                 return
-            res = plus_request({'action': 'getBalance'})
-            if res.startswith("ACCESS_BALANCE:"):
-                bal_val = res.split(":")[1]
-                bot.send_message(chat_id, f"🚀 **رصيد مزود Plus API:** `{bal_val} ₽`\n✅ السيرفر متصل.")
-            else:
-                bot.send_message(chat_id, f"🚀 **رد مزود Plus API:** `{res}`")
+            current_url = get_plus_api_url()
+            current_key = get_plus_api_key()
+            test_res = test_plus_connection()
+            
+            panel_text = (
+                f"💎 **إعدادات وتشخيص موقع بلاس (Plus API):**\n"
+                f"━━━━━━━━━━━━━━━━━━\n"
+                f"🔗 • **الرابط المضبوط حالياً:**\n`{current_url}`\n\n"
+                f"🔑 • **مفتاح API المضبوط:**\n`{current_key}`\n\n"
+                f"📊 • **فحص الاتصال المباشر بالسيرفر:**\n{test_res}\n"
+                f"━━━━━━━━━━━━━━━━━━\n"
+                f"👇 **يمكنك تعديل الرابط أو المفتاح مباشرة دون الحاجة لتعديل الكود:**"
+            )
+            
+            plus_markup = types.InlineKeyboardMarkup(row_width=1)
+            plus_markup.add(
+                types.InlineKeyboardButton("🔗 تعديل رابط موقع بلاس (URL)", callback_data="admin_set_plus_url"),
+                types.InlineKeyboardButton("🔑 تعديل مفتاح API بلاس (Key)", callback_data="admin_set_plus_key"),
+                types.InlineKeyboardButton("🔄 إعادة فحص الاتصال الآن", callback_data="admin_check_plus"),
+                types.InlineKeyboardButton("🔙 العودة للوحة الإدارة", callback_data="btn_admin_panel")
+            )
+            
+            safe_edit_message_text(
+                chat_id=chat_id,
+                message_id=call.message.message_id,
+                text=panel_text,
+                reply_markup=plus_markup
+            )
+
+        elif data == "admin_set_plus_url":
+            if str(user_id) != str(ADMIN_ID):
+                return
+            user_states[str(user_id)] = {"action": "admin_input_plus_url"}
+            safe_send_message(
+                chat_id,
+                "✏️ **أرسل الآن رابط موقع بلاس بالكامل (URL):**\n\n"
+                "• إذا كان موقع رشق SMM: أرسل رابط الـ API v2 (مثال: `https://plus-smm.com/api/v2`)\n"
+                "• إذا كان موقع أرقام SMS: أرسل رابط handler (مثال: `https://site.com/stubs/handler_api.php`)"
+            )
+
+        elif data == "admin_set_plus_key":
+            if str(user_id) != str(ADMIN_ID):
+                return
+            user_states[str(user_id)] = {"action": "admin_input_plus_key"}
+            safe_send_message(
+                chat_id,
+                "🔑 **أرسل الآن مفتاح الـ API الجديد الخاص بموقع بلاس (API Key):**"
+            )
 
         elif data == "admin_view_users":
             if str(user_id) != str(ADMIN_ID):
