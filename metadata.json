@@ -1,0 +1,6 @@
+{
+  "name": "Number SMS & King SMM Bot",
+  "description": "نظام بوت الأرقام الوهمية العالمي وخدمات الرشق بنظام الملك مع جلب الأسعار اللحظية وهامش ربح 30%.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
