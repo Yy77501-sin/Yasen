@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { Copy, Check, FileCode, Download, ExternalLink, Terminal } from 'lucide-react';
-
 import React, { useState, useEffect } from 'react';
-import { Copy, Check, FileCode, Download, ExternalLink, Terminal, AlertTriangle, ArrowDownToLine } from 'lucide-react';
+import { 
+  Copy, 
+  Check, 
+  FileCode, 
+  Terminal, 
+  AlertTriangle, 
+  ArrowDownToLine, 
+  FolderArchive, 
+  ExternalLink,
+  Sparkles
+} from 'lucide-react';
+import JSZip from 'jszip';
 
 interface CodeFileInfo {
   name: string;
@@ -26,7 +34,7 @@ const FILES_META: Record<string, CodeFileInfo> = {
   },
   config: {
     name: 'config.py',
-    desc: 'إعدادات المفاتيح، التوكن، PROFIT_MARGIN = 0.30، وسعر الصرف 1$ = 30 روبل.',
+    desc: 'إعدادات المفاتيح، التوكن، PROFIT_MARGIN، وسعر الصرف 1$ = 30 روبل.',
     url: '/bot_files/config.py',
     githubPath: 'bot_files/config.py'
   },
@@ -35,14 +43,27 @@ const FILES_META: Record<string, CodeFileInfo> = {
     desc: 'المكتبات المطلوبة لتشغيل البوت على Render.',
     url: '/bot_files/requirements.txt',
     githubPath: 'bot_files/requirements.txt'
+  },
+  procfile: {
+    name: 'Procfile',
+    desc: 'ملف أوامر التشغيل المباشر لخدمة Worker في Render و Heroku.',
+    url: '/bot_files/Procfile',
+    githubPath: 'Procfile'
+  },
+  runtime: {
+    name: 'runtime.txt',
+    desc: 'تحديد إصدار Python 3.11 المعتمد على السيرفر.',
+    url: '/bot_files/runtime.txt',
+    githubPath: 'runtime.txt'
   }
 };
 
 export const CodeViewer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'main' | 'catalog' | 'config' | 'requirements'>('main');
+  const [activeTab, setActiveTab] = useState<'main' | 'catalog' | 'config' | 'requirements' | 'procfile' | 'runtime'>('main');
   const [copied, setCopied] = useState<string | null>(null);
   const [fileContents, setFileContents] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const [zipping, setZipping] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAllFiles = async () => {
@@ -76,6 +97,54 @@ export const CodeViewer: React.FC = () => {
     setTimeout(() => setCopied(null), 2000);
   };
 
+  const handleDownloadAllZip = async () => {
+    setZipping(true);
+    try {
+      const zip = new JSZip();
+      const botFolder = zip.folder('bot_files');
+
+      // Add files
+      for (const [key, meta] of Object.entries(FILES_META)) {
+        const content = fileContents[key] || '';
+        if (key === 'procfile' || key === 'runtime') {
+          // Put root files in root
+          zip.file(meta.name, content);
+          if (botFolder) botFolder.file(meta.name, content);
+        } else {
+          if (botFolder) botFolder.file(meta.name, content);
+        }
+      }
+
+      // Add README.md
+      const readmeText = `# Number SMS & King SMM Telegram Bot
+نظام متكامل لبوت الأرقام الوهمية (4 سيرفرات) وخدمات الرشق (نظام الملك).
+
+## طريقة التشغيل على Render:
+1. ارفع مجلد \`bot_files\` إلى مستودعك على GitHub.
+2. أنشئ Web Service أو Background Worker في Render.
+3. أمر البناء: \`pip install -r requirements.txt\` أو \`pip install -r bot_files/requirements.txt\`
+4. أمر البدء: \`python bot_files/main.py\` أو \`python main.py\`
+5. أضف متغيرات البيئة (BOT_TOKEN, ADMIN_ID, etc.) في قسم Environment.
+`;
+      zip.file('README.md', readmeText);
+
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'number_sms_king_smm_bot.zip';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to create zip', err);
+      alert('تعذر تجميع ملف ZIP، يرجى تحميل الملفات فردياً.');
+    } finally {
+      setZipping(false);
+    }
+  };
+
   return (
     <div className="space-y-5">
       {/* Alert Warning */}
@@ -92,11 +161,11 @@ export const CodeViewer: React.FC = () => {
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-stone-200">
         <div className="flex flex-wrap items-center gap-2">
-          {(['main', 'catalog', 'config', 'requirements'] as const).map(tabKey => (
+          {(['main', 'catalog', 'config', 'requirements', 'procfile', 'runtime'] as const).map(tabKey => (
             <button
               key={tabKey}
               onClick={() => setActiveTab(tabKey)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeTab === tabKey
                   ? 'bg-stone-900 text-white shadow-xs'
                   : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
@@ -108,24 +177,35 @@ export const CodeViewer: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Download Full ZIP Button */}
+          <button
+            onClick={handleDownloadAllZip}
+            disabled={zipping}
+            className="px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
+            title="تحميل مجلد البوت كاملاً مع كل الملفات بصيغة ZIP"
+          >
+            <FolderArchive className="w-3.5 h-3.5" />
+            <span>{zipping ? 'جاري ضغط الملفات...' : '📦 تحميل المشروع كاملاً (ZIP)'}</span>
+          </button>
+
           {/* Direct Download Button */}
           <a
             href={currentMeta.url}
             download={currentMeta.name}
-            className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border border-stone-300 shadow-xs"
+            className="px-3.5 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border border-stone-300 shadow-xs"
           >
             <ArrowDownToLine className="w-3.5 h-3.5 text-stone-700" />
-            <span>تحميل {currentMeta.name} للجهاز</span>
+            <span>تحميل {currentMeta.name}</span>
           </a>
 
           {/* Copy Button */}
           <button
             onClick={() => handleCopy(currentCode)}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
+            className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
           >
             {copied === activeTab ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied === activeTab ? 'تم النسخ بنجاح!' : `نسخ كود ${currentMeta.name}`}</span>
+            <span>{copied === activeTab ? 'تم النسخ!' : `نسخ كود ${currentMeta.name}`}</span>
           </button>
         </div>
       </div>
