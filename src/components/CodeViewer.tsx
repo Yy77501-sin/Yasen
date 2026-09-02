@@ -1,78 +1,74 @@
 import React, { useState } from 'react';
 import { Copy, Check, FileCode, Download, ExternalLink, Terminal } from 'lucide-react';
 
-interface CodeFile {
+import React, { useState, useEffect } from 'react';
+import { Copy, Check, FileCode, Download, ExternalLink, Terminal, AlertTriangle, ArrowDownToLine } from 'lucide-react';
+
+interface CodeFileInfo {
   name: string;
   desc: string;
-  path: string;
-  code: string;
+  url: string;
+  githubPath: string;
 }
+
+const FILES_META: Record<string, CodeFileInfo> = {
+  main: {
+    name: 'main.py',
+    desc: 'المحرك الشامل للبوت: نظام الملك للرشق، زر [🔄 تحديث الطلب]، سيرفرات الأرقام الأربعة، وهامش ربح 30% محمي.',
+    url: '/bot_files/main.py',
+    githubPath: 'bot_files/main.py'
+  },
+  catalog: {
+    name: 'catalog.py',
+    desc: 'كتالوج خدمات الرشق (نظام الملك) مع سعر 0.000271$ وكتالوج الدول والسيرفرات.',
+    url: '/bot_files/catalog.py',
+    githubPath: 'bot_files/catalog.py'
+  },
+  config: {
+    name: 'config.py',
+    desc: 'إعدادات المفاتيح، التوكن، PROFIT_MARGIN = 0.30، وسعر الصرف 1$ = 30 روبل.',
+    url: '/bot_files/config.py',
+    githubPath: 'bot_files/config.py'
+  },
+  requirements: {
+    name: 'requirements.txt',
+    desc: 'المكتبات المطلوبة لتشغيل البوت على Render.',
+    url: '/bot_files/requirements.txt',
+    githubPath: 'bot_files/requirements.txt'
+  }
+};
 
 export const CodeViewer: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'main' | 'catalog' | 'config' | 'requirements'>('main');
   const [copied, setCopied] = useState<string | null>(null);
+  const [fileContents, setFileContents] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const files: Record<string, CodeFile> = {
-    main: {
-      name: 'main.py',
-      desc: 'المحرك الشامل للبوت: نظام الملك للرشق مع خطوات التأكيد والتحديث، وسيرفرات الأرقام الأربعة، ونظام الأرباح 30%.',
-      path: '/bot_files/main.py',
-      code: `# تم تجهيز الكود بالكامل في bot_files/main.py
-# يتضمن:
-# 1. نظام الملك الكامل للرشق مع شاشات الرابط، الكمية، الفاتورة، والإيصال مع زر [🔄 تحديث الطلب]
-# 2. احتساب هامش ربح 30% تلقائياً لجميع السيرفرات والأرقام
-# 3. دعم كامل للأدمن والتحويل المجاني والشحن التلقائي
-# يمكنك تحميل الملف أو نسخه مباشرة.`
-    },
-    catalog: {
-      name: 'catalog.py',
-      desc: 'كتالوج خدمات الرشق (نظام الملك) مع سعر بلاس 0.000271$ وكتالوج الدول والسيرفرات.',
-      path: '/bot_files/catalog.py',
-      code: `# تم تجهيز الكود بالكامل في bot_files/catalog.py
-# يتضمن بيانات خدمات تيليجرام، إنستغرام، تيك توك، وببجي
-# مع مواصفات نظام الملك الدقيقة.`
-    },
-    config: {
-      name: 'config.py',
-      desc: 'إعدادات المفاتيح، التوكن، PROFIT_MARGIN = 0.30، وسعر الصرف 1$ = 30 روبل.',
-      path: '/bot_files/config.py',
-      code: `import os
+  useEffect(() => {
+    const fetchAllFiles = async () => {
+      setLoading(true);
+      const contents: Record<string, string> = {};
+      for (const [key, meta] of Object.entries(FILES_META)) {
+        try {
+          const res = await fetch(meta.url);
+          if (res.ok) {
+            contents[key] = await res.text();
+          } else {
+            contents[key] = '# تعذر جلب محتوى الملف';
+          }
+        } catch {
+          contents[key] = '# خطأ في قراءة الملف';
+        }
+      }
+      setFileContents(contents);
+      setLoading(false);
+    };
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "8998307482:AAHlUFDu0E_0ltdVQVEGQ5z2pats24kK3rU").strip()
-ADMIN_ID = str(os.getenv("ADMIN_ID", "8097770003")).strip()
-SUPPORT_USERNAME = os.getenv("SUPPORT_USERNAME", "Yas_in7").strip()
-CURRENCY = "$"
+    fetchAllFiles();
+  }, []);
 
-# هامش الربح المعتمد: 30% فوق سعر المزود تلقائياً
-PROFIT_MARGIN = 0.30
-
-# سعر الصرف: 1 دولار = 30 روبل
-RUB_PER_USD = 30.0
-
-# مفاتيح مزودي الأرقام والسيرفرات
-FIVESIM_JWT_TOKEN = os.getenv("FIVESIM_JWT_TOKEN", "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9...").strip()
-GRIZZLY_API_KEY = os.getenv("GRIZZLY_API_KEY", "15a9f459b5a5e02cc330ae0d66399e2b").strip()
-HERO_SMS_API_KEY = os.getenv("HERO_SMS_API_KEY", "67ef5b751b1A4f2bef57dAd7bA2A248c").strip()
-PLUS_API_KEY = os.getenv("PLUS_API_KEY", "PLUS-6c3caa402169433bb15ae1a7").strip()
-PLUS_API_URL = os.getenv("PLUS_API_URL", "https://sms-plus.net/stubs/handler_api.php").strip()
-
-MAIN_CHANNEL_URL = os.getenv("MAIN_CHANNEL_URL", "https://t.me/Yas_in7").strip()
-INSTRUCTIONS_CHANNEL_URL = os.getenv("INSTRUCTIONS_CHANNEL_URL", "https://t.me/Yas_in7").strip()
-ACTIVATION_CHANNEL_ID = os.getenv("ACTIVATION_CHANNEL_ID", "").strip()
-`
-    },
-    requirements: {
-      name: 'requirements.txt',
-      desc: 'المكتبات المطلوبة لتشغيل البوت على Render أو VPS.',
-      path: '/bot_files/requirements.txt',
-      code: `pyTelegramBotAPI>=4.26.0
-requests>=2.32.0
-urllib3>=2.0.0
-`
-    }
-  };
-
-  const currentFile = files[activeTab];
+  const currentMeta = FILES_META[activeTab];
+  const currentCode = fileContents[activeTab] || 'جاري التحميل...';
 
   const handleCopy = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -81,10 +77,21 @@ urllib3>=2.0.0
   };
 
   return (
-    <div className="space-y-4">
-      {/* Tab Selector */}
+    <div className="space-y-5">
+      {/* Alert Warning */}
+      <div className="bg-amber-50 border border-amber-200/80 rounded-2xl p-4 flex items-start gap-3 text-xs text-amber-900 leading-relaxed">
+        <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+        <div>
+          <strong className="font-bold text-sm block text-amber-950 mb-0.5">
+            لماذا لم يتغير شيء في تيليجرام حتى الآن؟
+          </strong>
+          موقع <strong>Render</strong> متصل بمستودعك على GitHub، وهو يقوم بتشغيل ملفات GitHub القديمة. لتظهر كل التحديثات في تيليجرام، يجب استبدال ملفي <code className="bg-amber-100/80 px-1.5 py-0.5 rounded font-mono font-bold">bot_files/main.py</code> و <code className="bg-amber-100/80 px-1.5 py-0.5 rounded font-mono font-bold">bot_files/catalog.py</code> في مستودعك، ثم إرسال أمر <code className="bg-amber-100/80 px-1.5 py-0.5 rounded font-mono font-bold">/start</code> في تيليجرام.
+        </div>
+      </div>
+
+      {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-stone-200">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {(['main', 'catalog', 'config', 'requirements'] as const).map(tabKey => (
             <button
               key={tabKey}
@@ -96,18 +103,31 @@ urllib3>=2.0.0
               }`}
             >
               <FileCode className="w-3.5 h-3.5" />
-              <span>{files[tabKey].name}</span>
+              <span>{FILES_META[tabKey].name}</span>
             </button>
           ))}
         </div>
 
-        <button
-          onClick={() => handleCopy(currentFile.code)}
-          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
-        >
-          {copied === activeTab ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-          <span>{copied === activeTab ? 'تم النسخ!' : `نسخ ${currentFile.name}`}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Direct Download Button */}
+          <a
+            href={currentMeta.url}
+            download={currentMeta.name}
+            className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border border-stone-300 shadow-xs"
+          >
+            <ArrowDownToLine className="w-3.5 h-3.5 text-stone-700" />
+            <span>تحميل {currentMeta.name} للجهاز</span>
+          </a>
+
+          {/* Copy Button */}
+          <button
+            onClick={() => handleCopy(currentCode)}
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
+          >
+            {copied === activeTab ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{copied === activeTab ? 'تم النسخ بنجاح!' : `نسخ كود ${currentMeta.name}`}</span>
+          </button>
+        </div>
       </div>
 
       {/* Code Display Area */}
@@ -115,27 +135,42 @@ urllib3>=2.0.0
         <div className="flex items-center justify-between pb-3 border-b border-stone-800 text-stone-400 text-[11px]">
           <div className="flex items-center gap-2">
             <Terminal className="w-4 h-4 text-emerald-400" />
-            <span className="font-bold text-white">{currentFile.name}</span>
-            <span>({currentFile.path})</span>
+            <span className="font-bold text-white">{currentMeta.name}</span>
+            <span>(مساره في GitHub: <code className="text-amber-300 font-bold">{currentMeta.githubPath}</code>)</span>
           </div>
-          <p className="text-stone-400 font-sans hidden sm:block">{currentFile.desc}</p>
+          <p className="text-stone-400 font-sans hidden sm:block">{currentMeta.desc}</p>
         </div>
 
-        <pre className="mt-4 p-4 bg-stone-900/60 rounded-xl overflow-x-auto text-[11px] leading-relaxed max-h-[450px]">
-          <code>{currentFile.code}</code>
+        <pre className="mt-4 p-4 bg-stone-900/60 rounded-xl overflow-x-auto text-[11px] leading-relaxed max-h-[500px]">
+          <code>{loading ? 'جاري تحميل الكود...' : currentCode}</code>
         </pre>
       </div>
 
-      {/* Instructions for Render / Server deployment */}
-      <div className="bg-white p-4 rounded-xl border border-stone-200 text-xs text-stone-600 space-y-2">
-        <h4 className="font-bold text-stone-900 flex items-center gap-2">
-          🚀 خطوات تحديث البوت على Render أو GitHub:
+      {/* 3 Steps Guide */}
+      <div className="bg-white p-5 rounded-2xl border border-stone-200 text-xs text-stone-700 space-y-3">
+        <h4 className="font-bold text-stone-900 text-sm flex items-center gap-2">
+          🚀 الخطوات الثلاث البسيطة لتحديث البوت على GitHub:
         </h4>
-        <ol className="list-decimal list-inside space-y-1 text-stone-600 leading-relaxed pr-2">
-          <li>انسخ محتويات <code className="bg-stone-100 px-1 py-0.5 rounded font-mono">config.py</code> و <code className="bg-stone-100 px-1 py-0.5 rounded font-mono">catalog.py</code> و <code className="bg-stone-100 px-1 py-0.5 rounded font-mono">main.py</code> مباشرة إلى مستودعك.</li>
-          <li>تأكد من وجود <code className="bg-stone-100 px-1 py-0.5 rounded font-mono">PROFIT_MARGIN = 0.30</code> لتطبيق هامش الربح 30% تلقائياً.</li>
-          <li>على Render، اضغط <strong>Manual Deploy</strong> ثم <strong>Deploy latest commit</strong> لتفعيل نظام الملك الجديد فوراً.</li>
-        </ol>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+          <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200 space-y-1">
+            <div className="font-bold text-stone-900">1. حمل أو انسخ الملف</div>
+            <p className="text-stone-600 text-[11px]">
+              اضغط على زر <strong>تحميل main.py</strong> بالأعلى أو انسخ الكود بالكامل.
+            </p>
+          </div>
+          <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200 space-y-1">
+            <div className="font-bold text-stone-900">2. استبدله في GitHub</div>
+            <p className="text-stone-600 text-[11px]">
+              ادخل لمستودعك على GitHub داخل مجلد <code className="bg-stone-200 px-1 rounded">bot_files/main.py</code> واضغط تعديل ✏️ ثم احفظ.
+            </p>
+          </div>
+          <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200 space-y-1">
+            <div className="font-bold text-stone-900">3. أرسل /start في تيليجرام</div>
+            <p className="text-stone-600 text-[11px]">
+              بعد أن يكمل Render البناء، افتح محادثة البوت وأرسل له <code className="bg-stone-200 px-1 rounded">/start</code> لتظهر الواجهات الجديدة فوراً.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
