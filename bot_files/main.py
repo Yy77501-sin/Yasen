@@ -2094,7 +2094,7 @@ def router_callback(call):
 def start_bot():
    
  try:
-        commands = [
+                        commands = [
             types.BotCommand("start", "🚀 تشغيل وبدء استخدام البوت"),
             types.BotCommand("deposit", "🎳 شحن الرصيد"),
             types.BotCommand("transfer", "🔄 تحويل الرصيد مجاناً"),
