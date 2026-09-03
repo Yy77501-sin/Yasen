@@ -9,7 +9,7 @@ import os
 # Telegram Bot
 # =========================================================
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "8657439320:AAFTQ-JxlBAfRyaP2yWnjO_4IjpuXdrA3Rc").strip()
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8880668064:AAHFsGU8w_Hzt0-2bxmGB3yDKVwcuPQMiIA").strip()
 
 # ضع ADMIN_ID في Render/Railway كمتغير بيئة.
 # مثال: ADMIN_ID=123456789
