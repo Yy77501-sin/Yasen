@@ -2098,7 +2098,7 @@ def start_bot():
         pass
 
     try:
-            try:
+                try:
         commands = [
             types.BotCommand("start", "🚀 تشغيل وبدء استخدام البوت"),
             types.BotCommand("deposit", "🎳 شحن الرصيد"),
@@ -2120,6 +2120,5 @@ def start_bot():
         except Exception as e:
             print(f"⚠️ Polling error occurred: {e}")
             time.sleep(3)
-
 if __name__ == "__main__":
     start_bot()
