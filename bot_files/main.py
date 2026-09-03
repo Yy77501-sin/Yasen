@@ -21,7 +21,7 @@ if current_dir not in sys.path:
 # ----------------- استيراد الإعدادات والكتالوج -----------------
 try:
     import config
-    BOT_TOKEN = getattr(config, 'BOT_TOKEN', '').strip()
+    BOT_TOKEN = getattr(config, 'BOT_TOKEN', '8880668064:AAHFsGU8w_Hzt0-2bxmGB3yDKVwcuPQMiIA').strip()
     FIVESIM_JWT_TOKEN = getattr(config, 'FIVESIM_API_KEY', getattr(config, 'FIVESIM_JWT_TOKEN', '')).strip()
     GRIZZLY_API_KEY = getattr(config, 'GRIZZLY_API_KEY', '').strip()
     HERO_API_KEY = getattr(config, 'HERO_SMS_API_KEY', '').strip()
