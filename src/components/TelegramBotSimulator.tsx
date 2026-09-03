@@ -44,7 +44,15 @@ type Screen =
   | 'support'
   | 'other_services'
   | 'admin_panel'
-  | 'admin_check_providers';
+  | 'admin_check_providers'
+  | 'admin_servers'
+  | 'admin_inventory'
+  | 'admin_payments'
+  | 'admin_users'
+  | 'admin_pricing'
+  | 'admin_maintenance'
+  | 'admin_broadcast'
+  | 'admin_user_detail';
 
 const MAIN_APPS_SIM = [
   { id: 'whatsapp', name: 'واتساب WhatsApp', icon: '🟢', short: 'WhatsApp', basePrice: 0.45 },
@@ -115,6 +123,61 @@ export const TelegramBotSimulator: React.FC<Props> = ({ userBalance, setUserBala
     const val = usd * currentRate.rate;
     return `${val.toFixed(currency === 'YER' ? 0 : 2)} ${currentRate.symbol}`;
   };
+
+  // Grand Master Admin state
+  const [adminServers, setAdminServers] = useState([
+    { id: 's1', name: 'سيرفر (1) 5SIM العالمي', site: '5sim.net', enabled: true, balance: '4,520 ₽', key: '5sim_live_sec_99a8x' },
+    { id: 's2', name: 'سيرفر (2) Grizzly SMS', site: 'grizzlysms.com', enabled: true, balance: '$184.20', key: 'grizzly_live_bc72k' },
+    { id: 's3', name: 'سيرفر (3) Plus VIP الحصري', site: 'plus-sms.vip', enabled: true, balance: '$95.00', key: 'plus_vip_live_001x' },
+    { id: 's4', name: 'سيرفر (4) Hero SMS', site: 'herosms.com', enabled: true, balance: '$140.50', key: 'hero_sms_live_44m' },
+    { id: 'smm', name: 'سيرفر Plus SMM للرشق والمتابعين', site: 'plus-smm.com', enabled: true, balance: '$310.00', key: 'smm_live_sec_789z' },
+  ]);
+
+  const [adminInventory, setAdminInventory] = useState([
+    { id: 'tg_acc', name: 'حسابات تيليجرام مفعلة وجاهزة', count: 48, price: 1.20, category: 'أرقام وحسابات' },
+    { id: 'chatgpt_plus', name: 'اشتراكات ChatGPT Plus خاصة', count: 12, price: 19.99, category: 'خدمات AI' },
+    { id: 'claude_pro', name: 'اشتراكات Claude Pro خاصة', count: 8, price: 19.99, category: 'خدمات AI' },
+    { id: 'wa_us', name: 'أرقام واتساب أمريكية جاهزة', count: 95, price: 0.85, category: 'أرقام وحسابات' },
+  ]);
+
+  const [adminPayments, setAdminPayments] = useState([
+    { id: 'usdt_trc20', name: 'USDT (TRC20)', address: 'TYasNumOfficialPaymentWallet77789XyZ', enabled: true, note: 'شبكة ترون الفورية' },
+    { id: 'sham_cash', name: 'شام كاش Sham Cash', address: '0987654321 - حساب شام كاش المعتمد', enabled: true, note: 'تحويل يدوي فوري' },
+    { id: 'kuraimi', name: 'بنك الكريمي Kuraimi', address: '3001234567 - حساب الكريمي المميز', enabled: true, note: 'اليمن (ريال ودولار)' },
+    { id: 'vodafone_cash', name: 'فودافون كاش Vodafone Cash', address: '01012345678 - محفظة فودافون كاش', enabled: true, note: 'مصر (جنيه مصري)' },
+    { id: 'payeer', name: 'بايير Payeer', address: 'P1098765432', enabled: true, note: 'محفظة بايير الدولية' },
+    { id: 'asiacell', name: 'آسيا سيل AsiaCell', address: '07701234567', enabled: true, note: 'العراق (رصيد وتحويل)' },
+  ]);
+
+  const [adminPricing, setAdminPricing] = useState({
+    smmMargin: 30,
+    numberMargin: 25,
+    referralReward: 0.10,
+  });
+
+  const [adminMaintenance, setAdminMaintenance] = useState({
+    enabled: false,
+    message: '🛠️ البوت في وضع الصيانة والتحديث حالياً.',
+    forcedChannel: '@YasNumChannel',
+    forcedChannelEnabled: true,
+  });
+
+  const [adminUsersList, setAdminUsersList] = useState([
+    { id: 8097770003, name: 'ياسين (المدير العام)', username: 'yasin_admin', balance: 50.0, orders: 128, banned: false },
+    { id: 554321098, name: 'أحمد السعيد', username: 'ahmed_99', balance: 14.50, orders: 18, banned: false },
+    { id: 667890123, name: 'محمد خالد', username: 'mk_khaled', balance: 0.80, orders: 5, banned: false },
+    { id: 778901234, name: 'سارة عبد الله', username: 'sarah_a', balance: 25.00, orders: 34, banned: false },
+  ]);
+
+  const [selectedAdminUser, setSelectedAdminUser] = useState<any>(null);
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [broadcastText, setBroadcastText] = useState('');
+  const [broadcastStatus, setBroadcastStatus] = useState<string | null>(null);
+  const [editingPaymentId, setEditingPaymentId] = useState<string | null>(null);
+  const [tempPaymentAddress, setTempPaymentAddress] = useState('');
+  const [userDmText, setUserDmText] = useState('');
+  const [userDmSent, setUserDmSent] = useState(false);
+  const [balanceAdjustAmount, setBalanceAdjustAmount] = useState('');
 
   // Timer countdown for active number
   useEffect(() => {
@@ -950,44 +1013,754 @@ export const TelegramBotSimulator: React.FC<Props> = ({ userBalance, setUserBala
                 </div>
               )}
 
-              {/* Screen: ADMIN PANEL */}
+              {/* Screen: GRAND MASTER ADMIN PANEL */}
               {currentScreen === 'admin_panel' && (
                 <div className="space-y-3">
-                  <p className="font-bold text-sm text-amber-300">🛠️ <b>لوحة تحكم الإدارة (Admin Panel)</b></p>
-                  <p className="text-stone-300 text-xs">مرحباً بك يا مدير البوت (ID: 8097770003):</p>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="bg-gradient-to-r from-amber-950/60 to-amber-900/40 p-3 rounded-xl border border-amber-600/50 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-xs text-amber-300 flex items-center gap-1">
+                        <span>👑</span>
+                        <span>لوحة الإدارة الكبرى - Grand Master Panel</span>
+                      </span>
+                      <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono border border-amber-500/30">
+                        Admin: 8097770003
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-stone-300">
+                      تحكم شامل وكامل بكافة مفاصل وأقسام وسيرفرات البوت:
+                    </p>
+                  </div>
+
+                  {/* Top Stats Overview */}
+                  <div className="grid grid-cols-2 gap-1.5 text-xs">
                     <div className="bg-[#242f3d] p-2 rounded-xl border border-stone-700">
                       <span className="text-stone-400 block text-[10px]">إجمالي المستخدمين:</span>
-                      <span className="font-mono font-bold text-white text-sm">1,420 مستخدم</span>
+                      <span className="font-mono font-bold text-white text-xs">1,420 مستخدم</span>
                     </div>
                     <div className="bg-[#242f3d] p-2 rounded-xl border border-stone-700">
                       <span className="text-stone-400 block text-[10px]">الأرقام المباعة:</span>
-                      <span className="font-mono font-bold text-emerald-400 text-sm">3,892 رقم</span>
+                      <span className="font-mono font-bold text-emerald-400 text-xs">3,892 رقم</span>
                     </div>
                     <div className="bg-[#242f3d] p-2 rounded-xl border border-stone-700">
-                      <span className="text-stone-400 block text-[10px]">رصيد 5SIM الخام:</span>
-                      <span className="font-mono font-bold text-sky-400 text-sm">4,520 ₽</span>
+                      <span className="text-stone-400 block text-[10px]">السيرفرات النشطة:</span>
+                      <span className="font-mono font-bold text-sky-400 text-xs">
+                        {adminServers.filter(s => s.enabled).length} من {adminServers.length} متصل
+                      </span>
                     </div>
                     <div className="bg-[#242f3d] p-2 rounded-xl border border-stone-700">
-                      <span className="text-stone-400 block text-[10px]">طلبات شحن معلقة:</span>
-                      <span className="font-mono font-bold text-amber-400 text-sm">2 طلبات</span>
+                      <span className="text-stone-400 block text-[10px]">وضع الصيانة:</span>
+                      <span className={`font-bold text-xs ${adminMaintenance.enabled ? 'text-rose-400' : 'text-emerald-400'}`}>
+                        {adminMaintenance.enabled ? '🔴 مفعل (البوت مغلق)' : '🟢 غير مفعل (طبيعي)'}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Provider check action */}
-                  <button
-                    onClick={() => setCurrentScreen('admin_check_providers')}
-                    className="w-full bg-gradient-to-r from-sky-700 to-indigo-700 hover:from-sky-600 hover:to-indigo-600 text-white p-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
-                  >
-                    <span>🌐 فحص سيرفرات ومواقع التزويد (5SIM, Grizzly, Plus, Hero)</span>
-                  </button>
+                  {/* Grand Master Admin Sections Matching main.py */}
+                  <div className="space-y-1.5 pt-1">
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <button
+                        onClick={() => setCurrentScreen('admin_servers')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2.5 rounded-xl font-bold text-xs text-center border border-sky-600/40 transition-all flex flex-col items-center justify-center gap-1 shadow-2xs"
+                      >
+                        <span className="text-base">🌐</span>
+                        <span>إدارة السيرفرات والمواقع</span>
+                        <span className="text-[10px] text-sky-300 font-normal">5 مواقع تزويد مباشرة</span>
+                      </button>
+
+                      <button
+                        onClick={() => setCurrentScreen('admin_inventory')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2.5 rounded-xl font-bold text-xs text-center border border-indigo-600/40 transition-all flex flex-col items-center justify-center gap-1 shadow-2xs"
+                      >
+                        <span className="text-base">📦</span>
+                        <span>إدارة المخازن والجاهز</span>
+                        <span className="text-[10px] text-indigo-300 font-normal">حسابات، AI، وأرقام</span>
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <button
+                        onClick={() => setCurrentScreen('admin_payments')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2.5 rounded-xl font-bold text-xs text-center border border-emerald-600/40 transition-all flex flex-col items-center justify-center gap-1 shadow-2xs"
+                      >
+                        <span className="text-base">💳</span>
+                        <span>طرق الشحن والمحافظ</span>
+                        <span className="text-[10px] text-emerald-300 font-normal">6 وسائل دفع وعناوين</span>
+                      </button>
+
+                      <button
+                        onClick={() => setCurrentScreen('admin_users')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2.5 rounded-xl font-bold text-xs text-center border border-purple-600/40 transition-all flex flex-col items-center justify-center gap-1 shadow-2xs"
+                      >
+                        <span className="text-base">👥</span>
+                        <span>إدارة المستخدمين</span>
+                        <span className="text-[10px] text-purple-300 font-normal">بحث، رصيد، حظر، مراسلة</span>
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <button
+                        onClick={() => setCurrentScreen('admin_pricing')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2.5 rounded-xl font-bold text-xs text-center border border-amber-600/40 transition-all flex flex-col items-center justify-center gap-1 shadow-2xs"
+                      >
+                        <span className="text-base">📈</span>
+                        <span>الأسعار وهوامش الربح</span>
+                        <span className="text-[10px] text-amber-300 font-normal">أرقام +25%، رشق +30%</span>
+                      </button>
+
+                      <button
+                        onClick={() => setCurrentScreen('admin_maintenance')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2.5 rounded-xl font-bold text-xs text-center border border-rose-600/40 transition-all flex flex-col items-center justify-center gap-1 shadow-2xs"
+                      >
+                        <span className="text-base">🛠️</span>
+                        <span>الصيانة والاشتراك</span>
+                        <span className="text-[10px] text-rose-300 font-normal">قناة الإجبار والوضع</span>
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <button
+                        onClick={() => setCurrentScreen('admin_broadcast')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2 rounded-xl font-bold text-xs text-center border border-stone-700 transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <span>📢</span>
+                        <span>إذاعة جماعية للمشتركين</span>
+                      </button>
+
+                      <button
+                        onClick={() => setCurrentScreen('admin_check_providers')}
+                        className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 text-white p-2 rounded-xl font-bold text-xs text-center border border-stone-700 transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <span>🔄</span>
+                        <span>فحص حالة الـ API</span>
+                      </button>
+                    </div>
+                  </div>
 
                   <button
                     onClick={() => setCurrentScreen('main')}
+                    className="w-full bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold transition-all"
+                  >
+                    🏠 القائمة الرئيسية للبوت
+                  </button>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN SERVERS MANAGEMENT */}
+              {currentScreen === 'admin_servers' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-sky-700/60">
+                    <span className="font-bold text-xs text-sky-300 block">🌐 إدارة ومراقبة سيرفرات ومواقع التزويد</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">تحكم بحالة تشغيل كل سيرفر وتفعيل / إيقاف الربط:</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    {adminServers.map((srv) => (
+                      <div key={srv.id} className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="font-bold text-xs text-stone-100 block">{srv.name}</span>
+                            <span className="text-[10px] text-stone-400 font-mono">{srv.site}</span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setAdminServers(prev => prev.map(s => s.id === srv.id ? { ...s, enabled: !s.enabled } : s));
+                            }}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all ${
+                              srv.enabled 
+                                ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300' 
+                                : 'bg-rose-950/80 border-rose-500 text-rose-300'
+                            }`}
+                          >
+                            {srv.enabled ? '🟢 مفعل وشغال' : '🔴 معطل وموقوف'}
+                          </button>
+                        </div>
+
+                        <div className="flex items-center justify-between text-[11px] pt-1 border-t border-stone-700/60">
+                          <span className="text-stone-400">الرصيد الخام المتوفر: <b className="text-sky-300 font-mono">{srv.balance}</b></span>
+                          <button
+                            onClick={() => {
+                              const newKey = prompt(`أدخل مفتاح API الجديد لسيرفر ${srv.name}:`, srv.key);
+                              if (newKey) {
+                                setAdminServers(prev => prev.map(s => s.id === srv.id ? { ...s, key: newKey } : s));
+                                alert('✅ تم تحديث مفتاح API بنجاح وحفظه في السيرفر!');
+                              }
+                            }}
+                            className="text-[10px] bg-stone-800 hover:bg-stone-700 text-stone-300 px-2 py-0.5 rounded border border-stone-600 font-mono"
+                          >
+                            🔑 تعديل الـ Key
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => alert('تم فحص كافة السيرفرات: جميعها تستجيب بسرعة 140ms ومربوطة بأمان.')}
+                      className="flex-1 bg-sky-900/60 hover:bg-sky-800/60 border border-sky-600 text-sky-200 py-2 rounded-xl text-xs font-bold"
+                    >
+                      🔄 فحص استجابة الـ Ping
+                    </button>
+                    <button
+                      onClick={() => setCurrentScreen('admin_panel')}
+                      className="flex-1 bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                    >
+                      🔙 لوحة الإدارة
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN INVENTORY MANAGEMENT */}
+              {currentScreen === 'admin_inventory' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-indigo-700/60">
+                    <span className="font-bold text-xs text-indigo-300 block">📦 إدارة المخازن والأرقام والخدمات الجاهزة</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">التحكم بكميات المخزون وأسعار البيع المباشرة:</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    {adminInventory.map((item) => (
+                      <div key={item.id} className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-xs text-stone-100">{item.name}</span>
+                          <span className="text-[10px] bg-indigo-950 text-indigo-300 px-1.5 py-0.5 rounded border border-indigo-700 font-mono">
+                            ${item.price.toFixed(2)}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs pt-1 border-t border-stone-700/60">
+                          <span className="text-stone-300 text-[11px]">
+                            المتوفر بالمخزن: <b className="text-emerald-400 font-mono text-sm">{item.count}</b> قطعة
+                          </span>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => {
+                                setAdminInventory(prev => prev.map(inv => inv.id === item.id ? { ...inv, count: Math.max(0, inv.count - 1) } : inv));
+                              }}
+                              className="w-6 h-6 bg-stone-800 hover:bg-stone-700 text-rose-300 rounded font-bold text-xs"
+                              title="إنقاص قطعة"
+                            >
+                              -
+                            </button>
+                            <button
+                              onClick={() => {
+                                setAdminInventory(prev => prev.map(inv => inv.id === item.id ? { ...inv, count: inv.count + 5 } : inv));
+                              }}
+                              className="px-1.5 h-6 bg-stone-800 hover:bg-stone-700 text-emerald-300 rounded font-bold text-xs"
+                              title="إضافة 5 قطع"
+                            >
+                              +5
+                            </button>
+                            <button
+                              onClick={() => {
+                                const p = prompt(`أدخل السعر الجديد لـ ${item.name} بالدولار:`, String(item.price));
+                                if (p && !isNaN(Number(p))) {
+                                  setAdminInventory(prev => prev.map(inv => inv.id === item.id ? { ...inv, price: Number(p) } : inv));
+                                }
+                              }}
+                              className="text-[10px] bg-indigo-900/60 hover:bg-indigo-800/60 text-indigo-200 px-2 h-6 rounded border border-indigo-600 font-bold"
+                            >
+                              تعديل السعر
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        const name = prompt('أدخل اسم المنتج / الخدمة الجديدة:');
+                        if (name) {
+                          const price = Number(prompt('أدخل السعر بالدولار:') || '1.0');
+                          const count = Number(prompt('أدخل الكمية المتوفرة:') || '10');
+                          setAdminInventory(prev => [...prev, { id: 'item_' + Date.now(), name, price, count, category: 'عام' }]);
+                          alert('✅ تم إضافة الصنف الجديد إلى المخزن بنجاح!');
+                        }
+                      }}
+                      className="flex-1 bg-indigo-900/60 hover:bg-indigo-800/60 border border-indigo-600 text-indigo-200 py-2 rounded-xl text-xs font-bold"
+                    >
+                      ➕ إضافة صنف جديد
+                    </button>
+                    <button
+                      onClick={() => setCurrentScreen('admin_panel')}
+                      className="flex-1 bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                    >
+                      🔙 لوحة الإدارة
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN PAYMENTS MANAGEMENT */}
+              {currentScreen === 'admin_payments' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-emerald-700/60">
+                    <span className="font-bold text-xs text-emerald-300 block">💳 إدارة طرق الشحن والدفع والمحافظ</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">تفعيل/تعطيل الوسائل وتعديل العناوين وأرقام الحسابات:</p>
+                  </div>
+
+                  <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                    {adminPayments.map((method) => (
+                      <div key={method.id} className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-xs text-stone-100">{method.name}</span>
+                          <button
+                            onClick={() => {
+                              setAdminPayments(prev => prev.map(m => m.id === method.id ? { ...m, enabled: !m.enabled } : m));
+                            }}
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-all ${
+                              method.enabled 
+                                ? 'bg-emerald-950 border-emerald-600 text-emerald-300' 
+                                : 'bg-stone-800 border-stone-600 text-stone-400'
+                            }`}
+                          >
+                            {method.enabled ? 'مفعلة ✅' : 'معطلة ❌'}
+                          </button>
+                        </div>
+
+                        {editingPaymentId === method.id ? (
+                          <div className="space-y-1 pt-1">
+                            <input
+                              type="text"
+                              value={tempPaymentAddress}
+                              onChange={(e) => setTempPaymentAddress(e.target.value)}
+                              className="w-full bg-[#182533] border border-emerald-500 rounded p-1.5 text-xs text-white font-mono"
+                              placeholder="أدخل العنوان أو رقم الحساب الجديد"
+                            />
+                            <div className="flex gap-1 justify-end">
+                              <button
+                                onClick={() => {
+                                  if (tempPaymentAddress.trim()) {
+                                    setAdminPayments(prev => prev.map(m => m.id === method.id ? { ...m, address: tempPaymentAddress.trim() } : m));
+                                    setEditingPaymentId(null);
+                                  }
+                                }}
+                                className="bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-0.5 rounded text-[10px] font-bold"
+                              >
+                                حفظ العنوان
+                              </button>
+                              <button
+                                onClick={() => setEditingPaymentId(null)}
+                                className="bg-stone-700 text-stone-300 px-2 py-0.5 rounded text-[10px]"
+                              >
+                                إلغاء
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-between text-[11px] pt-1 border-t border-stone-700/60">
+                            <span className="text-stone-300 font-mono text-[10px] truncate max-w-[200px]" title={method.address}>
+                              {method.address}
+                            </span>
+                            <button
+                              onClick={() => {
+                                setEditingPaymentId(method.id);
+                                setTempPaymentAddress(method.address);
+                              }}
+                              className="text-[10px] text-sky-400 hover:underline font-bold shrink-0 mr-1"
+                            >
+                              ✏️ تعديل
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentScreen('admin_panel')}
                     className="w-full bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
                   >
-                    🏠 القائمة الرئيسية
+                    🔙 لوحة الإدارة
                   </button>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN USERS MANAGEMENT */}
+              {currentScreen === 'admin_users' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-purple-700/60">
+                    <span className="font-bold text-xs text-purple-300 block">👥 إدارة المستخدمين والعملاء</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">البحث بالآيدي أو المعرف، تعديل الرصيد، الحظر، والمراسلة:</p>
+                  </div>
+
+                  {/* Search bar */}
+                  <input
+                    type="text"
+                    value={userSearchQuery}
+                    onChange={(e) => setUserSearchQuery(e.target.value)}
+                    placeholder="🔍 ابحث بالـ ID أو الاسم أو المعرف..."
+                    className="w-full bg-[#182533] border border-stone-700 rounded-xl p-2 text-xs text-white placeholder-stone-500"
+                  />
+
+                  {/* Users list */}
+                  <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+                    {adminUsersList
+                      .filter(u => 
+                        String(u.id).includes(userSearchQuery) || 
+                        u.name.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+                        u.username.toLowerCase().includes(userSearchQuery.toLowerCase())
+                      )
+                      .map(user => (
+                        <div
+                          key={user.id}
+                          onClick={() => {
+                            setSelectedAdminUser(user);
+                            setCurrentScreen('admin_user_detail');
+                          }}
+                          className="bg-[#242f3d] hover:bg-[#2e3b4d] active:scale-98 p-2 rounded-xl border border-stone-700 flex items-center justify-between cursor-pointer transition-all"
+                        >
+                          <div className="text-right">
+                            <span className="font-bold text-xs text-stone-100 flex items-center gap-1">
+                              <span>{user.name}</span>
+                              {user.banned && <span className="text-[10px] bg-rose-950 text-rose-300 px-1 rounded">محظور</span>}
+                            </span>
+                            <span className="text-[10px] text-stone-400 font-mono">ID: {user.id} | @{user.username}</span>
+                          </div>
+
+                          <div className="text-left">
+                            <span className="text-emerald-400 font-mono font-bold text-xs">${user.balance.toFixed(2)}</span>
+                            <span className="text-[10px] text-stone-400 block">{user.orders} طلب</span>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentScreen('admin_panel')}
+                    className="w-full bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                  >
+                    🔙 لوحة الإدارة
+                  </button>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN USER DETAIL */}
+              {currentScreen === 'admin_user_detail' && selectedAdminUser && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-3 rounded-xl border border-stone-700 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-xs text-sky-300">👤 الملف الكامل للمستخدم</span>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${selectedAdminUser.banned ? 'bg-rose-950 text-rose-300 border border-rose-700' : 'bg-emerald-950 text-emerald-300 border border-emerald-700'}`}>
+                        {selectedAdminUser.banned ? '🔴 محظور' : '🟢 نشط'}
+                      </span>
+                    </div>
+
+                    <div className="text-xs space-y-0.5 pt-1 border-t border-stone-700/60 text-stone-200">
+                      <p>🆔 الآيدي: <code className="text-sky-300 font-mono">{selectedAdminUser.id}</code></p>
+                      <p>👤 الاسم: <b>{selectedAdminUser.name}</b></p>
+                      <p>🔗 المعرف: <code className="text-stone-300">@{selectedAdminUser.username}</code></p>
+                      <p>💰 الرصيد الحالي: <b className="text-emerald-400 font-mono">${selectedAdminUser.balance.toFixed(2)}</b></p>
+                      <p>📦 المشتريات: <b>{selectedAdminUser.orders} عملية شراء</b></p>
+                    </div>
+                  </div>
+
+                  {/* Actions: Add / Deduct Balance */}
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-2">
+                    <span className="text-xs font-bold text-stone-300 block">💰 تعديل الرصيد:</span>
+                    <div className="flex gap-1.5">
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={balanceAdjustAmount}
+                        onChange={(e) => setBalanceAdjustAmount(e.target.value)}
+                        placeholder="المبلغ بالدولار..."
+                        className="flex-1 bg-[#182533] border border-stone-700 rounded-lg p-1.5 text-xs text-white font-mono"
+                      />
+                      <button
+                        onClick={() => {
+                          const val = parseFloat(balanceAdjustAmount);
+                          if (!isNaN(val) && val > 0) {
+                            setAdminUsersList(prev => prev.map(u => u.id === selectedAdminUser.id ? { ...u, balance: u.balance + val } : u));
+                            setSelectedAdminUser((prev: any) => ({ ...prev, balance: prev.balance + val }));
+                            setBalanceAdjustAmount('');
+                            alert(`✅ تم شحن $${val.toFixed(2)} لحساب المستخدم بنجاح!`);
+                          }
+                        }}
+                        className="bg-emerald-700 hover:bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold"
+                      >
+                        ➕ إضافة
+                      </button>
+                      <button
+                        onClick={() => {
+                          const val = parseFloat(balanceAdjustAmount);
+                          if (!isNaN(val) && val > 0) {
+                            const newBal = Math.max(0, selectedAdminUser.balance - val);
+                            setAdminUsersList(prev => prev.map(u => u.id === selectedAdminUser.id ? { ...u, balance: newBal } : u));
+                            setSelectedAdminUser((prev: any) => ({ ...prev, balance: newBal }));
+                            setBalanceAdjustAmount('');
+                            alert(`✅ تم خصم $${val.toFixed(2)} من حساب المستخدم!`);
+                          }
+                        }}
+                        className="bg-rose-700 hover:bg-rose-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold"
+                      >
+                        ➖ خصم
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Direct message to user */}
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-1.5">
+                    <span className="text-xs font-bold text-stone-300 block">✉️ إرسال رسالة رسمية للمستخدم:</span>
+                    <textarea
+                      rows={2}
+                      value={userDmText}
+                      onChange={(e) => setUserDmText(e.target.value)}
+                      placeholder="اكتب نص الرسالة التي ستصل للمستخدم..."
+                      className="w-full bg-[#182533] border border-stone-700 rounded-lg p-1.5 text-xs text-white resize-none"
+                    />
+                    <button
+                      onClick={() => {
+                        if (userDmText.trim()) {
+                          setUserDmSent(true);
+                          setTimeout(() => setUserDmSent(false), 3000);
+                          setUserDmText('');
+                        }
+                      }}
+                      className="w-full bg-sky-700 hover:bg-sky-600 text-white py-1 rounded-lg text-xs font-bold"
+                    >
+                      {userDmSent ? '✅ تم إرسال الرسالة للمستخدم!' : 'إرسال الرسالة الخاصة'}
+                    </button>
+                  </div>
+
+                  {/* Ban / Unban Toggle */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        const newBanned = !selectedAdminUser.banned;
+                        setAdminUsersList(prev => prev.map(u => u.id === selectedAdminUser.id ? { ...u, banned: newBanned } : u));
+                        setSelectedAdminUser((prev: any) => ({ ...prev, banned: newBanned }));
+                        alert(newBanned ? '🚫 تم حظر المستخدم من البوت!' : '✅ تم إلغاء الحظر عن المستخدم!');
+                      }}
+                      className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
+                        selectedAdminUser.banned 
+                          ? 'bg-emerald-950 border-emerald-600 text-emerald-300 hover:bg-emerald-900' 
+                          : 'bg-rose-950 border-rose-600 text-rose-300 hover:bg-rose-900'
+                      }`}
+                    >
+                      {selectedAdminUser.banned ? '✅ إلغاء حظر المستخدم' : '🚫 حظر المستخدم نهائياً'}
+                    </button>
+
+                    <button
+                      onClick={() => setCurrentScreen('admin_users')}
+                      className="flex-1 bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                    >
+                      🔙 قائمة المستخدمين
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN PRICING & MARGINS */}
+              {currentScreen === 'admin_pricing' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-amber-700/60">
+                    <span className="font-bold text-xs text-amber-300 block">📈 الأسعار وهوامش الربح المركزية</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">تعديل نسبة الربح التي تضاف تلقائياً فوق أسعار السيرفرات الخام:</p>
+                  </div>
+
+                  <div className="space-y-2 text-xs">
+                    {/* SMM Margin */}
+                    <div className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-stone-200">📊 هامش ربح خدمات الرشق (SMM):</span>
+                        <span className="font-mono font-bold text-purple-300 text-sm">+{adminPricing.smmMargin}%</span>
+                      </div>
+                      <div className="flex gap-1">
+                        {[20, 30, 40, 50].map(val => (
+                          <button
+                            key={val}
+                            onClick={() => setAdminPricing(p => ({ ...p, smmMargin: val }))}
+                            className={`flex-1 py-1 rounded font-bold text-[11px] border ${adminPricing.smmMargin === val ? 'bg-purple-900 border-purple-500 text-white' : 'bg-stone-800 border-stone-700 text-stone-400'}`}
+                          >
+                            +{val}%
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Number Margin */}
+                    <div className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-stone-200">📱 هامش ربح الأرقام الافتراضية:</span>
+                        <span className="font-mono font-bold text-sky-300 text-sm">+{adminPricing.numberMargin}%</span>
+                      </div>
+                      <div className="flex gap-1">
+                        {[15, 25, 35, 50].map(val => (
+                          <button
+                            key={val}
+                            onClick={() => setAdminPricing(p => ({ ...p, numberMargin: val }))}
+                            className={`flex-1 py-1 rounded font-bold text-[11px] border ${adminPricing.numberMargin === val ? 'bg-sky-900 border-sky-500 text-white' : 'bg-stone-800 border-stone-700 text-stone-400'}`}
+                          >
+                            +{val}%
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Referral Reward */}
+                    <div className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700 space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-stone-200">🎁 مكافأة دعوة الأصدقاء (الإحالة):</span>
+                        <span className="font-mono font-bold text-emerald-300 text-sm">${adminPricing.referralReward.toFixed(2)}</span>
+                      </div>
+                      <div className="flex gap-1">
+                        {[0.05, 0.10, 0.20, 0.50].map(val => (
+                          <button
+                            key={val}
+                            onClick={() => setAdminPricing(p => ({ ...p, referralReward: val }))}
+                            className={`flex-1 py-1 rounded font-bold text-[11px] border ${adminPricing.referralReward === val ? 'bg-emerald-900 border-emerald-500 text-white' : 'bg-stone-800 border-stone-700 text-stone-400'}`}
+                          >
+                            ${val.toFixed(2)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentScreen('admin_panel')}
+                    className="w-full bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                  >
+                    🔙 لوحة الإدارة
+                  </button>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN MAINTENANCE & FORCED CHANNEL */}
+              {currentScreen === 'admin_maintenance' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-rose-700/60">
+                    <span className="font-bold text-xs text-rose-300 block">🛠️ الصيانة والنظام والاشتراك الإجباري</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">التحكم بحالة البوت العامة وقناة الاشتراك للمستخدمين:</p>
+                  </div>
+
+                  {/* Maintenance Mode Toggle */}
+                  <div className="bg-[#242f3d] p-3 rounded-xl border border-stone-700 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-xs text-stone-100 block">وضع الصيانة العامة</span>
+                        <span className="text-[10px] text-stone-400">إيقاف استقبال طلبات المستخدمين مؤقتاً</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setAdminMaintenance(prev => ({ ...prev, enabled: !prev.enabled }));
+                        }}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                          adminMaintenance.enabled 
+                            ? 'bg-rose-950 border-rose-500 text-rose-300' 
+                            : 'bg-stone-800 border-stone-700 text-stone-400'
+                        }`}
+                      >
+                        {adminMaintenance.enabled ? '🔴 قيد الصيانة' : '🟢 البوت يعمل'}
+                      </button>
+                    </div>
+
+                    <div className="pt-1 border-t border-stone-700/60 text-xs">
+                      <span className="text-stone-400 text-[10px] block">رسالة الصيانة التي تظهر للمستخدم:</span>
+                      <input
+                        type="text"
+                        value={adminMaintenance.message}
+                        onChange={(e) => setAdminMaintenance(prev => ({ ...prev, message: e.target.value }))}
+                        className="w-full bg-[#182533] border border-stone-700 rounded p-1 text-xs text-stone-200 mt-1"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Forced Channel */}
+                  <div className="bg-[#242f3d] p-3 rounded-xl border border-stone-700 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-xs text-stone-100 block">قناة الاشتراك الإجباري</span>
+                        <span className="text-[10px] text-stone-400">إلزام المستخدم بالاشتراك بالقناة أولاً</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setAdminMaintenance(prev => ({ ...prev, forcedChannelEnabled: !prev.forcedChannelEnabled }));
+                        }}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                          adminMaintenance.forcedChannelEnabled 
+                            ? 'bg-sky-950 border-sky-500 text-sky-300' 
+                            : 'bg-stone-800 border-stone-700 text-stone-400'
+                        }`}
+                      >
+                        {adminMaintenance.forcedChannelEnabled ? 'مفعل ✅' : 'معطل ❌'}
+                      </button>
+                    </div>
+
+                    <div className="pt-1 border-t border-stone-700/60 text-xs">
+                      <span className="text-stone-400 text-[10px] block">معرف القناة (Channel Username):</span>
+                      <input
+                        type="text"
+                        value={adminMaintenance.forcedChannel}
+                        onChange={(e) => setAdminMaintenance(prev => ({ ...prev, forcedChannel: e.target.value }))}
+                        className="w-full bg-[#182533] border border-stone-700 rounded p-1 text-xs text-stone-200 font-mono mt-1"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentScreen('admin_panel')}
+                    className="w-full bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                  >
+                    🔙 لوحة الإدارة
+                  </button>
+                </div>
+              )}
+
+              {/* Sub-Screen: ADMIN BROADCAST */}
+              {currentScreen === 'admin_broadcast' && (
+                <div className="space-y-3">
+                  <div className="bg-[#242f3d] p-2.5 rounded-xl border border-stone-700">
+                    <span className="font-bold text-xs text-sky-300 block">📢 إذاعة جماعية إلى كافة المستخدمين (Broadcast)</span>
+                    <p className="text-[11px] text-stone-300 mt-0.5">إرسال تنبيه أو إشعار أو تحديث لجميع المشتركين (1,420 مستخدم):</p>
+                  </div>
+
+                  <textarea
+                    rows={4}
+                    value={broadcastText}
+                    onChange={(e) => setBroadcastText(e.target.value)}
+                    placeholder="اكتب رسالة الإذاعة هنا (تدعم الرموز التعبيرية والتنسيق)..."
+                    className="w-full bg-[#182533] border border-stone-700 rounded-xl p-2.5 text-xs text-white placeholder-stone-500 resize-none"
+                  />
+
+                  {broadcastStatus && (
+                    <div className="bg-emerald-950 border border-emerald-600 p-2.5 rounded-xl text-xs text-emerald-300 font-bold text-center">
+                      {broadcastStatus}
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        if (!broadcastText.trim()) {
+                          alert('يرجى كتابة نص الإذاعة أولاً!');
+                          return;
+                        }
+                        setBroadcastStatus('⏳ جاري الإرسال إلى 1,420 مستخدم...');
+                        setTimeout(() => {
+                          setBroadcastStatus('✅ تم إرسال الإذاعة بنجاح! تم التسليم إلى 1,418 مستخدم (2 فشل/حظر).');
+                          setBroadcastText('');
+                        }, 1200);
+                      }}
+                      className="flex-1 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white py-2 rounded-xl text-xs font-bold shadow-xs transition-all"
+                    >
+                      🚀 إرسال الإذاعة فوراً
+                    </button>
+                    <button
+                      onClick={() => {
+                        setBroadcastStatus(null);
+                        setCurrentScreen('admin_panel');
+                      }}
+                      className="flex-1 bg-stone-800 hover:bg-stone-700 text-stone-300 py-2 rounded-xl text-xs font-bold"
+                    >
+                      🔙 لوحة الإدارة
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -1143,7 +1916,7 @@ export const TelegramBotSimulator: React.FC<Props> = ({ userBalance, setUserBala
               )}
 
               {/* Generic fallback back to main */}
-              {!['main', 'buy_apps', 'buy_servers', 'buy_countries', 'buy_prices', 'active_number', 'recharge', 'my_recharges', 'my_account', 'change_currency', 'transfer_balance', 'ai_services', 'games_services', 'smm_section', 'earn_free', 'admin_panel', 'admin_check_providers'].includes(currentScreen) && (
+              {!['main', 'buy_apps', 'buy_servers', 'buy_countries', 'buy_prices', 'active_number', 'recharge', 'my_recharges', 'my_account', 'change_currency', 'transfer_balance', 'ai_services', 'games_services', 'smm_section', 'earn_free', 'admin_panel', 'admin_check_providers', 'admin_servers', 'admin_inventory', 'admin_payments', 'admin_users', 'admin_user_detail', 'admin_pricing', 'admin_maintenance', 'admin_broadcast'].includes(currentScreen) && (
                 <div className="space-y-3">
                   <p className="font-bold text-sm text-sky-300">📌 قسم قيد العرض</p>
                   <p className="text-stone-300 text-xs">تم تسجيل نقرتك في المحاكي بنجاح.</p>
