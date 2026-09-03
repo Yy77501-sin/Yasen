@@ -2098,10 +2098,9 @@ def start_bot():
         pass
 
     try:
+            try:
         commands = [
-            types.BotCommand("start", "🏠 القائمة الرئيسية"),
-            types.BotCommand("buy", "☎️ شراء رقم افتراضي"),
-            types.BotCommand("smm", "👑 رشق تيليجرام (نظام الملك)"),
+            types.BotCommand("start", "🚀 تشغيل وبدء استخدام البوت"),
             types.BotCommand("deposit", "🎳 شحن الرصيد"),
             types.BotCommand("transfer", "🔄 تحويل الرصيد مجاناً"),
             types.BotCommand("account", "🪪 حسابي والمحفظة"),
@@ -2109,17 +2108,18 @@ def start_bot():
             types.BotCommand("admin", "👑 لوحة تحكم الإدارة")
         ]
         bot.set_my_commands(commands)
-    except Exception:
-        pass
+        print("✅ Bot commands registered successfully.")
+    except Exception as e:
+        print(f"❌ Failed to set commands: {e}")
 
     print("🚀 5SIM + GRIZZLY + HERO + PLUS + KING SMM ENGINE LIVE 24/7 (30% PROFIT)...")
-    
+
     while True:
         try:
             bot.infinity_polling(timeout=20, long_polling_timeout=15, skip_pending=True)
         except Exception as e:
-            print(f"Loop auto-recovery: {e}")
-            time.sleep(2)
+            print(f"⚠️ Polling error occurred: {e}")
+            time.sleep(3)
 
 if __name__ == "__main__":
     start_bot()
