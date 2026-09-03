@@ -19,19 +19,30 @@ except ValueError:
     ADMIN_ID = 0
 
 # =========================================================
-# FiveSIM
+# Multi-Provider SMS APIs
 # =========================================================
 
 FIVESIM_API_KEY = os.getenv("FIVESIM_API_KEY", "").strip()
-
-# عنوان API الرسمي الجديد
-FIVESIM_BASE_URL = os.getenv(
-    "FIVESIM_BASE_URL",
-    "https://5sim.net/v1"
-).strip().rstrip("/")
-
-# مهلة طلبات FiveSIM بالثواني
+FIVESIM_BASE_URL = os.getenv("FIVESIM_BASE_URL", "https://5sim.net/v1").strip().rstrip("/")
 FIVESIM_TIMEOUT = int(os.getenv("FIVESIM_TIMEOUT", "20"))
+
+GRIZZLY_API_KEY = os.getenv("GRIZZLY_API_KEY", "").strip()
+GRIZZLY_BASE_URL = os.getenv("GRIZZLY_BASE_URL", "https://api.grizzlysms.com/stubs/handler_api.php").strip()
+
+HERO_API_KEY = os.getenv("HERO_API_KEY", "").strip()
+HERO_BASE_URL = os.getenv("HERO_BASE_URL", "https://herosms.com/api").strip()
+
+PLUS_SMS_API_KEY = os.getenv("PLUS_SMS_API_KEY", "").strip()
+PLUS_SMS_BASE_URL = os.getenv("PLUS_SMS_BASE_URL", "https://sms-activate.org/stubs/handler_api.php").strip()
+
+# =========================================================
+# Plus SMM API (موقع بلاس لخدمات الرشق التلقائية)
+# =========================================================
+
+PLUS_SMM_API_KEY = os.getenv("PLUS_SMM_API_KEY", "").strip()
+PLUS_SMM_BASE_URL = os.getenv("PLUS_SMM_BASE_URL", "https://plus-smm.com/api/v2").strip().rstrip("/")
+SMM_PROFIT_MARGIN = float(os.getenv("SMM_PROFIT_MARGIN", "0.30"))  # هامش ربح 30% تلقائي
+NUMBER_PROFIT_MARGIN = float(os.getenv("NUMBER_PROFIT_MARGIN", "0.25")) # هامش ربح الأرقام الافتراضية
 
 # =========================================================
 # YasNum

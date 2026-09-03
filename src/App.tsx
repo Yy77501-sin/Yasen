@@ -23,9 +23,10 @@ import { KingSmmSimulator } from './components/KingSmmSimulator';
 import { NumberSmsSimulator } from './components/NumberSmsSimulator';
 import { CodeViewer } from './components/CodeViewer';
 import { ProfitCalculator } from './components/ProfitCalculator';
+import { TelegramBotSimulator } from './components/TelegramBotSimulator';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'king_smm' | 'sms_numbers' | 'code' | 'calculator'>('king_smm');
+  const [activeTab, setActiveTab] = useState<'telegram_bot' | 'king_smm' | 'sms_numbers' | 'code' | 'calculator'>('telegram_bot');
   const [userBalance, setUserBalance] = useState<number>(10.0);
 
   return (
@@ -73,6 +74,18 @@ export default function App() {
         {/* Navigation Tabs Bar */}
         <div className="bg-white border border-stone-200 rounded-2xl p-2 shadow-xs flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-1.5">
+            <button
+              onClick={() => setActiveTab('telegram_bot')}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                activeTab === 'telegram_bot'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'bg-stone-50 text-stone-700 hover:bg-stone-100'
+              }`}
+            >
+              <Smartphone className="w-4 h-4" />
+              <span>📱 محاكي البوت والقائمة (Telegram)</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('king_smm')}
               className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
@@ -129,6 +142,18 @@ export default function App() {
 
         {/* Tab Contents with Animations */}
         <AnimatePresence mode="wait">
+          {activeTab === 'telegram_bot' && (
+            <motion.div
+              key="telegram_bot"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <TelegramBotSimulator userBalance={userBalance} setUserBalance={setUserBalance} />
+            </motion.div>
+          )}
+
           {activeTab === 'king_smm' && (
             <motion.div
               key="king_smm"
