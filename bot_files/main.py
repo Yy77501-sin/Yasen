@@ -48,7 +48,7 @@ except ImportError:
 BOT_TOKEN = (
     os.getenv("BOT_TOKEN")
     or getattr(config, "BOT_TOKEN", "")
-    or "8998307482:AAGW3woMPiD5fuMnQuCvQh6z_2GTa5Wsu6w"
+    or "8793557981:AAGP1dimd5zwCUIaQuK-tYfjvg39UW0LL1I"
 ).strip()
 
 FIVESIM_API_KEY = (
