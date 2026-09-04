@@ -51,14 +51,14 @@ GRIZZLY_API_KEY = os.getenv(
 
 HERO_SMS_API_KEY = os.getenv(
     "HERO_SMS_API_KEY",
-    "Ac7cd39c1650e6eb66d1A3e903c4A58A"
+    "49e0ebe171b6Ad771f8b4e9fc1b78ef9"
 ).يجرد()
 
 # =========================================================
 # حسابات جاهزة لتطبيق تيليجرام (جاهزة لتطبيق تيليجرام - TG-Lion)
 # ==========================================
 
-TG_READY_API_KEY = os.getenv("TG_READY_API_KEY", os.getenv("TG_LION_API_KEY", "MDSnlzb8haw9fc51km")).strip()
+TG_READY_API_KEY = os.getenv("TG_READY_API_KEY", os.getenv("TG_LION_API_KEY", "6clhmej3i4kng9sz7a")).strip()
 TG_READY_BASE_URL = os.getenv("TG_READY_BASE_URL", os.getenv("TG_LION_BASE_URL", "https://TG-Lion.net")).strip()
 TG_LION_API_KEY = TG_READY_API_KEY
 TG_LION_BASE_URL = TG_READY_BASE_URL
