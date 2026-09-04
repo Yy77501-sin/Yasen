@@ -21,11 +21,11 @@ if current_dir not in sys.path:
 # ----------------- استيراد الإعدادات والكتالوج -----------------
 try:
     import config
-    BOT_TOKEN = getattr(config, 'BOT_TOKEN', '').strip()
-    FIVESIM_JWT_TOKEN = getattr(config, 'FIVESIM_API_KEY', getattr(config, 'FIVESIM_JWT_TOKEN', '')).strip()
-    GRIZZLY_API_KEY = getattr(config, 'GRIZZLY_API_KEY', '').strip()
-    HERO_API_KEY = getattr(config, 'HERO_SMS_API_KEY', '').strip()
-    PLUS_API_KEY = getattr(config, 'PLUS_API_KEY', '').strip()
+    BOT_TOKEN = getattr(config, 'BOT_TOKEN', '8880668064:AAHFsGU8w_Hzt0-2bxmGB3yDKVwcuPQMiIA').strip()
+    FIVESIM_JWT_TOKEN = getattr(config, 'FIVESIM_API_KEY', getattr(config, 'FIVESIM_JWT_TOKEN', 'eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4MTk4MTcyOTksImlhdCI6MTc4ODI4MTI5OSwicmF5IjoiYmJlMjZmZGFkZGMzM2FiMzFlNDBhM2JmYjNmMTJkMDciLCJzdWIiOjQ0NzgxNTN9.QBAYyUjtp1JdDHdTu50ErRkFP2_BCfvK3O6Htnd6lQkRnD_WEtIPAzvObmpPrINpkx8UUB3h6OT3-rWUGGITU38ZQ5HgOXK6CCRPNuPFMasrHeFFnX9CSOoqa4Lz86NsxF4w3dcBLurR60D-S6cI4Jsk-dPQwXU8OgOamwe37NdM4D2QB5blx9VJgbHVg9jIoeVXMiNaeKdZYHFSHSL8wULCS9ug6EnwzlIDgyreFmFghzLPh20FCysZR0r7I_jcElmmUZAwU8uc94bNxOZ4udBKIZ08JgU1crusM-PWaBsH1TnEYsXKrQlQGQg0LD-pBW97X1iXeAPmWRR0PboNzQ')).strip()
+    GRIZZLY_API_KEY = getattr(config, 'GRIZZLY_API_KEY', '15a9f459b5a5e02cc330ae0d66399e2b').strip()
+    HERO_API_KEY = getattr(config, 'HERO_SMS_API_KEY', 'c7d2Bf1c117827e1dd903B50f147c07c').strip()
+    PLUS_API_KEY = getattr(config, 'PLUS_API_KEY', 'PLUS-f9e67371d1cb47c238b3370e').strip()
     PLUS_API_URL = getattr(config, 'PLUS_API_URL', 'https://sms-plus.net/stubs/handler_api.php').strip()
     ADMIN_ID = str(getattr(config, 'ADMIN_ID', 0)).strip()
     SUPPORT_USERNAME = getattr(config, 'SUPPORT_USERNAME', '').strip()
