@@ -44,7 +44,7 @@ except Exception as e:
     BOT_TOKEN = os.getenv('BOT_TOKEN', '').strip()
     FIVESIM_JWT_TOKEN = os.getenv('FIVESIM_API_KEY', os.getenv('FIVESIM_JWT_TOKEN', '')).strip()
     GRIZZLY_API_KEY = os.getenv('GRIZZLY_API_KEY', '').strip()
-    HERO_API_KEY = os.getenv('HERO_SMS_API_KEY', '').strip()
+    HERO_API_KEY = os.getenv('HERO_SMS_API_KEY', '49e0ebe171b6Ad771f8b4e9fc1b78ef9').strip()
     TG_READY_API_KEY = os.getenv('TG_READY_API_KEY', '').strip()
     TG_READY_BASE_URL = os.getenv('TG_READY_BASE_URL', 'https://api.tg-ready.net/v1').strip()
     RENDER_EXTERNAL_URL = os.getenv('RENDER_EXTERNAL_URL', '').strip()
