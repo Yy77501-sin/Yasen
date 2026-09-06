@@ -1,6 +1,6 @@
 # =========================================================
-# YasNum - CONFIG
-# متوافق مع bot.py
+# Newbot - CONFIG
+# متوافق مع main.py
 # =========================================================
 
 import os
@@ -60,7 +60,7 @@ HERO_SMS_API_KEY = os.getenv(
 # TG Ready Accounts (Telegram Ready - TG-Lion)
 # ==========================================
 
-TG_READY_API_KEY = os.getenv("TG_READY_API_KEY", os.getenv("TG_LION_API_KEY", "MDSnlzb8haw9fc51km")).strip()
+TG_READY_API_KEY = os.getenv("TG_READY_API_KEY", os.getenv("TG_LION_API_KEY", "5jca4lh539fi8eym6x")).strip()
 TG_READY_BASE_URL = os.getenv("TG_READY_BASE_URL", os.getenv("TG_LION_BASE_URL", "https://TG-Lion.net")).strip()
 TG_LION_API_KEY = TG_READY_API_KEY
 TG_LION_BASE_URL = TG_READY_BASE_URL
@@ -74,7 +74,7 @@ RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "").strip()
 # YasNum
 # =========================================================
 
-BOT_NAME = "YasNum"
+BOT_NAME = "Newbot"
 
 # هام: مكافأة الإحالة = 0.10 دولار
 REFERRAL_REWARD = float(os.getenv("REFERRAL_REWARD", "0.10"))
