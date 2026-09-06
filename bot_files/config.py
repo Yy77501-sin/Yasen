@@ -53,7 +53,7 @@ GRIZZLY_API_KEY = os.getenv(
 
 HERO_SMS_API_KEY = os.getenv(
     "HERO_SMS_API_KEY",
-    "Ae428b3ce2154919dbe5db9d55c7c296"
+    "9c9e57B1696f3e5c286f47770B86c8f8"
 ).strip()
 
 # =========================================================
