@@ -1,0 +1,6 @@
+{
+  "name": "Number SMS & King SMM Bot",
+  "description": "متجر بيع وتوزيع حسابات وأرقام تيليجرام الجاهزة للتسليم الفوري مع كود الدخول وملفات الجلسات والضمان بالدولار الأمريكي.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
