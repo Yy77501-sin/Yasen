@@ -1,0 +1,6 @@
+{
+  "name": "Number SMS & King SMM Bot",
+  "description": "منصة بيع وتوزيع حسابات وأرقام تيليجرام الجاهزة مع التسليم التلقائي الفوري لكود الدخول وملفات الجلسات Tdata و Session ودعم السيرفرات العالمية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
