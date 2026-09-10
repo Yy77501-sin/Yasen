@@ -1,0 +1,108 @@
+{
+  "users": [
+    {
+      "userId": 6304459652,
+      "username": "MMerso88",
+      "firstName": "M",
+      "balance": 0.2,
+      "currency": "RUB",
+      "level": "Newbie",
+      "language": "ar",
+      "role": "admin",
+      "isActive": true,
+      "isVerified": true,
+      "transactionsCount": 0,
+      "invitedBy": null,
+      "referralRewarded": false,
+      "referralCommissionCount": 0,
+      "lastSeenAt": "2026-03-30T01:33:21.301Z",
+      "createdAt": "2026-03-29T23:38:21.822Z"
+    },
+    {
+      "userId": 6723191936,
+      "username": "Engineeer000",
+      "firstName": "Engineer",
+      "balance": 0,
+      "currency": "RUB",
+      "level": "Newbie",
+      "language": "ar",
+      "role": "user",
+      "isActive": true,
+      "isVerified": true,
+      "transactionsCount": 0,
+      "invitedBy": 6304459652,
+      "referralRewarded": true,
+      "referralCommissionCount": 0,
+      "lastSeenAt": "2026-03-30T01:29:51.308Z",
+      "createdAt": "2026-03-30T01:20:00.970Z"
+    }
+  ],
+  "services": {
+    "virtual_numbers": {
+      "name": "أرقام وهمية",
+      "price": 1,
+      "enabled": true
+    },
+    "social_boost": {
+      "name": "رشق حسابات",
+      "price": 2,
+      "enabled": true
+    },
+    "game_topup": {
+      "name": "شحن ألعاب",
+      "price": 3,
+      "enabled": true
+    },
+    "social_accounts": {
+      "name": "حسابات سوشيال",
+      "price": 2.5,
+      "enabled": true
+    },
+    "pro_accounts": {
+      "name": "حسابات Pro",
+      "price": 4,
+      "enabled": true
+    },
+    "cloud_services": {
+      "name": "خدمات سحابية",
+      "price": 5,
+      "enabled": true
+    },
+    "virtual_visa": {
+      "name": "فيزا افتراضية",
+      "price": 6,
+      "enabled": true
+    },
+    "temporary_emails": {
+      "name": "إيميلات مؤقتة",
+      "price": 0.5,
+      "enabled": true
+    },
+    "other_services": {
+      "name": "خدمات أخرى",
+      "price": 1.5,
+      "enabled": true
+    },
+    "balance_topup": {
+      "name": "شحن الرصيد",
+      "price": 0,
+      "enabled": true
+    }
+  },
+  "transactions": [
+    {
+      "id": "1774833613783-rkj1sp",
+      "createdAt": "2026-03-30T01:20:13.783Z",
+      "type": "referral_reward",
+      "userId": 6304459652,
+      "targetUserId": 6723191936,
+      "amount": 0.2,
+      "note": "New user captcha completed"
+    }
+  ],
+  "botStats": {
+    "totalRequests": 194,
+    "totalProfits": 0,
+    "todayProfits": 0
+  }
+}

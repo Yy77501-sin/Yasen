@@ -1,0 +1,23 @@
+{
+  "name": "telegram-bot-foundation",
+  "version": "1.0.0",
+  "description": "Modular Telegram bot foundation built with node-telegram-bot-api",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.14.0",
+    "dotenv": "^16.6.1",
+    "imapflow": "^1.0.185",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}

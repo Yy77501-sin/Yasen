@@ -1,0 +1,8 @@
+INFO:httpx:HTTP Request: POST https://api.telegram.org/bot8752928016:AAFaVpecO0TVpbW_WII6MhTbxaPdadKeHoE/getMe "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.telegram.org/bot8752928016:AAFaVpecO0TVpbW_WII6MhTbxaPdadKeHoE/deleteWebhook "HTTP/1.1 200 OK"
+INFO:apscheduler.scheduler:Scheduler started
+INFO:telegram.ext.Application:Application started
+INFO:httpx:HTTP Request: POST https://api.telegram.org/bot8752928016:AAFaVpecO0TVpbW_WII6MhTbxaPdadKeHoE/getUpdates "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.telegram.org/bot8752928016:AAFaVpecO0TVpbW_WII6MhTbxaPdadKeHoE/sendMessage "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.telegram.org/bot8752928016:AAFaVpecO0TVpbW_WII6MhTbxaPdadKeHoE/getUpdates "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.telegram.org/bot8752928016:AAFaVpecO0TVpbW_WII6MhTbxaPdadKeHoE/getUpdates "HTTP/1.1 200 OK"

@@ -1,0 +1,294 @@
+﻿<!doctype html>
+<html lang="__LANG__" dir="__DIR__">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>VaultX Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { cairo: ["Cairo", "sans-serif"] }, colors: { vxline: "rgba(107,140,199,.32)", vxmuted: "#9aa8c5", vxblue: "#4ea3ff", vxgold: "#f4c96a" } } } };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { background: radial-gradient(circle at 12% 0%, rgba(32,68,120,.55), transparent 35%), radial-gradient(circle at 87% 100%, rgba(55,30,85,.5), transparent 38%), #05070d; }
+    .glass { background: rgba(16,22,34,.62); border: 1px solid rgba(107,140,199,.32); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .loader { width:18px; height:18px; border-radius:999px; border:2px solid rgba(255,255,255,.2); border-top-color:#fff; animation:spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="font-cairo text-[#eaf2ff] min-h-screen">
+  <div id="app" class="max-w-md mx-auto px-3 py-3 pb-24"></div>
+  <script>
+    const BOOT = __BOOTSTRAP_JSON__;
+    const tg = window.Telegram?.WebApp || null;
+    if (tg) { tg.ready(); tg.expand(); tg.MainButton.hide(); }
+    const isAr = BOOT.lang === "ar";
+    const t = {
+      appTitle: "VaultX Pro", back: isAr ? "رجوع" : "Back", loading: isAr ? "جاري التحميل..." : "Loading...",
+      openInTelegram: isAr ? "هذه الوظيفة تعمل داخل تيليجرام" : "This action works inside Telegram",
+      walletRub: isAr ? "الرصيد بالروبل" : "RUB Balance", walletUsd: isAr ? "الرصيد بالدولار" : "USD Balance",
+      level: isAr ? "المستوى" : "Level", operations: isAr ? "عمليّاتي" : "My Operations",
+      account: isAr ? "حسابي" : "My Account", referral: isAr ? "الإحالة" : "Referral", settings: isAr ? "الإعدادات" : "Settings",
+      transfer: isAr ? "تحويل رصيد" : "Transfer Balance", convert: isAr ? "تحويل العملات" : "Currency Convert",
+      digital_numbers: isAr ? "الأرقام الوهمية" : "Virtual Numbers",
+      social_boost: isAr ? "رشق الحسابات" : "Social Boost",
+      game_topup: isAr ? "شحن الألعاب" : "Game Top-up",
+      pro_accounts: isAr ? "حسابات Pro" : "Pro Accounts",
+      social_accounts: isAr ? "حسابات سوشيال" : "Social Accounts",
+      cloud_services: isAr ? "خدمات سحابية" : "Cloud Services",
+      temporary_emails: isAr ? "إيميلات مؤقتة" : "Temporary Emails",
+      virtual_visa: isAr ? "فيزا افتراضية" : "Virtual Visa",
+      other_services: isAr ? "خدمات أخرى" : "Other Services",
+      payments: isAr ? "شحن الحساب" : "Top Up",
+      socialPlatform: isAr ? "اختر المنصة" : "Select Platform",
+      socialCategory: isAr ? "اختر نوع الخدمة" : "Select Category",
+      socialService: isAr ? "اختر الجودة والسعر" : "Select Service",
+      accountLink: isAr ? "رابط الحساب" : "Account Link",
+      quantity: isAr ? "الكمية" : "Quantity",
+      placeOrder: isAr ? "تنفيذ الطلب" : "Place Order",
+      gameCategory: isAr ? "اختر القسم" : "Select Category",
+      gameSelect: isAr ? "اختر اللعبة" : "Select Game",
+      packageSelect: isAr ? "اختر الباقة" : "Select Package",
+      playerId: isAr ? "ايدي اللعبة" : "Game ID",
+      customAmount: isAr ? "كمية مخصصة" : "Custom amount",
+      chooseApp: isAr ? "اختر التطبيق" : "Choose app", chooseCountry: isAr ? "اختر الدولة" : "Choose country",
+      choosePrice: isAr ? "اختر السعر والسيرفر" : "Choose price and server", buyOk: isAr ? "تم شراء الرقم" : "Number purchased",
+      reqCode: isAr ? "طلب الكود" : "Request Code", noOps: isAr ? "لا توجد عمليات" : "No operations",
+      targetId: isAr ? "آيدي المستلم" : "Receiver ID", amountRub: isAr ? "المبلغ بالروبل" : "Amount in RUB", amountUsd: isAr ? "المبلغ بالدولار" : "Amount in USD",
+      submitTransfer: isAr ? "تنفيذ التحويل" : "Send Transfer", submitConvert: isAr ? "تنفيذ التحويل" : "Convert",
+      txid: isAr ? "رقم العملية" : "Transaction ID", amount: isAr ? "المبلغ" : "Amount", payConfirm: isAr ? "تأكيد الدفع" : "Confirm Payment", converter: isAr ? "الرصيد المتوقع" : "Expected Credit",
+      copy: isAr ? "نسخ" : "Copy", copied: isAr ? "تم النسخ" : "Copied"
+    };
+
+    const state = {
+      view: BOOT.initialScreen === "payment" ? "payments" : "dashboard",
+      user: { ...BOOT.user }, selectedMethod: BOOT.initialMethod || (BOOT.methods[0]?.key || "binance"),
+      operations: [], referralStats: { totalInvites:0, activeUsers:0, totalEarnings:0 },
+      vn: { apps: [], app: "", countries: [], selectedCountry: null, order: null },
+      smm: { platforms: [], platform: "", categories: [], category: "", services: [], service: null },
+      game: { categories: [], category: "", games: [], game: "", packages: [], custom: null }
+    };
+
+    const bigServices = [
+      { key: "digital_numbers", icon: "📱", color: "from-blue-500/25 to-cyan-400/10" },
+      { key: "social_boost", icon: "🚀", color: "from-violet-500/25 to-fuchsia-400/10" },
+      { key: "game_topup", icon: "🎮", color: "from-emerald-500/25 to-lime-400/10" },
+      { key: "pro_accounts", icon: "💎", color: "from-amber-500/25 to-yellow-400/10" },
+      { key: "social_accounts", icon: "👥", color: "from-pink-500/25 to-rose-400/10" },
+      { key: "cloud_services", icon: "☁️", color: "from-indigo-500/25 to-sky-400/10" },
+      { key: "temporary_emails", icon: "📧", color: "from-cyan-500/25 to-blue-400/10" },
+      { key: "virtual_visa", icon: "💳", color: "from-slate-500/25 to-zinc-400/10" },
+      { key: "other_services", icon: "🧩", color: "from-purple-500/25 to-indigo-400/10" },
+      { key: "payments", icon: "💰", color: "from-teal-500/25 to-cyan-400/10" }
+    ];
+
+    function uid(){ return Number(tg?.initDataUnsafe?.user?.id || state.user.id || 0); }
+    function esc(v){ return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+    function rub(v){ return Number(v||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+    function toast(text, ok){ const d=document.createElement("div"); d.className=`fixed left-1/2 -translate-x-1/2 bottom-4 px-4 py-2 rounded-xl border z-50 text-sm ${ok?"bg-emerald-500/20 border-emerald-400/40":"bg-rose-500/20 border-rose-400/40"}`; d.textContent=text; document.body.appendChild(d); setTimeout(()=>d.remove(),1600); }
+    function calcRub(method, amount){ const m=BOOT.methods.find(x=>x.key===method); const val=Number(String(amount||"").replace(",",".")); if(!Number.isFinite(val)||val<=0||!m) return 0; if(method==="binance") return val*(m.rub_per_unit||30); const p=Number(m.local_per_rub||0); return p?val/p:0; }
+
+    async function refreshProfile(){ try{ const r=await fetch(`/webapp/profile?user_id=${uid()}`,{cache:"no-store"}); const d=await r.json(); if(d?.ok&&d.profile){ state.user={...state.user,...d.profile}; } }catch(_){} }
+    async function loadOps(){ try{ const r=await fetch(`/webapp/transactions?user_id=${uid()}&limit=20`,{cache:"no-store"}); const d=await r.json(); state.operations=Array.isArray(d?.transactions)?d.transactions:[]; }catch(_){ state.operations=[]; } }
+    async function loadReferral(){ try{ const r=await fetch(`/webapp/referral-stats?user_id=${uid()}`,{cache:"no-store"}); const d=await r.json(); state.referralStats=d?.stats||state.referralStats; }catch(_){} }
+    async function loadVnApps(){ try{ const r=await fetch('/webapp/virtual-numbers/apps',{cache:'no-store'}); const d=await r.json(); state.vn.apps=Array.isArray(d?.apps)?d.apps:[]; }catch(_){ state.vn.apps=[]; } }
+    async function loadVnCountries(app){ try{ const r=await fetch('/webapp/virtual-numbers/countries?app='+encodeURIComponent(app),{cache:'no-store'}); const d=await r.json(); state.vn.countries=Array.isArray(d?.countries)?d.countries:[]; state.vn.selectedCountry=null; }catch(_){ state.vn.countries=[]; } }
+    async function loadSmmPlatforms(){ try{ const r=await fetch('/webapp/social-boost/platforms?lang='+(isAr?'ar':'en'),{cache:'no-store'}); const d=await r.json(); state.smm.platforms=Array.isArray(d?.platforms)?d.platforms:[]; if(!state.smm.platform&&state.smm.platforms[0]) state.smm.platform=state.smm.platforms[0].key; }catch(_){ state.smm.platforms=[]; } }
+    async function loadSmmCategories(platform){ try{ const r=await fetch('/webapp/social-boost/categories?lang='+(isAr?'ar':'en')+'&platform='+encodeURIComponent(platform),{cache:'no-store'}); const d=await r.json(); state.smm.categories=Array.isArray(d?.categories)?d.categories:[]; state.smm.category=''; state.smm.services=[]; state.smm.service=null; }catch(_){ state.smm.categories=[]; } }
+    async function loadSmmServices(platform,category){ try{ const r=await fetch('/webapp/social-boost/services?lang='+(isAr?'ar':'en')+'&platform='+encodeURIComponent(platform)+'&category='+encodeURIComponent(category),{cache:'no-store'}); const d=await r.json(); state.smm.services=Array.isArray(d?.services)?d.services:[]; state.smm.service=null; }catch(_){ state.smm.services=[]; } }
+    async function loadGameCategories(){ try{ const r=await fetch('/webapp/game-topup/categories?lang='+(isAr?'ar':'en'),{cache:'no-store'}); const d=await r.json(); state.game.categories=Array.isArray(d?.categories)?d.categories:[]; }catch(_){ state.game.categories=[]; } }
+    async function loadGameGames(category){ try{ const r=await fetch('/webapp/game-topup/games?lang='+(isAr?'ar':'en')+'&category='+encodeURIComponent(category),{cache:'no-store'}); const d=await r.json(); state.game.games=Array.isArray(d?.games)?d.games:[]; state.game.game=''; state.game.packages=[]; state.game.custom=null; }catch(_){ state.game.games=[]; } }
+    async function loadGamePackages(game){ try{ const r=await fetch('/webapp/game-topup/packages?lang='+(isAr?'ar':'en')+'&game='+encodeURIComponent(game),{cache:'no-store'}); const d=await r.json(); state.game.packages=Array.isArray(d?.packages)?d.packages:[]; state.game.custom=d?.custom||null; }catch(_){ state.game.packages=[]; state.game.custom=null; } }
+
+    function sendAction(action, details){ const payload={type:"vaultx_webapp_request", action, details, user_id:uid(), ts:Date.now()}; if(tg?.sendData){ tg.sendData(JSON.stringify(payload)); return true; } return false; }
+    function sendGateway(method,amountLocal,txid){ const payload={type:"gateway_topup", method, amount_local:Number(amountLocal), tx_id:String(txid||"").trim(), user_id:uid()}; if(tg?.sendData){ tg.sendData(JSON.stringify(payload)); return true; } return false; }
+
+    function topBar(){
+      return `<header class="glass rounded-2xl p-3">
+        <div class="flex items-center justify-between">
+          <div><div class="text-sm font-extrabold">${t.appTitle}</div><div class="text-[11px] text-vxmuted">@${esc(state.user.username||"vaultx_user")}</div></div>
+          <div class="text-[11px] px-2 py-1 rounded-lg border border-vxline bg-white/5">ID: ${state.user.id||0}</div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <div class="glass rounded-xl p-2"><div class="text-vxmuted text-[11px]">${t.walletRub}</div><div class="font-bold text-sm">${rub(state.user.balanceRub)} RUB</div></div>
+          <div class="glass rounded-xl p-2"><div class="text-vxmuted text-[11px]">${t.level}</div><div class="font-bold text-sm">${esc(state.user.level||"Newbie")}</div></div>
+        </div>
+        <div class="glass rounded-xl p-2 mt-2"><div class="text-vxmuted text-[11px]">${t.walletUsd}</div><div class="font-bold text-sm">$ ${Number(state.user.balanceUsd||0).toFixed(2)}</div></div>
+        <div class="grid grid-cols-4 gap-2 mt-3">
+          <button data-top="account" class="glass rounded-xl px-3 py-2 text-xs">👤 ${t.account}</button>
+          <button data-top="referral" class="glass rounded-xl px-3 py-2 text-xs">🎁 ${t.referral}</button>
+          <button data-top="operations" class="glass rounded-xl px-3 py-2 text-xs">🧾 ${t.operations}</button>
+          <button data-top="settings" class="glass rounded-xl px-3 py-2 text-xs">⚙️ ${t.settings}</button>
+        </div>
+      </header>`;
+    }
+
+    function dashboard(){
+      const cards=bigServices.map(s=>`<button data-service="${s.key}" class="glass rounded-2xl p-4 text-start bg-gradient-to-br ${s.color} border border-vxline"><div class="text-2xl">${s.icon}</div><div class="text-sm mt-1 font-bold">${t[s.key]||s.key}</div></button>`).join('');
+      return `<section class="mt-3 grid grid-cols-2 gap-2">${cards}</section>`;
+    }
+
+    function operations(){
+      const rows = state.operations.length ? state.operations.map(tx=>`<div class="glass rounded-xl p-3 border border-vxline"><div class="flex justify-between"><div class="text-xs text-vxmuted">${esc(tx.type||tx.serviceKey||"tx")}</div><div class="text-xs">${rub(tx.amount||0)} RUB</div></div><div class="text-[11px] text-vxmuted mt-1">${esc(tx.createdAt||"")}</div></div>`).join('') : `<div class="glass rounded-xl p-4 text-sm text-vxmuted">${t.noOps}</div>`;
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.operations}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div>${rows}</section>`;
+    }
+
+    function account(){
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.account}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3 text-sm"><div>👤 ${esc(state.user.firstName||"User")}</div><div class="mt-1">@${esc(state.user.username||"vaultx_user")}</div><div class="mt-1">🆔 ${state.user.id||0}</div></div></section>`;
+    }
+
+    function referral(){
+      const s=state.referralStats;
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.referral}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3 text-sm"><div>👥 ${s.totalInvites}</div><div class="mt-1">🛍️ ${s.activeUsers}</div><div class="mt-1">💰 ${rub(s.totalEarnings)} RUB</div></div></section>`;
+    }
+
+    function settings(){
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.settings}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="grid gap-2"><button data-action="open-transfer" class="glass rounded-xl p-3 text-start">${t.transfer}</button><button data-action="open-convert" class="glass rounded-xl p-3 text-start">${t.convert}</button></div></section>`;
+    }
+
+    function transfer(){
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.transfer}</div><button data-action="go-settings" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3"><input id="trTarget" class="w-full rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.targetId}"><input id="trAmount" class="w-full mt-2 rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.amountRub}"><button data-action="submit-transfer-rub" class="w-full mt-2 rounded-xl bg-gradient-to-r from-vxblue to-sky-400 text-black font-extrabold py-2.5">${t.submitTransfer} RUB</button><button data-action="submit-transfer-usd" class="w-full mt-2 rounded-xl bg-gradient-to-r from-vxgold to-amber-300 text-black font-extrabold py-2.5">${t.submitTransfer} USD</button></div></section>`;
+    }
+
+    function convert(){
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.convert}</div><button data-action="go-settings" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3"><input id="cvAmountRub" class="w-full rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.amountRub}"><button data-action="convert-rub-usd" class="w-full mt-2 rounded-xl bg-gradient-to-r from-vxblue to-sky-400 text-black font-extrabold py-2.5">RUB → USD</button><input id="cvAmountUsd" class="w-full mt-3 rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.amountUsd}"><button data-action="convert-usd-rub" class="w-full mt-2 rounded-xl bg-gradient-to-r from-vxgold to-amber-300 text-black font-extrabold py-2.5">USD → RUB</button></div></section>`;
+    }
+
+    function virtualNumbers(){
+      const appBtns=(state.vn.apps||[]).map(n=>`<button data-vn-app="${n}" class="px-3 py-2 rounded-xl border text-xs ${state.vn.app===n?'bg-vxblue text-black border-vxblue':'bg-white/5 border-vxline'}">${n}</button>`).join('');
+      const countryBtns=(state.vn.countries||[]).slice(0,80).map(c=>`<button data-vn-country="${c.id}" class="glass rounded-xl p-2 text-start border border-vxline"><div class="text-sm font-bold">${esc(c.flag||'🌍')} ${esc(c.name||c.name_en||c.name_ar||('Country '+c.id))}</div><div class="text-[11px] text-vxmuted">₽ ${rub(c.minSellPrice||0)} • ${c.availableCount||0}</div></button>`).join('');
+      const selected=state.vn.selectedCountry;
+      const options=selected ? (selected.options||[]).map(op=>`<button data-vn-buy="${selected.id}" data-vn-provider="${op.providerKey}" data-vn-price="${op.sellPrice}" class="glass rounded-xl p-2 border border-vxline text-start"><div class="text-sm font-bold">${op.providerKey==='server1'?'Server 1':'Server 2'}</div><div class="text-[11px] text-vxmuted">₽ ${rub(op.sellPrice)} • ${op.availableCount||0}</div></button>`).join('') : '';
+      const order=state.vn.order?`<div class="glass rounded-xl p-3 border border-vxline"><div class="font-bold mb-1">📦 ${esc(state.vn.order.app)}</div><div class="text-sm">${esc(state.vn.order.flag)} ${esc(state.vn.order.country_name)}</div><div class="text-sm mt-1">☎️ <code>${esc(state.vn.order.number)}</code></div><div class="text-sm mt-1">🛎 <code>${esc(state.vn.order.activation_id)}</code></div><div class="text-sm mt-1">💰 ₽ ${rub(state.vn.order.price_rub)}</div><button data-action="vn-check-code" class="w-full mt-3 rounded-xl bg-gradient-to-r from-vxblue to-sky-400 text-black font-extrabold py-2.5">${t.reqCode}</button><div id="vnCode" class="text-sm mt-2 text-vxmuted"></div></div>`:'';
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">📱 ${t.digital_numbers}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.chooseApp}</div><div class="flex flex-wrap gap-2">${appBtns}</div></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.chooseCountry}</div><div class="grid grid-cols-2 gap-2 max-h-72 overflow-auto">${countryBtns}</div></div>${selected?`<div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.choosePrice}</div><div class="grid grid-cols-2 gap-2">${options}</div></div>`:''}${order}</section>`;
+    }
+
+    function socialBoost(){
+      const pBtns=(state.smm.platforms||[]).map(p=>`<button data-smm-platform="${esc(p.key)}" class="px-3 py-2 rounded-xl border text-xs ${state.smm.platform===p.key?'bg-vxblue text-black border-vxblue':'bg-white/5 border-vxline'}">${esc(p.icon||'🚀')} ${esc(p.name)}</button>`).join('');
+      const cBtns=(state.smm.categories||[]).map(c=>`<button data-smm-category="${esc(c.key)}" class="px-3 py-2 rounded-xl border text-xs ${state.smm.category===c.key?'bg-vxblue text-black border-vxblue':'bg-white/5 border-vxline'}">${esc(c.name)}</button>`).join('');
+      const sBtns=(state.smm.services||[]).map(s=>`<button data-smm-service="${esc(s.id)}" class="glass rounded-xl p-2 text-start border border-vxline"><div class="text-sm font-bold">${esc(s.name)}</div><div class="text-[11px] text-vxmuted">₽ ${rub(s.pricePerUnitRub)} • Min ${s.min} • Max ${s.max}</div></button>`).join('');
+      const service=state.smm.service;
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">🚀 ${t.social_boost}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.socialPlatform}</div><div class="flex flex-wrap gap-2">${pBtns}</div></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.socialCategory}</div><div class="flex flex-wrap gap-2">${cBtns}</div></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.socialService}</div><div class="grid gap-2">${sBtns||`<div class="text-xs text-vxmuted">-</div>`}</div></div>${service?`<div class="glass rounded-2xl p-3"><input id="smmLink" class="w-full rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.accountLink}"><input id="smmQty" class="w-full mt-2 rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.quantity}"><button data-action="smm-order" class="w-full mt-2 rounded-xl bg-gradient-to-r from-vxblue to-sky-400 text-black font-extrabold py-2.5">${t.placeOrder}</button></div>`:''}</section>`;
+    }
+
+    function gameTopup(){
+      const catBtns=(state.game.categories||[]).map(c=>`<button data-game-category="${esc(c.key)}" class="px-3 py-2 rounded-xl border text-xs ${state.game.category===c.key?'bg-vxblue text-black border-vxblue':'bg-white/5 border-vxline'}">${esc(c.emoji||'🎮')} ${esc(c.name)}</button>`).join('');
+      const gameBtns=(state.game.games||[]).map(g=>`<button data-game-game="${esc(g.key)}" class="px-3 py-2 rounded-xl border text-xs ${state.game.game===g.key?'bg-vxblue text-black border-vxblue':'bg-white/5 border-vxline'}">${esc(g.emoji||'🎮')} ${esc(g.name)}</button>`).join('');
+      const pkgBtns=(state.game.packages||[]).map(p=>`<button data-game-package="${p.index}" class="glass rounded-xl p-2 text-start border border-vxline"><div class="text-sm font-bold">${esc(p.label)}</div><div class="text-[11px] text-vxmuted">₽ ${rub(p.priceRub)}</div></button>`).join('');
+      const custom = state.game.custom ? `<div class="glass rounded-xl p-2 border border-vxline mt-2"><div class="text-xs text-vxmuted">${t.customAmount} (${state.game.custom.min}-${state.game.custom.max}) • ₽ ${rub(state.game.custom.unitPriceRub)} / ${esc(state.game.custom.unitLabel||'unit')}</div><input id="gameCustomQty" class="w-full mt-2 rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.quantity}"><button data-action="game-custom-order" class="w-full mt-2 rounded-xl bg-gradient-to-r from-vxgold to-amber-300 text-black font-extrabold py-2.5">${t.placeOrder}</button></div>` : '';
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">🎮 ${t.game_topup}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.gameCategory}</div><div class="flex flex-wrap gap-2">${catBtns}</div></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted mb-2">${t.gameSelect}</div><div class="flex flex-wrap gap-2">${gameBtns}</div></div><div class="glass rounded-2xl p-3"><input id="gamePlayerId" class="w-full rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="${t.playerId}"><div class="text-xs text-vxmuted mt-2 mb-2">${t.packageSelect}</div><div class="grid gap-2">${pkgBtns||`<div class="text-xs text-vxmuted">-</div>`}</div>${custom}</div></section>`;
+    }
+
+    function payments(){
+      const tabs=BOOT.methods.map(m=>`<button data-method="${m.key}" class="px-3 py-2 rounded-xl border text-xs ${m.key===state.selectedMethod?'bg-vxblue text-black border-vxblue':'bg-white/5 border-vxline'}">${isAr?m.title_ar:m.title_en}</button>`).join('');
+      const m=BOOT.methods.find(x=>x.key===state.selectedMethod)||BOOT.methods[0];
+      const rate=state.selectedMethod==='binance'?`1 USD = ${m?.rub_per_unit||30} RUB`:`1 RUB = ${m?.local_per_rub||0} ${m?.local_currency||''}`;
+      return `<section class="mt-3 space-y-2"><div class="glass rounded-2xl p-3 flex justify-between"><div class="font-bold">${t.payments}</div><button data-action="go-dashboard" class="text-xs px-2 py-1 rounded-lg border border-vxline bg-white/5">${t.back}</button></div><div class="glass rounded-2xl p-3"><div class="flex flex-wrap gap-2">${tabs}</div></div><div class="glass rounded-2xl p-3"><div class="text-xs text-vxmuted">Account ID</div><div class="flex items-center gap-2 mt-1"><div id="accId" class="font-bold text-sm flex-1 break-all">${m?.account_id||'-'}</div><button data-action="copy-account" class="px-3 py-2 rounded-xl border border-vxline bg-white/5 text-xs">${t.copy}</button></div><div class="text-xs text-vxmuted mt-3">${t.amount} (${m?.local_currency||''})</div><input id="payAmount" class="w-full mt-1 rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="0.00"><div class="text-xs text-vxmuted mt-3">${t.txid}</div><input id="payTx" class="w-full mt-1 rounded-xl bg-black/30 border border-vxline px-3 py-2 text-sm" placeholder="TX123..."><div id="payConv" class="mt-3 rounded-xl border border-vxline bg-white/5 px-3 py-2 text-sm">${t.converter}: 0.00 RUB</div><div class="text-[11px] text-vxmuted mt-1">${rate}</div><button data-action="submit-payment" class="w-full mt-3 rounded-xl bg-gradient-to-r from-vxgold to-amber-300 text-black font-extrabold py-2.5">${t.payConfirm}</button></div></section>`;
+    }
+
+    function render(){
+      const hideTop=["virtual_numbers","payments","social_boost","game_topup","transfer","convert"];
+      let html=hideTop.includes(state.view)?"":topBar();
+      if(state.view==="dashboard") html+=dashboard();
+      else if(state.view==="operations") html+=operations();
+      else if(state.view==="account") html+=account();
+      else if(state.view==="referral") html+=referral();
+      else if(state.view==="settings") html+=settings();
+      else if(state.view==="transfer") html+=transfer();
+      else if(state.view==="convert") html+=convert();
+      else if(state.view==="virtual_numbers") html+=virtualNumbers();
+      else if(state.view==="social_boost") html+=socialBoost();
+      else if(state.view==="game_topup") html+=gameTopup();
+      else if(state.view==="payments") html+=payments();
+      document.getElementById("app").innerHTML=html;
+      bind();
+      refreshPaymentPreview();
+    }
+
+    function refreshPaymentPreview(){ const i=document.getElementById('payAmount'); const o=document.getElementById('payConv'); if(!i||!o) return; const paint=()=>{ const x=Number(String(i.value||'').replace(',','.')); o.textContent=`${t.converter}: ${Number.isFinite(x)?calcRub(state.selectedMethod,x).toFixed(2):'0.00'} RUB`;}; paint(); i.oninput=paint; }
+
+    async function buyVirtual(app,countryId,providerKey,priceRub){
+      try{
+        const r=await fetch('/webapp/virtual-numbers/buy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid(),app,country_id:countryId,provider_key:providerKey,price_rub:priceRub})});
+        const d=await r.json();
+        if(!d?.ok){ toast(isAr?'فشل شراء الرقم':'Failed to buy number',false); return; }
+        state.vn.order=d.order; await refreshProfile(); await loadOps(); toast(t.buyOk,true);
+      }catch(_){ toast(isAr?'فشل شراء الرقم':'Failed to buy number',false); }
+    }
+
+    async function checkCode(){
+      if(!state.vn.order) return;
+      try{
+        const r=await fetch(`/webapp/virtual-numbers/status?activation_id=${encodeURIComponent(state.vn.order.activation_id)}&provider_key=${encodeURIComponent(state.vn.order.provider_key)}`,{cache:'no-store'});
+        const d=await r.json(); const box=document.getElementById('vnCode'); if(!box) return;
+        if(!d?.ok){ box.textContent=isAr?'تعذر جلب الحالة':'Failed to fetch status'; return; }
+        if(d.status==='received'){ box.textContent=(isAr?'✅ الكود: ':'✅ Code: ')+String(d.code||'-'); }
+        else if(d.status==='pending'){ box.textContent=isAr?'⏳ قيد الانتظار...':'⏳ Waiting...'; }
+        else { box.textContent=isAr?'⚠️ الحالة غير متاحة':'⚠️ Status unavailable'; }
+      }catch(_){ const b=document.getElementById('vnCode'); if(b) b.textContent=isAr?'تعذر جلب الحالة':'Failed to fetch status'; }
+    }
+
+    async function submitTransfer(currency){
+      const target=Number(document.getElementById('trTarget')?.value||0); const amount=Number(document.getElementById('trAmount')?.value||0);
+      if(!target||!amount||amount<=0){ toast(isAr?'بيانات غير صحيحة':'Invalid data',false); return; }
+      const r=await fetch('/webapp/transfer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid(),target_id:target,amount,currency})});
+      const d=await r.json(); if(!d?.ok){ toast(isAr?'فشل التحويل':'Transfer failed',false); return; }
+      await refreshProfile(); await loadOps(); toast(isAr?'تم التحويل':'Transfer success',true);
+    }
+
+    async function submitConvert(from,to){
+      const amount=Number(document.getElementById(from==='RUB'?'cvAmountRub':'cvAmountUsd')?.value||0);
+      if(!amount||amount<=0){ toast(isAr?'قيمة غير صحيحة':'Invalid amount',false); return; }
+      const r=await fetch('/webapp/convert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid(),from,to,amount})});
+      const d=await r.json(); if(!d?.ok){ toast(isAr?'فشل التحويل':'Conversion failed',false); return; }
+      await refreshProfile(); await loadOps(); toast(isAr?'تم التحويل':'Conversion success',true);
+    }
+
+    function bind(){
+      document.querySelectorAll('[data-service]').forEach(b=>b.onclick=async()=>{
+        const k=b.dataset.service;
+        if(k==='digital_numbers'){ state.view='virtual_numbers'; render(); return; }
+        if(k==='payments'){ state.view='payments'; render(); return; }
+        if(k==='social_boost'){ state.view='social_boost'; if(!state.smm.platforms.length){ await loadSmmPlatforms(); if(state.smm.platform) await loadSmmCategories(state.smm.platform); } render(); return; }
+        if(k==='game_topup'){ state.view='game_topup'; if(!state.game.categories.length){ await loadGameCategories(); } render(); return; }
+        const ok=sendAction('open_service:'+k,{source:'vaultx_super_app'}); if(ok) toast(t.loading,true); else toast(t.openInTelegram,false);
+      });
+      document.querySelectorAll('[data-top]').forEach(b=>b.onclick=()=>{ const k=b.dataset.top; state.view=k; render(); });
+      document.querySelectorAll('[data-action="go-dashboard"]').forEach(b=>b.onclick=()=>{ state.view='dashboard'; render(); });
+      const gs=document.querySelector('[data-action="go-settings"]'); if(gs) gs.onclick=()=>{ state.view='settings'; render(); };
+      const ot=document.querySelector('[data-action="open-transfer"]'); if(ot) ot.onclick=()=>{ state.view='transfer'; render(); };
+      const oc=document.querySelector('[data-action="open-convert"]'); if(oc) oc.onclick=()=>{ state.view='convert'; render(); };
+      const tr=document.querySelector('[data-action="submit-transfer-rub"]'); if(tr) tr.onclick=()=>submitTransfer('RUB');
+      const tu=document.querySelector('[data-action="submit-transfer-usd"]'); if(tu) tu.onclick=()=>submitTransfer('USD');
+      const cr=document.querySelector('[data-action="convert-rub-usd"]'); if(cr) cr.onclick=()=>submitConvert('RUB','USD');
+      const cu=document.querySelector('[data-action="convert-usd-rub"]'); if(cu) cu.onclick=()=>submitConvert('USD','RUB');
+      document.querySelectorAll('[data-vn-app]').forEach(b=>b.onclick=async()=>{ state.vn.app=b.dataset.vnApp; await loadVnCountries(state.vn.app); render(); });
+      document.querySelectorAll('[data-vn-country]').forEach(b=>b.onclick=()=>{ state.vn.selectedCountry=(state.vn.countries||[]).find(x=>String(x.id)===String(b.dataset.vnCountry))||null; render(); });
+      document.querySelectorAll('[data-vn-buy]').forEach(b=>b.onclick=()=>buyVirtual(state.vn.app,b.dataset.vnBuy,b.dataset.vnProvider,Number(b.dataset.vnPrice||0)));
+      document.querySelectorAll('[data-smm-platform]').forEach(b=>b.onclick=async()=>{ state.smm.platform=b.dataset.smmPlatform; await loadSmmCategories(state.smm.platform); render(); });
+      document.querySelectorAll('[data-smm-category]').forEach(b=>b.onclick=async()=>{ state.smm.category=b.dataset.smmCategory; await loadSmmServices(state.smm.platform,state.smm.category); render(); });
+      document.querySelectorAll('[data-smm-service]').forEach(b=>b.onclick=()=>{ state.smm.service=(state.smm.services||[]).find(x=>String(x.id)===String(b.dataset.smmService))||null; render(); });
+      const smmOrder=document.querySelector('[data-action="smm-order"]'); if(smmOrder) smmOrder.onclick=async()=>{ const link=document.getElementById('smmLink')?.value?.trim()||''; const qty=Number(document.getElementById('smmQty')?.value||0); if(!state.smm.service||!link||!qty){ toast(isAr?'تحقق من البيانات':'Check fields',false); return;} const r=await fetch('/webapp/social-boost/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid(),platform:state.smm.platform,category:state.smm.category,service_id:state.smm.service.id,link,quantity:qty})}); const d=await r.json(); if(!d?.ok){ toast(isAr?'فشل تنفيذ الطلب':'Order failed',false); return;} await refreshProfile(); await loadOps(); toast((isAr?'تم تنفيذ الطلب: ':'Order created: ')+(d.order_id||''),true); };
+      document.querySelectorAll('[data-game-category]').forEach(b=>b.onclick=async()=>{ state.game.category=b.dataset.gameCategory; await loadGameGames(state.game.category); render(); });
+      document.querySelectorAll('[data-game-game]').forEach(b=>b.onclick=async()=>{ state.game.game=b.dataset.gameGame; await loadGamePackages(state.game.game); render(); });
+      document.querySelectorAll('[data-game-package]').forEach(b=>b.onclick=async()=>{ const playerId=document.getElementById('gamePlayerId')?.value?.trim()||''; if(!playerId){ toast(isAr?'ادخل ايدي اللعبة':'Enter game ID',false); return;} const r=await fetch('/webapp/game-topup/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid(),game_key:state.game.game,player_id:playerId,package_index:Number(b.dataset.gamePackage)})}); const d=await r.json(); if(!d?.ok){ toast(isAr?'فشل تنفيذ الطلب':'Order failed',false); return;} await refreshProfile(); await loadOps(); toast((isAr?'تم تنفيذ الطلب: ':'Order created: ')+(d.order_id||''),true); });
+      const gameCustom=document.querySelector('[data-action="game-custom-order"]'); if(gameCustom) gameCustom.onclick=async()=>{ const playerId=document.getElementById('gamePlayerId')?.value?.trim()||''; const q=Number(document.getElementById('gameCustomQty')?.value||0); if(!playerId||!q){ toast(isAr?'تحقق من البيانات':'Check fields',false); return;} const r=await fetch('/webapp/game-topup/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid(),game_key:state.game.game,player_id:playerId,custom_quantity:q})}); const d=await r.json(); if(!d?.ok){ toast(isAr?'فشل تنفيذ الطلب':'Order failed',false); return;} await refreshProfile(); await loadOps(); toast((isAr?'تم تنفيذ الطلب: ':'Order created: ')+(d.order_id||''),true); };
+      const vc=document.querySelector('[data-action="vn-check-code"]'); if(vc) vc.onclick=()=>checkCode();
+      document.querySelectorAll('[data-method]').forEach(b=>b.onclick=()=>{ state.selectedMethod=b.dataset.method; render(); });
+      const cp=document.querySelector('[data-action="copy-account"]'); if(cp) cp.onclick=async()=>{ const txt=document.getElementById('accId')?.innerText||''; try{ await navigator.clipboard.writeText(txt); cp.textContent=t.copied; setTimeout(()=>cp.textContent=t.copy,900);}catch(_){}};
+      const sp=document.querySelector('[data-action="submit-payment"]'); if(sp) sp.onclick=async()=>{ const amount=document.getElementById('payAmount')?.value||''; const tx=document.getElementById('payTx')?.value||''; const n=Number(String(amount).replace(',','.')); if(!Number.isFinite(n)||n<=0||!String(tx).trim()){ toast(isAr?'تحقق من البيانات':'Check fields',false); return;} sp.innerHTML=`<div class="loader"></div>`; const ok=sendGateway(state.selectedMethod,n,tx); if(!ok){ toast(t.openInTelegram,false); sp.textContent=t.payConfirm; return; } await refreshProfile(); toast(isAr?'تم إرسال بيانات الدفع':'Payment data sent',true); sp.textContent=t.payConfirm; };
+    }
+
+    async function boot(){
+      await loadVnApps(); if(state.vn.apps.length){ state.vn.app=state.vn.apps[0]; await loadVnCountries(state.vn.app); }
+      await refreshProfile(); await loadReferral(); await loadOps(); render();
+    }
+
+    document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') refreshProfile(); });
+    boot();
+  </script>
+</body>
+</html>

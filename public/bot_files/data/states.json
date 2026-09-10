@@ -1,0 +1,26 @@
+{
+  "123456": {
+    "name": "PRO_FLOW",
+    "categoryKey": "ai_tools",
+    "appKey": "chatgpt",
+    "planKey": "plus",
+    "durationKey": "1m"
+  },
+  "555001": {
+    "name": "PRO_FLOW",
+    "categoryKey": "ai_tools",
+    "appKey": "chatgpt",
+    "planKey": "plus",
+    "durationKey": "1m"
+  },
+  "900001": {
+    "name": "CLOUD_INVOICE",
+    "payload": {
+      "service": "Domain",
+      "spec": "vaultx.com",
+      "duration": "سنة واحدة",
+      "price": 12,
+      "backCallback": "cloud:domain:start"
+    }
+  }
+}

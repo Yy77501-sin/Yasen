@@ -1,0 +1,29 @@
+﻿{
+  "menus": {},
+  "topup": {
+    "binance": {
+      "title_ar": "بينانس باي",
+      "title_en": "Binance Pay",
+      "account_id": "1229484753",
+      "local_currency": "USD",
+      "rub_per_unit": 30,
+      "verification_channel": "email"
+    },
+    "jeeb": {
+      "title_ar": "جيب",
+      "title_en": "Jeeb",
+      "account_id": "123456789",
+      "local_currency": "YER",
+      "local_per_rub": 19,
+      "verification_channel": "sms"
+    },
+    "vodafone": {
+      "title_ar": "فودافون كاش",
+      "title_en": "Vodafone Cash",
+      "account_id": "123456789",
+      "local_currency": "EGP",
+      "local_per_rub": 2,
+      "verification_channel": "sms"
+    }
+  }
+}

@@ -1,6 +1,8 @@
 {
-  "name": "Number SMS & King SMM Bot",
-  "description": "متجر بيع وتوزيع حسابات وأرقام تيليجرام الجاهزة للتسليم الفوري مع كود الدخول وملفات الجلسات والضمان بالدولار الأمريكي.",
+  "name": "بوت وتطبيق VaultX Pro المتكامل",
+  "description": "مشروع بوت تيليجرام وتطبيق الويب VaultX Pro متضمناً كافة الخدمات والأرقام ورشق الحسابات وشحن الألعاب مع إمكانية التنزيل والتشغيل المباشر",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

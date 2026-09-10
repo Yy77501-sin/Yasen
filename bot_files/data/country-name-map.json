@@ -1,0 +1,5172 @@
+{
+  "cook islands": {
+    "code": "CK",
+    "name_en": "Cook Islands",
+    "name_ar": "جزر كوك"
+  },
+  "ck": {
+    "code": "CK",
+    "name_en": "Cook Islands",
+    "name_ar": "جزر كوك"
+  },
+  "ku ki a irani": {
+    "code": "CK",
+    "name_en": "Cook Islands",
+    "name_ar": "جزر كوك"
+  },
+  "guinea": {
+    "code": "GN",
+    "name_en": "Guinea",
+    "name_ar": "غينيا"
+  },
+  "republic of guinea": {
+    "code": "GN",
+    "name_en": "Guinea",
+    "name_ar": "غينيا"
+  },
+  "gn": {
+    "code": "GN",
+    "name_en": "Guinea",
+    "name_ar": "غينيا"
+  },
+  "re publique de guine e": {
+    "code": "GN",
+    "name_en": "Guinea",
+    "name_ar": "غينيا"
+  },
+  "christmas island": {
+    "code": "CX",
+    "name_en": "Christmas Island",
+    "name_ar": "جزيرة كريسماس"
+  },
+  "territory of christmas island": {
+    "code": "CX",
+    "name_en": "Christmas Island",
+    "name_ar": "جزيرة كريسماس"
+  },
+  "cx": {
+    "code": "CX",
+    "name_en": "Christmas Island",
+    "name_ar": "جزيرة كريسماس"
+  },
+  "togo": {
+    "code": "TG",
+    "name_en": "Togo",
+    "name_ar": "توغو"
+  },
+  "togolese republic": {
+    "code": "TG",
+    "name_en": "Togo",
+    "name_ar": "توغو"
+  },
+  "tg": {
+    "code": "TG",
+    "name_en": "Togo",
+    "name_ar": "توغو"
+  },
+  "togolese": {
+    "code": "TG",
+    "name_en": "Togo",
+    "name_ar": "توغو"
+  },
+  "re publique togolaise": {
+    "code": "TG",
+    "name_en": "Togo",
+    "name_ar": "توغو"
+  },
+  "taiwan": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "republic of china taiwan": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "tw": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "ta iwa n": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "republic of china": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "zho nghua mi nguo": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "chinese taipei": {
+    "code": "TW",
+    "name_en": "Taiwan",
+    "name_ar": "تايوان"
+  },
+  "kyrgyzstan": {
+    "code": "KG",
+    "name_en": "Kyrgyzstan",
+    "name_ar": "قيرغيزستان"
+  },
+  "kyrgyz republic": {
+    "code": "KG",
+    "name_en": "Kyrgyzstan",
+    "name_ar": "قيرغيزستان"
+  },
+  "kg": {
+    "code": "KG",
+    "name_en": "Kyrgyzstan",
+    "name_ar": "قيرغيزستان"
+  },
+  "kyrgyz respublikasy": {
+    "code": "KG",
+    "name_en": "Kyrgyzstan",
+    "name_ar": "قيرغيزستان"
+  },
+  "suriname": {
+    "code": "SR",
+    "name_en": "Suriname",
+    "name_ar": "سورينام"
+  },
+  "republic of suriname": {
+    "code": "SR",
+    "name_en": "Suriname",
+    "name_ar": "سورينام"
+  },
+  "sr": {
+    "code": "SR",
+    "name_en": "Suriname",
+    "name_ar": "سورينام"
+  },
+  "sarnam": {
+    "code": "SR",
+    "name_en": "Suriname",
+    "name_ar": "سورينام"
+  },
+  "sranangron": {
+    "code": "SR",
+    "name_en": "Suriname",
+    "name_ar": "سورينام"
+  },
+  "republiek suriname": {
+    "code": "SR",
+    "name_en": "Suriname",
+    "name_ar": "سورينام"
+  },
+  "dominican republic": {
+    "code": "DO",
+    "name_en": "Dominican Republic",
+    "name_ar": "جمهورية الدومينيكان"
+  },
+  "do": {
+    "code": "DO",
+    "name_en": "Dominican Republic",
+    "name_ar": "جمهورية الدومينيكان"
+  },
+  "guatemala": {
+    "code": "GT",
+    "name_en": "Guatemala",
+    "name_ar": "غواتيمالا"
+  },
+  "republic of guatemala": {
+    "code": "GT",
+    "name_en": "Guatemala",
+    "name_ar": "غواتيمالا"
+  },
+  "gt": {
+    "code": "GT",
+    "name_en": "Guatemala",
+    "name_ar": "غواتيمالا"
+  },
+  "algeria": {
+    "code": "DZ",
+    "name_en": "Algeria",
+    "name_ar": "الجزائر"
+  },
+  "people s democratic republic of algeria": {
+    "code": "DZ",
+    "name_en": "Algeria",
+    "name_ar": "الجزائر"
+  },
+  "dz": {
+    "code": "DZ",
+    "name_en": "Algeria",
+    "name_ar": "الجزائر"
+  },
+  "dzayer": {
+    "code": "DZ",
+    "name_en": "Algeria",
+    "name_ar": "الجزائر"
+  },
+  "alge rie": {
+    "code": "DZ",
+    "name_en": "Algeria",
+    "name_ar": "الجزائر"
+  },
+  "ukraine": {
+    "code": "UA",
+    "name_en": "Ukraine",
+    "name_ar": "أوكرانيا"
+  },
+  "ua": {
+    "code": "UA",
+    "name_en": "Ukraine",
+    "name_ar": "أوكرانيا"
+  },
+  "ukrayina": {
+    "code": "UA",
+    "name_en": "Ukraine",
+    "name_ar": "أوكرانيا"
+  },
+  "saint kitts and nevis": {
+    "code": "KN",
+    "name_en": "Saint Kitts and Nevis",
+    "name_ar": "سانت كيتس ونيفيس"
+  },
+  "federation of saint christopher and nevis": {
+    "code": "KN",
+    "name_en": "Saint Kitts and Nevis",
+    "name_ar": "سانت كيتس ونيفيس"
+  },
+  "kn": {
+    "code": "KN",
+    "name_en": "Saint Kitts and Nevis",
+    "name_ar": "سانت كيتس ونيفيس"
+  },
+  "croatia": {
+    "code": "HR",
+    "name_en": "Croatia",
+    "name_ar": "كرواتيا"
+  },
+  "republic of croatia": {
+    "code": "HR",
+    "name_en": "Croatia",
+    "name_ar": "كرواتيا"
+  },
+  "hr": {
+    "code": "HR",
+    "name_en": "Croatia",
+    "name_ar": "كرواتيا"
+  },
+  "hrvatska": {
+    "code": "HR",
+    "name_en": "Croatia",
+    "name_ar": "كرواتيا"
+  },
+  "republika hrvatska": {
+    "code": "HR",
+    "name_en": "Croatia",
+    "name_ar": "كرواتيا"
+  },
+  "equatorial guinea": {
+    "code": "GQ",
+    "name_en": "Equatorial Guinea",
+    "name_ar": "غينيا الاستوائية"
+  },
+  "republic of equatorial guinea": {
+    "code": "GQ",
+    "name_en": "Equatorial Guinea",
+    "name_ar": "غينيا الاستوائية"
+  },
+  "gq": {
+    "code": "GQ",
+    "name_en": "Equatorial Guinea",
+    "name_ar": "غينيا الاستوائية"
+  },
+  "repu blica de guinea ecuatorial": {
+    "code": "GQ",
+    "name_en": "Equatorial Guinea",
+    "name_ar": "غينيا الاستوائية"
+  },
+  "re publique de guine e e quatoriale": {
+    "code": "GQ",
+    "name_en": "Equatorial Guinea",
+    "name_ar": "غينيا الاستوائية"
+  },
+  "repu blica da guine equatorial": {
+    "code": "GQ",
+    "name_en": "Equatorial Guinea",
+    "name_ar": "غينيا الاستوائية"
+  },
+  "panama": {
+    "code": "PA",
+    "name_en": "Panama",
+    "name_ar": "بنما"
+  },
+  "republic of panama": {
+    "code": "PA",
+    "name_en": "Panama",
+    "name_ar": "بنما"
+  },
+  "pa": {
+    "code": "PA",
+    "name_en": "Panama",
+    "name_ar": "بنما"
+  },
+  "repu blica de panama": {
+    "code": "PA",
+    "name_en": "Panama",
+    "name_ar": "بنما"
+  },
+  "belgium": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "kingdom of belgium": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "be": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "belgie": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "belgien": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "belgique": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "koninkrijk belgie": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "royaume de belgique": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "ko nigreich belgien": {
+    "code": "BE",
+    "name_en": "Belgium",
+    "name_ar": "بلجيكا"
+  },
+  "bouvet island": {
+    "code": "BV",
+    "name_en": "Bouvet Island",
+    "name_ar": "جزر بوفيه"
+  },
+  "bv": {
+    "code": "BV",
+    "name_en": "Bouvet Island",
+    "name_ar": "جزر بوفيه"
+  },
+  "bouvet ya": {
+    "code": "BV",
+    "name_en": "Bouvet Island",
+    "name_ar": "جزر بوفيه"
+  },
+  "rwanda": {
+    "code": "RW",
+    "name_en": "Rwanda",
+    "name_ar": "رواندا"
+  },
+  "republic of rwanda": {
+    "code": "RW",
+    "name_en": "Rwanda",
+    "name_ar": "رواندا"
+  },
+  "rw": {
+    "code": "RW",
+    "name_en": "Rwanda",
+    "name_ar": "رواندا"
+  },
+  "repubulika y u rwanda": {
+    "code": "RW",
+    "name_en": "Rwanda",
+    "name_ar": "رواندا"
+  },
+  "re publique du rwanda": {
+    "code": "RW",
+    "name_en": "Rwanda",
+    "name_ar": "رواندا"
+  },
+  "french southern and antarctic lands": {
+    "code": "TF",
+    "name_en": "French Southern and Antarctic Lands",
+    "name_ar": "أراض فرنسية جنوبية وأنتارتيكية"
+  },
+  "territory of the french southern and antarctic lands": {
+    "code": "TF",
+    "name_en": "French Southern and Antarctic Lands",
+    "name_ar": "أراض فرنسية جنوبية وأنتارتيكية"
+  },
+  "tf": {
+    "code": "TF",
+    "name_en": "French Southern and Antarctic Lands",
+    "name_ar": "أراض فرنسية جنوبية وأنتارتيكية"
+  },
+  "french southern territories": {
+    "code": "TF",
+    "name_en": "French Southern and Antarctic Lands",
+    "name_ar": "أراض فرنسية جنوبية وأنتارتيكية"
+  },
+  "cape verde": {
+    "code": "CV",
+    "name_en": "Cape Verde",
+    "name_ar": "كابو فيردي"
+  },
+  "republic of cabo verde": {
+    "code": "CV",
+    "name_en": "Cape Verde",
+    "name_ar": "كابو فيردي"
+  },
+  "cv": {
+    "code": "CV",
+    "name_en": "Cape Verde",
+    "name_ar": "كابو فيردي"
+  },
+  "repu blica de cabo verde": {
+    "code": "CV",
+    "name_en": "Cape Verde",
+    "name_ar": "كابو فيردي"
+  },
+  "south korea": {
+    "code": "KR",
+    "name_en": "South Korea",
+    "name_ar": "كوريا الجنوبية"
+  },
+  "republic of korea": {
+    "code": "KR",
+    "name_en": "South Korea",
+    "name_ar": "كوريا الجنوبية"
+  },
+  "kr": {
+    "code": "KR",
+    "name_en": "South Korea",
+    "name_ar": "كوريا الجنوبية"
+  },
+  "korea republic of": {
+    "code": "KR",
+    "name_en": "South Korea",
+    "name_ar": "كوريا الجنوبية"
+  },
+  "guam": {
+    "code": "GU",
+    "name_en": "Guam",
+    "name_ar": "غوام"
+  },
+  "gu": {
+    "code": "GU",
+    "name_en": "Guam",
+    "name_ar": "غوام"
+  },
+  "gua ha n": {
+    "code": "GU",
+    "name_en": "Guam",
+    "name_ar": "غوام"
+  },
+  "andorra": {
+    "code": "AD",
+    "name_en": "Andorra",
+    "name_ar": "أندورا"
+  },
+  "principality of andorra": {
+    "code": "AD",
+    "name_en": "Andorra",
+    "name_ar": "أندورا"
+  },
+  "ad": {
+    "code": "AD",
+    "name_en": "Andorra",
+    "name_ar": "أندورا"
+  },
+  "principat d andorra": {
+    "code": "AD",
+    "name_en": "Andorra",
+    "name_ar": "أندورا"
+  },
+  "senegal": {
+    "code": "SN",
+    "name_en": "Senegal",
+    "name_ar": "السنغال"
+  },
+  "republic of senegal": {
+    "code": "SN",
+    "name_en": "Senegal",
+    "name_ar": "السنغال"
+  },
+  "sn": {
+    "code": "SN",
+    "name_en": "Senegal",
+    "name_ar": "السنغال"
+  },
+  "re publique du se ne gal": {
+    "code": "SN",
+    "name_en": "Senegal",
+    "name_ar": "السنغال"
+  },
+  "uruguay": {
+    "code": "UY",
+    "name_en": "Uruguay",
+    "name_ar": "الأوروغواي"
+  },
+  "oriental republic of uruguay": {
+    "code": "UY",
+    "name_en": "Uruguay",
+    "name_ar": "الأوروغواي"
+  },
+  "uy": {
+    "code": "UY",
+    "name_en": "Uruguay",
+    "name_ar": "الأوروغواي"
+  },
+  "repu blica oriental del uruguay": {
+    "code": "UY",
+    "name_en": "Uruguay",
+    "name_ar": "الأوروغواي"
+  },
+  "republic of the congo": {
+    "code": "CG",
+    "name_en": "Republic of the Congo",
+    "name_ar": "جمهورية الكونفو"
+  },
+  "cg": {
+    "code": "CG",
+    "name_en": "Republic of the Congo",
+    "name_ar": "جمهورية الكونفو"
+  },
+  "congo": {
+    "code": "CG",
+    "name_en": "Republic of the Congo",
+    "name_ar": "جمهورية الكونفو"
+  },
+  "congo brazzaville": {
+    "code": "CG",
+    "name_en": "Republic of the Congo",
+    "name_ar": "جمهورية الكونفو"
+  },
+  "namibia": {
+    "code": "NA",
+    "name_en": "Namibia",
+    "name_ar": "ناميبيا"
+  },
+  "republic of namibia": {
+    "code": "NA",
+    "name_en": "Namibia",
+    "name_ar": "ناميبيا"
+  },
+  "na": {
+    "code": "NA",
+    "name_en": "Namibia",
+    "name_ar": "ناميبيا"
+  },
+  "namibie": {
+    "code": "NA",
+    "name_en": "Namibia",
+    "name_ar": "ناميبيا"
+  },
+  "singapore": {
+    "code": "SG",
+    "name_en": "Singapore",
+    "name_ar": "سنغافورة"
+  },
+  "republic of singapore": {
+    "code": "SG",
+    "name_en": "Singapore",
+    "name_ar": "سنغافورة"
+  },
+  "sg": {
+    "code": "SG",
+    "name_en": "Singapore",
+    "name_ar": "سنغافورة"
+  },
+  "singapura": {
+    "code": "SG",
+    "name_en": "Singapore",
+    "name_ar": "سنغافورة"
+  },
+  "republik singapura": {
+    "code": "SG",
+    "name_en": "Singapore",
+    "name_ar": "سنغافورة"
+  },
+  "finland": {
+    "code": "FI",
+    "name_en": "Finland",
+    "name_ar": "فنلندا"
+  },
+  "republic of finland": {
+    "code": "FI",
+    "name_en": "Finland",
+    "name_ar": "فنلندا"
+  },
+  "fi": {
+    "code": "FI",
+    "name_en": "Finland",
+    "name_ar": "فنلندا"
+  },
+  "suomi": {
+    "code": "FI",
+    "name_en": "Finland",
+    "name_ar": "فنلندا"
+  },
+  "suomen tasavalta": {
+    "code": "FI",
+    "name_en": "Finland",
+    "name_ar": "فنلندا"
+  },
+  "republiken finland": {
+    "code": "FI",
+    "name_en": "Finland",
+    "name_ar": "فنلندا"
+  },
+  "egypt": {
+    "code": "EG",
+    "name_en": "Egypt",
+    "name_ar": "مصر"
+  },
+  "arab republic of egypt": {
+    "code": "EG",
+    "name_en": "Egypt",
+    "name_ar": "مصر"
+  },
+  "eg": {
+    "code": "EG",
+    "name_en": "Egypt",
+    "name_ar": "مصر"
+  },
+  "palau": {
+    "code": "PW",
+    "name_en": "Palau",
+    "name_ar": "بالاو"
+  },
+  "republic of palau": {
+    "code": "PW",
+    "name_en": "Palau",
+    "name_ar": "بالاو"
+  },
+  "pw": {
+    "code": "PW",
+    "name_en": "Palau",
+    "name_ar": "بالاو"
+  },
+  "beluu er a belau": {
+    "code": "PW",
+    "name_en": "Palau",
+    "name_ar": "بالاو"
+  },
+  "american samoa": {
+    "code": "AS",
+    "name_en": "American Samoa",
+    "name_ar": "ساموا الأمريكية"
+  },
+  "as": {
+    "code": "AS",
+    "name_en": "American Samoa",
+    "name_ar": "ساموا الأمريكية"
+  },
+  "amerika sa moa": {
+    "code": "AS",
+    "name_en": "American Samoa",
+    "name_ar": "ساموا الأمريكية"
+  },
+  "amelika sa moa": {
+    "code": "AS",
+    "name_en": "American Samoa",
+    "name_ar": "ساموا الأمريكية"
+  },
+  "sa moa amelika": {
+    "code": "AS",
+    "name_en": "American Samoa",
+    "name_ar": "ساموا الأمريكية"
+  },
+  "antigua and barbuda": {
+    "code": "AG",
+    "name_en": "Antigua and Barbuda",
+    "name_ar": "أنتيغوا وباربودا"
+  },
+  "ag": {
+    "code": "AG",
+    "name_en": "Antigua and Barbuda",
+    "name_ar": "أنتيغوا وباربودا"
+  },
+  "seychelles": {
+    "code": "SC",
+    "name_en": "Seychelles",
+    "name_ar": "سيشل"
+  },
+  "republic of seychelles": {
+    "code": "SC",
+    "name_en": "Seychelles",
+    "name_ar": "سيشل"
+  },
+  "sc": {
+    "code": "SC",
+    "name_en": "Seychelles",
+    "name_ar": "سيشل"
+  },
+  "repiblik sesel": {
+    "code": "SC",
+    "name_en": "Seychelles",
+    "name_ar": "سيشل"
+  },
+  "re publique des seychelles": {
+    "code": "SC",
+    "name_en": "Seychelles",
+    "name_ar": "سيشل"
+  },
+  "kuwait": {
+    "code": "KW",
+    "name_en": "Kuwait",
+    "name_ar": "الكويت"
+  },
+  "state of kuwait": {
+    "code": "KW",
+    "name_en": "Kuwait",
+    "name_ar": "الكويت"
+  },
+  "kw": {
+    "code": "KW",
+    "name_en": "Kuwait",
+    "name_ar": "الكويت"
+  },
+  "dawlat al kuwait": {
+    "code": "KW",
+    "name_en": "Kuwait",
+    "name_ar": "الكويت"
+  },
+  "greece": {
+    "code": "GR",
+    "name_en": "Greece",
+    "name_ar": "اليونان"
+  },
+  "hellenic republic": {
+    "code": "GR",
+    "name_en": "Greece",
+    "name_ar": "اليونان"
+  },
+  "gr": {
+    "code": "GR",
+    "name_en": "Greece",
+    "name_ar": "اليونان"
+  },
+  "ella da": {
+    "code": "GR",
+    "name_en": "Greece",
+    "name_ar": "اليونان"
+  },
+  "kiribati": {
+    "code": "KI",
+    "name_en": "Kiribati",
+    "name_ar": "كيريباتي"
+  },
+  "independent and sovereign republic of kiribati": {
+    "code": "KI",
+    "name_en": "Kiribati",
+    "name_ar": "كيريباتي"
+  },
+  "ki": {
+    "code": "KI",
+    "name_en": "Kiribati",
+    "name_ar": "كيريباتي"
+  },
+  "republic of kiribati": {
+    "code": "KI",
+    "name_en": "Kiribati",
+    "name_ar": "كيريباتي"
+  },
+  "ribaberiki kiribati": {
+    "code": "KI",
+    "name_en": "Kiribati",
+    "name_ar": "كيريباتي"
+  },
+  "cyprus": {
+    "code": "CY",
+    "name_en": "Cyprus",
+    "name_ar": "قبرص"
+  },
+  "republic of cyprus": {
+    "code": "CY",
+    "name_en": "Cyprus",
+    "name_ar": "قبرص"
+  },
+  "cy": {
+    "code": "CY",
+    "name_en": "Cyprus",
+    "name_ar": "قبرص"
+  },
+  "ky pros": {
+    "code": "CY",
+    "name_en": "Cyprus",
+    "name_ar": "قبرص"
+  },
+  "k br s": {
+    "code": "CY",
+    "name_en": "Cyprus",
+    "name_ar": "قبرص"
+  },
+  "k br s cumhuriyeti": {
+    "code": "CY",
+    "name_en": "Cyprus",
+    "name_ar": "قبرص"
+  },
+  "mali": {
+    "code": "ML",
+    "name_en": "Mali",
+    "name_ar": "مالي"
+  },
+  "republic of mali": {
+    "code": "ML",
+    "name_en": "Mali",
+    "name_ar": "مالي"
+  },
+  "ml": {
+    "code": "ML",
+    "name_en": "Mali",
+    "name_ar": "مالي"
+  },
+  "re publique du mali": {
+    "code": "ML",
+    "name_en": "Mali",
+    "name_ar": "مالي"
+  },
+  "bermuda": {
+    "code": "BM",
+    "name_en": "Bermuda",
+    "name_ar": "برمودا"
+  },
+  "bm": {
+    "code": "BM",
+    "name_en": "Bermuda",
+    "name_ar": "برمودا"
+  },
+  "the islands of bermuda": {
+    "code": "BM",
+    "name_en": "Bermuda",
+    "name_ar": "برمودا"
+  },
+  "the bermudas": {
+    "code": "BM",
+    "name_en": "Bermuda",
+    "name_ar": "برمودا"
+  },
+  "somers isles": {
+    "code": "BM",
+    "name_en": "Bermuda",
+    "name_ar": "برمودا"
+  },
+  "greenland": {
+    "code": "GL",
+    "name_en": "Greenland",
+    "name_ar": "جرينلاند"
+  },
+  "gl": {
+    "code": "GL",
+    "name_en": "Greenland",
+    "name_ar": "جرينلاند"
+  },
+  "gr nland": {
+    "code": "GL",
+    "name_en": "Greenland",
+    "name_ar": "جرينلاند"
+  },
+  "eritrea": {
+    "code": "ER",
+    "name_en": "Eritrea",
+    "name_ar": "إريتريا"
+  },
+  "state of eritrea": {
+    "code": "ER",
+    "name_en": "Eritrea",
+    "name_ar": "إريتريا"
+  },
+  "er": {
+    "code": "ER",
+    "name_en": "Eritrea",
+    "name_ar": "إريتريا"
+  },
+  "dawlat iritriya": {
+    "code": "ER",
+    "name_en": "Eritrea",
+    "name_ar": "إريتريا"
+  },
+  "ertra": {
+    "code": "ER",
+    "name_en": "Eritrea",
+    "name_ar": "إريتريا"
+  },
+  "iritriya": {
+    "code": "ER",
+    "name_en": "Eritrea",
+    "name_ar": "إريتريا"
+  },
+  "tanzania": {
+    "code": "TZ",
+    "name_en": "Tanzania",
+    "name_ar": "تنزانيا"
+  },
+  "united republic of tanzania": {
+    "code": "TZ",
+    "name_en": "Tanzania",
+    "name_ar": "تنزانيا"
+  },
+  "tz": {
+    "code": "TZ",
+    "name_en": "Tanzania",
+    "name_ar": "تنزانيا"
+  },
+  "tanzania united republic of": {
+    "code": "TZ",
+    "name_en": "Tanzania",
+    "name_ar": "تنزانيا"
+  },
+  "jamhuri ya muungano wa tanzania": {
+    "code": "TZ",
+    "name_en": "Tanzania",
+    "name_ar": "تنزانيا"
+  },
+  "vietnam": {
+    "code": "VN",
+    "name_en": "Vietnam",
+    "name_ar": "فيتنام"
+  },
+  "socialist republic of vietnam": {
+    "code": "VN",
+    "name_en": "Vietnam",
+    "name_ar": "فيتنام"
+  },
+  "vn": {
+    "code": "VN",
+    "name_en": "Vietnam",
+    "name_ar": "فيتنام"
+  },
+  "co ng ho a xa ho i chu nghi a vie t nam": {
+    "code": "VN",
+    "name_en": "Vietnam",
+    "name_ar": "فيتنام"
+  },
+  "viet nam": {
+    "code": "VN",
+    "name_en": "Vietnam",
+    "name_ar": "فيتنام"
+  },
+  "chad": {
+    "code": "TD",
+    "name_en": "Chad",
+    "name_ar": "تشاد"
+  },
+  "republic of chad": {
+    "code": "TD",
+    "name_en": "Chad",
+    "name_ar": "تشاد"
+  },
+  "td": {
+    "code": "TD",
+    "name_en": "Chad",
+    "name_ar": "تشاد"
+  },
+  "tchad": {
+    "code": "TD",
+    "name_en": "Chad",
+    "name_ar": "تشاد"
+  },
+  "re publique du tchad": {
+    "code": "TD",
+    "name_en": "Chad",
+    "name_ar": "تشاد"
+  },
+  "ivory coast": {
+    "code": "CI",
+    "name_en": "Ivory Coast",
+    "name_ar": "ساحل العاج"
+  },
+  "republic of co te d ivoire": {
+    "code": "CI",
+    "name_en": "Ivory Coast",
+    "name_ar": "ساحل العاج"
+  },
+  "ci": {
+    "code": "CI",
+    "name_en": "Ivory Coast",
+    "name_ar": "ساحل العاج"
+  },
+  "co te d ivoire": {
+    "code": "CI",
+    "name_en": "Ivory Coast",
+    "name_ar": "ساحل العاج"
+  },
+  "re publique de co te d ivoire": {
+    "code": "CI",
+    "name_en": "Ivory Coast",
+    "name_ar": "ساحل العاج"
+  },
+  "georgia": {
+    "code": "GE",
+    "name_en": "Georgia",
+    "name_ar": "جورجيا"
+  },
+  "ge": {
+    "code": "GE",
+    "name_en": "Georgia",
+    "name_ar": "جورجيا"
+  },
+  "sakartvelo": {
+    "code": "GE",
+    "name_en": "Georgia",
+    "name_ar": "جورجيا"
+  },
+  "isle of man": {
+    "code": "IM",
+    "name_en": "Isle of Man",
+    "name_ar": "جزيرة مان"
+  },
+  "im": {
+    "code": "IM",
+    "name_en": "Isle of Man",
+    "name_ar": "جزيرة مان"
+  },
+  "ellan vannin": {
+    "code": "IM",
+    "name_en": "Isle of Man",
+    "name_ar": "جزيرة مان"
+  },
+  "mann": {
+    "code": "IM",
+    "name_en": "Isle of Man",
+    "name_ar": "جزيرة مان"
+  },
+  "mannin": {
+    "code": "IM",
+    "name_en": "Isle of Man",
+    "name_ar": "جزيرة مان"
+  },
+  "south georgia": {
+    "code": "GS",
+    "name_en": "South Georgia",
+    "name_ar": "جورجيا الجنوبية"
+  },
+  "south georgia and the south sandwich islands": {
+    "code": "GS",
+    "name_en": "South Georgia",
+    "name_ar": "جورجيا الجنوبية"
+  },
+  "gs": {
+    "code": "GS",
+    "name_en": "South Georgia",
+    "name_ar": "جورجيا الجنوبية"
+  },
+  "bolivia": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "plurinational state of bolivia": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "bo": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "buliwya": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "wuliwya": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "bolivia plurinational state of": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "estado plurinacional de bolivia": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "buliwya mamallaqta": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "wuliwya suyu": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "teta voli via": {
+    "code": "BO",
+    "name_en": "Bolivia",
+    "name_ar": "بوليفيا"
+  },
+  "united states minor outlying islands": {
+    "code": "UM",
+    "name_en": "United States Minor Outlying Islands",
+    "name_ar": "جزر الولايات المتحدة "
+  },
+  "um": {
+    "code": "UM",
+    "name_en": "United States Minor Outlying Islands",
+    "name_ar": "جزر الولايات المتحدة "
+  },
+  "denmark": {
+    "code": "DK",
+    "name_en": "Denmark",
+    "name_ar": "الدنمارك"
+  },
+  "kingdom of denmark": {
+    "code": "DK",
+    "name_en": "Denmark",
+    "name_ar": "الدنمارك"
+  },
+  "dk": {
+    "code": "DK",
+    "name_en": "Denmark",
+    "name_ar": "الدنمارك"
+  },
+  "danmark": {
+    "code": "DK",
+    "name_en": "Denmark",
+    "name_ar": "الدنمارك"
+  },
+  "kongeriget danmark": {
+    "code": "DK",
+    "name_en": "Denmark",
+    "name_ar": "الدنمارك"
+  },
+  "turkmenistan": {
+    "code": "TM",
+    "name_en": "Turkmenistan",
+    "name_ar": "تركمانستان"
+  },
+  "tm": {
+    "code": "TM",
+    "name_en": "Turkmenistan",
+    "name_ar": "تركمانستان"
+  },
+  "niger": {
+    "code": "NE",
+    "name_en": "Niger",
+    "name_ar": "النيجر"
+  },
+  "republic of niger": {
+    "code": "NE",
+    "name_en": "Niger",
+    "name_ar": "النيجر"
+  },
+  "ne": {
+    "code": "NE",
+    "name_en": "Niger",
+    "name_ar": "النيجر"
+  },
+  "nijar": {
+    "code": "NE",
+    "name_en": "Niger",
+    "name_ar": "النيجر"
+  },
+  "micronesia": {
+    "code": "FM",
+    "name_en": "Micronesia",
+    "name_ar": "ميكرونيسيا"
+  },
+  "federated states of micronesia": {
+    "code": "FM",
+    "name_en": "Micronesia",
+    "name_ar": "ميكرونيسيا"
+  },
+  "fm": {
+    "code": "FM",
+    "name_en": "Micronesia",
+    "name_ar": "ميكرونيسيا"
+  },
+  "micronesia federated states of": {
+    "code": "FM",
+    "name_en": "Micronesia",
+    "name_ar": "ميكرونيسيا"
+  },
+  "jersey": {
+    "code": "JE",
+    "name_en": "Jersey",
+    "name_ar": "جيرزي"
+  },
+  "bailiwick of jersey": {
+    "code": "JE",
+    "name_en": "Jersey",
+    "name_ar": "جيرزي"
+  },
+  "je": {
+    "code": "JE",
+    "name_en": "Jersey",
+    "name_ar": "جيرزي"
+  },
+  "bailliage de jersey": {
+    "code": "JE",
+    "name_en": "Jersey",
+    "name_ar": "جيرزي"
+  },
+  "bailliage de je rri": {
+    "code": "JE",
+    "name_en": "Jersey",
+    "name_ar": "جيرزي"
+  },
+  "cayman islands": {
+    "code": "KY",
+    "name_en": "Cayman Islands",
+    "name_ar": "جزر كايمان"
+  },
+  "ky": {
+    "code": "KY",
+    "name_en": "Cayman Islands",
+    "name_ar": "جزر كايمان"
+  },
+  "liechtenstein": {
+    "code": "LI",
+    "name_en": "Liechtenstein",
+    "name_ar": "ليختنشتاين"
+  },
+  "principality of liechtenstein": {
+    "code": "LI",
+    "name_en": "Liechtenstein",
+    "name_ar": "ليختنشتاين"
+  },
+  "li": {
+    "code": "LI",
+    "name_en": "Liechtenstein",
+    "name_ar": "ليختنشتاين"
+  },
+  "fu rstentum liechtenstein": {
+    "code": "LI",
+    "name_en": "Liechtenstein",
+    "name_ar": "ليختنشتاين"
+  },
+  "bosnia and herzegovina": {
+    "code": "BA",
+    "name_en": "Bosnia and Herzegovina",
+    "name_ar": "البوسنة والهرسك"
+  },
+  "ba": {
+    "code": "BA",
+    "name_en": "Bosnia and Herzegovina",
+    "name_ar": "البوسنة والهرسك"
+  },
+  "bosnia herzegovina": {
+    "code": "BA",
+    "name_en": "Bosnia and Herzegovina",
+    "name_ar": "البوسنة والهرسك"
+  },
+  "france": {
+    "code": "FR",
+    "name_en": "France",
+    "name_ar": "فرنسا"
+  },
+  "french republic": {
+    "code": "FR",
+    "name_en": "France",
+    "name_ar": "فرنسا"
+  },
+  "fr": {
+    "code": "FR",
+    "name_en": "France",
+    "name_ar": "فرنسا"
+  },
+  "re publique franc aise": {
+    "code": "FR",
+    "name_en": "France",
+    "name_ar": "فرنسا"
+  },
+  "french polynesia": {
+    "code": "PF",
+    "name_en": "French Polynesia",
+    "name_ar": "بولينزيا الفرنسية"
+  },
+  "pf": {
+    "code": "PF",
+    "name_en": "French Polynesia",
+    "name_ar": "بولينزيا الفرنسية"
+  },
+  "polyne sie franc aise": {
+    "code": "PF",
+    "name_en": "French Polynesia",
+    "name_ar": "بولينزيا الفرنسية"
+  },
+  "po ri netia fara ni": {
+    "code": "PF",
+    "name_en": "French Polynesia",
+    "name_ar": "بولينزيا الفرنسية"
+  },
+  "kazakhstan": {
+    "code": "KZ",
+    "name_en": "Kazakhstan",
+    "name_ar": "كازاخستان"
+  },
+  "republic of kazakhstan": {
+    "code": "KZ",
+    "name_en": "Kazakhstan",
+    "name_ar": "كازاخستان"
+  },
+  "kz": {
+    "code": "KZ",
+    "name_en": "Kazakhstan",
+    "name_ar": "كازاخستان"
+  },
+  "qazaqstan": {
+    "code": "KZ",
+    "name_en": "Kazakhstan",
+    "name_ar": "كازاخستان"
+  },
+  "qazaqstan respubli kas": {
+    "code": "KZ",
+    "name_en": "Kazakhstan",
+    "name_ar": "كازاخستان"
+  },
+  "respublika kazakhstan": {
+    "code": "KZ",
+    "name_en": "Kazakhstan",
+    "name_ar": "كازاخستان"
+  },
+  "angola": {
+    "code": "AO",
+    "name_en": "Angola",
+    "name_ar": "جمهورية أنغولا"
+  },
+  "republic of angola": {
+    "code": "AO",
+    "name_en": "Angola",
+    "name_ar": "جمهورية أنغولا"
+  },
+  "ao": {
+    "code": "AO",
+    "name_en": "Angola",
+    "name_ar": "جمهورية أنغولا"
+  },
+  "repu blica de angola": {
+    "code": "AO",
+    "name_en": "Angola",
+    "name_ar": "جمهورية أنغولا"
+  },
+  "publika de an la": {
+    "code": "AO",
+    "name_en": "Angola",
+    "name_ar": "جمهورية أنغولا"
+  },
+  "new zealand": {
+    "code": "NZ",
+    "name_en": "New Zealand",
+    "name_ar": "نيوزيلندا"
+  },
+  "nz": {
+    "code": "NZ",
+    "name_en": "New Zealand",
+    "name_ar": "نيوزيلندا"
+  },
+  "aotearoa": {
+    "code": "NZ",
+    "name_en": "New Zealand",
+    "name_ar": "نيوزيلندا"
+  },
+  "puerto rico": {
+    "code": "PR",
+    "name_en": "Puerto Rico",
+    "name_ar": "بويرتوريكو"
+  },
+  "commonwealth of puerto rico": {
+    "code": "PR",
+    "name_en": "Puerto Rico",
+    "name_ar": "بويرتوريكو"
+  },
+  "pr": {
+    "code": "PR",
+    "name_en": "Puerto Rico",
+    "name_ar": "بويرتوريكو"
+  },
+  "estado libre asociado de puerto rico": {
+    "code": "PR",
+    "name_en": "Puerto Rico",
+    "name_ar": "بويرتوريكو"
+  },
+  "saudi arabia": {
+    "code": "SA",
+    "name_en": "Saudi Arabia",
+    "name_ar": "السعودية"
+  },
+  "kingdom of saudi arabia": {
+    "code": "SA",
+    "name_en": "Saudi Arabia",
+    "name_ar": "السعودية"
+  },
+  "saudi": {
+    "code": "SA",
+    "name_en": "Saudi Arabia",
+    "name_ar": "السعودية"
+  },
+  "sa": {
+    "code": "SA",
+    "name_en": "Saudi Arabia",
+    "name_ar": "السعودية"
+  },
+  "al mamlakah al arabiyyah as su u diyyah": {
+    "code": "SA",
+    "name_en": "Saudi Arabia",
+    "name_ar": "السعودية"
+  },
+  "montenegro": {
+    "code": "ME",
+    "name_en": "Montenegro",
+    "name_ar": "الجبل الاسود"
+  },
+  "me": {
+    "code": "ME",
+    "name_en": "Montenegro",
+    "name_ar": "الجبل الاسود"
+  },
+  "crna gora": {
+    "code": "ME",
+    "name_en": "Montenegro",
+    "name_ar": "الجبل الاسود"
+  },
+  "south africa": {
+    "code": "ZA",
+    "name_en": "South Africa",
+    "name_ar": "جنوب أفريقيا"
+  },
+  "republic of south africa": {
+    "code": "ZA",
+    "name_en": "South Africa",
+    "name_ar": "جنوب أفريقيا"
+  },
+  "za": {
+    "code": "ZA",
+    "name_en": "South Africa",
+    "name_ar": "جنوب أفريقيا"
+  },
+  "rsa": {
+    "code": "ZA",
+    "name_en": "South Africa",
+    "name_ar": "جنوب أفريقيا"
+  },
+  "suid afrika": {
+    "code": "ZA",
+    "name_en": "South Africa",
+    "name_ar": "جنوب أفريقيا"
+  },
+  "pakistan": {
+    "code": "PK",
+    "name_en": "Pakistan",
+    "name_ar": "باكستان"
+  },
+  "islamic republic of pakistan": {
+    "code": "PK",
+    "name_en": "Pakistan",
+    "name_ar": "باكستان"
+  },
+  "pk": {
+    "code": "PK",
+    "name_en": "Pakistan",
+    "name_ar": "باكستان"
+  },
+  "pa kista n": {
+    "code": "PK",
+    "name_en": "Pakistan",
+    "name_ar": "باكستان"
+  },
+  "isla mi jumhu riya eh pa kista n": {
+    "code": "PK",
+    "name_en": "Pakistan",
+    "name_ar": "باكستان"
+  },
+  "sri lanka": {
+    "code": "LK",
+    "name_en": "Sri Lanka",
+    "name_ar": "سريلانكا"
+  },
+  "democratic socialist republic of sri lanka": {
+    "code": "LK",
+    "name_en": "Sri Lanka",
+    "name_ar": "سريلانكا"
+  },
+  "lk": {
+    "code": "LK",
+    "name_en": "Sri Lanka",
+    "name_ar": "سريلانكا"
+  },
+  "ilan kai": {
+    "code": "LK",
+    "name_en": "Sri Lanka",
+    "name_ar": "سريلانكا"
+  },
+  "cameroon": {
+    "code": "CM",
+    "name_en": "Cameroon",
+    "name_ar": "الكاميرون"
+  },
+  "republic of cameroon": {
+    "code": "CM",
+    "name_en": "Cameroon",
+    "name_ar": "الكاميرون"
+  },
+  "cm": {
+    "code": "CM",
+    "name_en": "Cameroon",
+    "name_ar": "الكاميرون"
+  },
+  "re publique du cameroun": {
+    "code": "CM",
+    "name_en": "Cameroon",
+    "name_ar": "الكاميرون"
+  },
+  "guernsey": {
+    "code": "GG",
+    "name_en": "Guernsey",
+    "name_ar": "غيرنزي"
+  },
+  "bailiwick of guernsey": {
+    "code": "GG",
+    "name_en": "Guernsey",
+    "name_ar": "غيرنزي"
+  },
+  "gg": {
+    "code": "GG",
+    "name_en": "Guernsey",
+    "name_ar": "غيرنزي"
+  },
+  "bailliage de guernesey": {
+    "code": "GG",
+    "name_en": "Guernsey",
+    "name_ar": "غيرنزي"
+  },
+  "liberia": {
+    "code": "LR",
+    "name_en": "Liberia",
+    "name_ar": "ليبيريا"
+  },
+  "republic of liberia": {
+    "code": "LR",
+    "name_en": "Liberia",
+    "name_ar": "ليبيريا"
+  },
+  "lr": {
+    "code": "LR",
+    "name_en": "Liberia",
+    "name_ar": "ليبيريا"
+  },
+  "united arab emirates": {
+    "code": "AE",
+    "name_en": "United Arab Emirates",
+    "name_ar": " الإمارات العربية "
+  },
+  "ae": {
+    "code": "AE",
+    "name_en": "United Arab Emirates",
+    "name_ar": " الإمارات العربية "
+  },
+  "uae": {
+    "code": "AE",
+    "name_en": "United Arab Emirates",
+    "name_ar": " الإمارات العربية "
+  },
+  "emirates": {
+    "code": "AE",
+    "name_en": "United Arab Emirates",
+    "name_ar": " الإمارات العربية "
+  },
+  "switzerland": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "swiss confederation": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "ch": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "schweiz": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "suisse": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "svizzera": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "svizra": {
+    "code": "CH",
+    "name_en": "Switzerland",
+    "name_ar": "سويسرا"
+  },
+  "hungary": {
+    "code": "HU",
+    "name_en": "Hungary",
+    "name_ar": "المجر"
+  },
+  "hu": {
+    "code": "HU",
+    "name_en": "Hungary",
+    "name_ar": "المجر"
+  },
+  "libya": {
+    "code": "LY",
+    "name_en": "Libya",
+    "name_ar": "‏ليبيا"
+  },
+  "state of libya": {
+    "code": "LY",
+    "name_en": "Libya",
+    "name_ar": "‏ليبيا"
+  },
+  "ly": {
+    "code": "LY",
+    "name_en": "Libya",
+    "name_ar": "‏ليبيا"
+  },
+  "dawlat libya": {
+    "code": "LY",
+    "name_en": "Libya",
+    "name_ar": "‏ليبيا"
+  },
+  "vanuatu": {
+    "code": "VU",
+    "name_en": "Vanuatu",
+    "name_ar": "فانواتو"
+  },
+  "republic of vanuatu": {
+    "code": "VU",
+    "name_en": "Vanuatu",
+    "name_ar": "فانواتو"
+  },
+  "vu": {
+    "code": "VU",
+    "name_en": "Vanuatu",
+    "name_ar": "فانواتو"
+  },
+  "ripablik blong vanuatu": {
+    "code": "VU",
+    "name_en": "Vanuatu",
+    "name_ar": "فانواتو"
+  },
+  "re publique de vanuatu": {
+    "code": "VU",
+    "name_en": "Vanuatu",
+    "name_ar": "فانواتو"
+  },
+  "wallis and futuna": {
+    "code": "WF",
+    "name_en": "Wallis and Futuna",
+    "name_ar": "واليس وفوتونا"
+  },
+  "territory of the wallis and futuna islands": {
+    "code": "WF",
+    "name_en": "Wallis and Futuna",
+    "name_ar": "واليس وفوتونا"
+  },
+  "wf": {
+    "code": "WF",
+    "name_en": "Wallis and Futuna",
+    "name_ar": "واليس وفوتونا"
+  },
+  "territoire des i les wallis et futuna": {
+    "code": "WF",
+    "name_en": "Wallis and Futuna",
+    "name_ar": "واليس وفوتونا"
+  },
+  "saint lucia": {
+    "code": "LC",
+    "name_en": "Saint Lucia",
+    "name_ar": "سانت لوسيا"
+  },
+  "lc": {
+    "code": "LC",
+    "name_en": "Saint Lucia",
+    "name_ar": "سانت لوسيا"
+  },
+  "central african republic": {
+    "code": "CF",
+    "name_en": "Central African Republic",
+    "name_ar": " أفريقيا الوسطى"
+  },
+  "cf": {
+    "code": "CF",
+    "name_en": "Central African Republic",
+    "name_ar": " أفريقيا الوسطى"
+  },
+  "re publique centrafricaine": {
+    "code": "CF",
+    "name_en": "Central African Republic",
+    "name_ar": " أفريقيا الوسطى"
+  },
+  "tajikistan": {
+    "code": "TJ",
+    "name_en": "Tajikistan",
+    "name_ar": "طاجيكستان"
+  },
+  "republic of tajikistan": {
+    "code": "TJ",
+    "name_en": "Tajikistan",
+    "name_ar": "طاجيكستان"
+  },
+  "tj": {
+    "code": "TJ",
+    "name_en": "Tajikistan",
+    "name_ar": "طاجيكستان"
+  },
+  "toc ikiston": {
+    "code": "TJ",
+    "name_en": "Tajikistan",
+    "name_ar": "طاجيكستان"
+  },
+  "c umhuriyi toc ikiston": {
+    "code": "TJ",
+    "name_en": "Tajikistan",
+    "name_ar": "طاجيكستان"
+  },
+  "ireland": {
+    "code": "IE",
+    "name_en": "Ireland",
+    "name_ar": "أيرلندا"
+  },
+  "republic of ireland": {
+    "code": "IE",
+    "name_en": "Ireland",
+    "name_ar": "أيرلندا"
+  },
+  "ie": {
+    "code": "IE",
+    "name_en": "Ireland",
+    "name_ar": "أيرلندا"
+  },
+  "e ire": {
+    "code": "IE",
+    "name_en": "Ireland",
+    "name_ar": "أيرلندا"
+  },
+  "poblacht na he ireann": {
+    "code": "IE",
+    "name_en": "Ireland",
+    "name_ar": "أيرلندا"
+  },
+  "new caledonia": {
+    "code": "NC",
+    "name_en": "New Caledonia",
+    "name_ar": "كاليدونيا الجديدة"
+  },
+  "nc": {
+    "code": "NC",
+    "name_en": "New Caledonia",
+    "name_ar": "كاليدونيا الجديدة"
+  },
+  "yemen": {
+    "code": "YE",
+    "name_en": "Yemen",
+    "name_ar": "اليمن"
+  },
+  "republic of yemen": {
+    "code": "YE",
+    "name_en": "Yemen",
+    "name_ar": "اليمن"
+  },
+  "ye": {
+    "code": "YE",
+    "name_en": "Yemen",
+    "name_ar": "اليمن"
+  },
+  "yemeni republic": {
+    "code": "YE",
+    "name_en": "Yemen",
+    "name_ar": "اليمن"
+  },
+  "al jumhu riyyah al yamaniyyah": {
+    "code": "YE",
+    "name_en": "Yemen",
+    "name_ar": "اليمن"
+  },
+  "faroe islands": {
+    "code": "FO",
+    "name_en": "Faroe Islands",
+    "name_ar": "جزر فارو"
+  },
+  "fo": {
+    "code": "FO",
+    "name_en": "Faroe Islands",
+    "name_ar": "جزر فارو"
+  },
+  "f royar": {
+    "code": "FO",
+    "name_en": "Faroe Islands",
+    "name_ar": "جزر فارو"
+  },
+  "f r erne": {
+    "code": "FO",
+    "name_en": "Faroe Islands",
+    "name_ar": "جزر فارو"
+  },
+  "cuba": {
+    "code": "CU",
+    "name_en": "Cuba",
+    "name_ar": "كوبا"
+  },
+  "republic of cuba": {
+    "code": "CU",
+    "name_en": "Cuba",
+    "name_ar": "كوبا"
+  },
+  "cu": {
+    "code": "CU",
+    "name_en": "Cuba",
+    "name_ar": "كوبا"
+  },
+  "repu blica de cuba": {
+    "code": "CU",
+    "name_en": "Cuba",
+    "name_ar": "كوبا"
+  },
+  "azerbaijan": {
+    "code": "AZ",
+    "name_en": "Azerbaijan",
+    "name_ar": "أذربيجان"
+  },
+  "republic of azerbaijan": {
+    "code": "AZ",
+    "name_en": "Azerbaijan",
+    "name_ar": "أذربيجان"
+  },
+  "az": {
+    "code": "AZ",
+    "name_en": "Azerbaijan",
+    "name_ar": "أذربيجان"
+  },
+  "az rbaycan respublikas": {
+    "code": "AZ",
+    "name_en": "Azerbaijan",
+    "name_ar": "أذربيجان"
+  },
+  "solomon islands": {
+    "code": "SB",
+    "name_en": "Solomon Islands",
+    "name_ar": "جزر سليمان"
+  },
+  "sb": {
+    "code": "SB",
+    "name_en": "Solomon Islands",
+    "name_ar": "جزر سليمان"
+  },
+  "jamaica": {
+    "code": "JM",
+    "name_en": "Jamaica",
+    "name_ar": "جامايكا"
+  },
+  "jm": {
+    "code": "JM",
+    "name_en": "Jamaica",
+    "name_ar": "جامايكا"
+  },
+  "morocco": {
+    "code": "MA",
+    "name_en": "Morocco",
+    "name_ar": "المغرب"
+  },
+  "kingdom of morocco": {
+    "code": "MA",
+    "name_en": "Morocco",
+    "name_ar": "المغرب"
+  },
+  "ma": {
+    "code": "MA",
+    "name_en": "Morocco",
+    "name_ar": "المغرب"
+  },
+  "al mamlakah al mag ribiyah": {
+    "code": "MA",
+    "name_en": "Morocco",
+    "name_ar": "المغرب"
+  },
+  "trinidad and tobago": {
+    "code": "TT",
+    "name_en": "Trinidad and Tobago",
+    "name_ar": "ترينيداد وتوباغو"
+  },
+  "republic of trinidad and tobago": {
+    "code": "TT",
+    "name_en": "Trinidad and Tobago",
+    "name_ar": "ترينيداد وتوباغو"
+  },
+  "tt": {
+    "code": "TT",
+    "name_en": "Trinidad and Tobago",
+    "name_ar": "ترينيداد وتوباغو"
+  },
+  "mayotte": {
+    "code": "YT",
+    "name_en": "Mayotte",
+    "name_ar": "مايوت"
+  },
+  "department of mayotte": {
+    "code": "YT",
+    "name_en": "Mayotte",
+    "name_ar": "مايوت"
+  },
+  "yt": {
+    "code": "YT",
+    "name_en": "Mayotte",
+    "name_ar": "مايوت"
+  },
+  "de partement de mayotte": {
+    "code": "YT",
+    "name_en": "Mayotte",
+    "name_ar": "مايوت"
+  },
+  "niue": {
+    "code": "NU",
+    "name_en": "Niue",
+    "name_ar": "نييوي"
+  },
+  "nu": {
+    "code": "NU",
+    "name_en": "Niue",
+    "name_ar": "نييوي"
+  },
+  "belize": {
+    "code": "BZ",
+    "name_en": "Belize",
+    "name_ar": "بليز"
+  },
+  "bz": {
+    "code": "BZ",
+    "name_en": "Belize",
+    "name_ar": "بليز"
+  },
+  "china": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "people s republic of china": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "cn": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "zho ngguo": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "zhongguo": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "zhonghua": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "zho nghua re nmi n go nghe guo": {
+    "code": "CN",
+    "name_en": "China",
+    "name_ar": "الصين"
+  },
+  "samoa": {
+    "code": "WS",
+    "name_en": "Samoa",
+    "name_ar": "ساموا"
+  },
+  "independent state of samoa": {
+    "code": "WS",
+    "name_en": "Samoa",
+    "name_ar": "ساموا"
+  },
+  "ws": {
+    "code": "WS",
+    "name_en": "Samoa",
+    "name_ar": "ساموا"
+  },
+  "malo sa oloto tuto atasi o sa moa": {
+    "code": "WS",
+    "name_en": "Samoa",
+    "name_ar": "ساموا"
+  },
+  "british virgin islands": {
+    "code": "VG",
+    "name_en": "British Virgin Islands",
+    "name_ar": "جزر العذراء"
+  },
+  "virgin islands": {
+    "code": "VG",
+    "name_en": "British Virgin Islands",
+    "name_ar": "جزر العذراء"
+  },
+  "vg": {
+    "code": "VG",
+    "name_en": "British Virgin Islands",
+    "name_ar": "جزر العذراء"
+  },
+  "virgin islands british": {
+    "code": "VG",
+    "name_en": "British Virgin Islands",
+    "name_ar": "جزر العذراء"
+  },
+  "sudan": {
+    "code": "SD",
+    "name_en": "Sudan",
+    "name_ar": "السودان"
+  },
+  "republic of the sudan": {
+    "code": "SD",
+    "name_en": "Sudan",
+    "name_ar": "السودان"
+  },
+  "sd": {
+    "code": "SD",
+    "name_en": "Sudan",
+    "name_ar": "السودان"
+  },
+  "jumhu ri yat as su da n": {
+    "code": "SD",
+    "name_en": "Sudan",
+    "name_ar": "السودان"
+  },
+  "norfolk island": {
+    "code": "NF",
+    "name_en": "Norfolk Island",
+    "name_ar": "جزيرة نورفولك"
+  },
+  "territory of norfolk island": {
+    "code": "NF",
+    "name_en": "Norfolk Island",
+    "name_ar": "جزيرة نورفولك"
+  },
+  "nf": {
+    "code": "NF",
+    "name_en": "Norfolk Island",
+    "name_ar": "جزيرة نورفولك"
+  },
+  "teratri of norf k ailen": {
+    "code": "NF",
+    "name_en": "Norfolk Island",
+    "name_ar": "جزيرة نورفولك"
+  },
+  "slovakia": {
+    "code": "SK",
+    "name_en": "Slovakia",
+    "name_ar": "سلوفاكيا"
+  },
+  "slovak republic": {
+    "code": "SK",
+    "name_en": "Slovakia",
+    "name_ar": "سلوفاكيا"
+  },
+  "sk": {
+    "code": "SK",
+    "name_en": "Slovakia",
+    "name_ar": "سلوفاكيا"
+  },
+  "slovenska republika": {
+    "code": "SK",
+    "name_en": "Slovakia",
+    "name_ar": "سلوفاكيا"
+  },
+  "burundi": {
+    "code": "BI",
+    "name_en": "Burundi",
+    "name_ar": "بوروندي"
+  },
+  "republic of burundi": {
+    "code": "BI",
+    "name_en": "Burundi",
+    "name_ar": "بوروندي"
+  },
+  "bi": {
+    "code": "BI",
+    "name_en": "Burundi",
+    "name_ar": "بوروندي"
+  },
+  "republika y uburundi": {
+    "code": "BI",
+    "name_en": "Burundi",
+    "name_ar": "بوروندي"
+  },
+  "re publique du burundi": {
+    "code": "BI",
+    "name_en": "Burundi",
+    "name_ar": "بوروندي"
+  },
+  "marshall islands": {
+    "code": "MH",
+    "name_en": "Marshall Islands",
+    "name_ar": "جزر مارشال"
+  },
+  "republic of the marshall islands": {
+    "code": "MH",
+    "name_en": "Marshall Islands",
+    "name_ar": "جزر مارشال"
+  },
+  "mh": {
+    "code": "MH",
+    "name_en": "Marshall Islands",
+    "name_ar": "جزر مارشال"
+  },
+  "aolepa n aoro kin m ajel": {
+    "code": "MH",
+    "name_en": "Marshall Islands",
+    "name_ar": "جزر مارشال"
+  },
+  "austria": {
+    "code": "AT",
+    "name_en": "Austria",
+    "name_ar": "النمسا"
+  },
+  "republic of austria": {
+    "code": "AT",
+    "name_en": "Austria",
+    "name_ar": "النمسا"
+  },
+  "at": {
+    "code": "AT",
+    "name_en": "Austria",
+    "name_ar": "النمسا"
+  },
+  "osterreich": {
+    "code": "AT",
+    "name_en": "Austria",
+    "name_ar": "النمسا"
+  },
+  "oesterreich": {
+    "code": "AT",
+    "name_en": "Austria",
+    "name_ar": "النمسا"
+  },
+  "mozambique": {
+    "code": "MZ",
+    "name_en": "Mozambique",
+    "name_ar": "موزمبيق"
+  },
+  "republic of mozambique": {
+    "code": "MZ",
+    "name_en": "Mozambique",
+    "name_ar": "موزمبيق"
+  },
+  "mz": {
+    "code": "MZ",
+    "name_en": "Mozambique",
+    "name_ar": "موزمبيق"
+  },
+  "repu blica de moc ambique": {
+    "code": "MZ",
+    "name_en": "Mozambique",
+    "name_ar": "موزمبيق"
+  },
+  "saint vincent and the grenadines": {
+    "code": "VC",
+    "name_en": "Saint Vincent and the Grenadines",
+    "name_ar": "سانت فينسنت والغرينادين"
+  },
+  "vc": {
+    "code": "VC",
+    "name_en": "Saint Vincent and the Grenadines",
+    "name_ar": "سانت فينسنت والغرينادين"
+  },
+  "papua new guinea": {
+    "code": "PG",
+    "name_en": "Papua New Guinea",
+    "name_ar": "بابوا غينيا الجديدة"
+  },
+  "independent state of papua new guinea": {
+    "code": "PG",
+    "name_en": "Papua New Guinea",
+    "name_ar": "بابوا غينيا الجديدة"
+  },
+  "pg": {
+    "code": "PG",
+    "name_en": "Papua New Guinea",
+    "name_ar": "بابوا غينيا الجديدة"
+  },
+  "independen stet bilong papua niugini": {
+    "code": "PG",
+    "name_en": "Papua New Guinea",
+    "name_ar": "بابوا غينيا الجديدة"
+  },
+  "turkey": {
+    "code": "TR",
+    "name_en": "Turkey",
+    "name_ar": "تركيا"
+  },
+  "republic of turkey": {
+    "code": "TR",
+    "name_en": "Turkey",
+    "name_ar": "تركيا"
+  },
+  "tr": {
+    "code": "TR",
+    "name_en": "Turkey",
+    "name_ar": "تركيا"
+  },
+  "turkiye": {
+    "code": "TR",
+    "name_en": "Turkey",
+    "name_ar": "تركيا"
+  },
+  "tu rkiye cumhuriyeti": {
+    "code": "TR",
+    "name_en": "Turkey",
+    "name_ar": "تركيا"
+  },
+  "kosovo": {
+    "code": "XK",
+    "name_en": "Kosovo",
+    "name_ar": "كوسوفو"
+  },
+  "republic of kosovo": {
+    "code": "XK",
+    "name_en": "Kosovo",
+    "name_ar": "كوسوفو"
+  },
+  "xk": {
+    "code": "XK",
+    "name_en": "Kosovo",
+    "name_ar": "كوسوفو"
+  },
+  "grenada": {
+    "code": "GD",
+    "name_en": "Grenada",
+    "name_ar": "غرينادا"
+  },
+  "gd": {
+    "code": "GD",
+    "name_en": "Grenada",
+    "name_ar": "غرينادا"
+  },
+  "cambodia": {
+    "code": "KH",
+    "name_en": "Cambodia",
+    "name_ar": "كمبوديا"
+  },
+  "kingdom of cambodia": {
+    "code": "KH",
+    "name_en": "Cambodia",
+    "name_ar": "كمبوديا"
+  },
+  "kh": {
+    "code": "KH",
+    "name_en": "Cambodia",
+    "name_ar": "كمبوديا"
+  },
+  "portugal": {
+    "code": "PT",
+    "name_en": "Portugal",
+    "name_ar": "البرتغال"
+  },
+  "portuguese republic": {
+    "code": "PT",
+    "name_en": "Portugal",
+    "name_ar": "البرتغال"
+  },
+  "pt": {
+    "code": "PT",
+    "name_en": "Portugal",
+    "name_ar": "البرتغال"
+  },
+  "portuguesa": {
+    "code": "PT",
+    "name_en": "Portugal",
+    "name_ar": "البرتغال"
+  },
+  "repu blica portuguesa": {
+    "code": "PT",
+    "name_en": "Portugal",
+    "name_ar": "البرتغال"
+  },
+  "united kingdom": {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة"
+  },
+  "united kingdom of great britain and northern ireland": {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة"
+  },
+  "gb": {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة"
+  },
+  "uk": {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة"
+  },
+  "great britain": {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة"
+  },
+  "nigeria": {
+    "code": "NG",
+    "name_en": "Nigeria",
+    "name_ar": "نيجيريا"
+  },
+  "federal republic of nigeria": {
+    "code": "NG",
+    "name_en": "Nigeria",
+    "name_ar": "نيجيريا"
+  },
+  "ng": {
+    "code": "NG",
+    "name_en": "Nigeria",
+    "name_ar": "نيجيريا"
+  },
+  "nijeriya": {
+    "code": "NG",
+    "name_en": "Nigeria",
+    "name_ar": "نيجيريا"
+  },
+  "nai ji ri a": {
+    "code": "NG",
+    "name_en": "Nigeria",
+    "name_ar": "نيجيريا"
+  },
+  "anguilla": {
+    "code": "AI",
+    "name_en": "Anguilla",
+    "name_ar": "أنغويلا"
+  },
+  "ai": {
+    "code": "AI",
+    "name_en": "Anguilla",
+    "name_ar": "أنغويلا"
+  },
+  "northern mariana islands": {
+    "code": "MP",
+    "name_en": "Northern Mariana Islands",
+    "name_ar": "جزر ماريانا الشمالية"
+  },
+  "commonwealth of the northern mariana islands": {
+    "code": "MP",
+    "name_en": "Northern Mariana Islands",
+    "name_ar": "جزر ماريانا الشمالية"
+  },
+  "mp": {
+    "code": "MP",
+    "name_en": "Northern Mariana Islands",
+    "name_ar": "جزر ماريانا الشمالية"
+  },
+  "sankattan siha na islas maria nas": {
+    "code": "MP",
+    "name_en": "Northern Mariana Islands",
+    "name_ar": "جزر ماريانا الشمالية"
+  },
+  "israel": {
+    "code": "IL",
+    "name_en": "Israel",
+    "name_ar": "إسرائيل"
+  },
+  "state of israel": {
+    "code": "IL",
+    "name_en": "Israel",
+    "name_ar": "إسرائيل"
+  },
+  "il": {
+    "code": "IL",
+    "name_en": "Israel",
+    "name_ar": "إسرائيل"
+  },
+  "medi nat yisra el": {
+    "code": "IL",
+    "name_en": "Israel",
+    "name_ar": "إسرائيل"
+  },
+  "french guiana": {
+    "code": "GF",
+    "name_en": "French Guiana",
+    "name_ar": "غويانا"
+  },
+  "guiana": {
+    "code": "GF",
+    "name_en": "French Guiana",
+    "name_ar": "غويانا"
+  },
+  "gf": {
+    "code": "GF",
+    "name_en": "French Guiana",
+    "name_ar": "غويانا"
+  },
+  "guyane": {
+    "code": "GF",
+    "name_en": "French Guiana",
+    "name_ar": "غويانا"
+  },
+  "lebanon": {
+    "code": "LB",
+    "name_en": "Lebanon",
+    "name_ar": "لبنان"
+  },
+  "lebanese republic": {
+    "code": "LB",
+    "name_en": "Lebanon",
+    "name_ar": "لبنان"
+  },
+  "lb": {
+    "code": "LB",
+    "name_en": "Lebanon",
+    "name_ar": "لبنان"
+  },
+  "al jumhu ri yah al libna ni yah": {
+    "code": "LB",
+    "name_en": "Lebanon",
+    "name_ar": "لبنان"
+  },
+  "japan": {
+    "code": "JP",
+    "name_en": "Japan",
+    "name_ar": "اليابان"
+  },
+  "jp": {
+    "code": "JP",
+    "name_en": "Japan",
+    "name_ar": "اليابان"
+  },
+  "nippon": {
+    "code": "JP",
+    "name_en": "Japan",
+    "name_ar": "اليابان"
+  },
+  "nihon": {
+    "code": "JP",
+    "name_en": "Japan",
+    "name_ar": "اليابان"
+  },
+  "gambia": {
+    "code": "GM",
+    "name_en": "Gambia",
+    "name_ar": "غامبيا"
+  },
+  "republic of the gambia": {
+    "code": "GM",
+    "name_en": "Gambia",
+    "name_ar": "غامبيا"
+  },
+  "gm": {
+    "code": "GM",
+    "name_en": "Gambia",
+    "name_ar": "غامبيا"
+  },
+  "saint martin": {
+    "code": "MF",
+    "name_en": "Saint Martin",
+    "name_ar": "سانت مارتن"
+  },
+  "mf": {
+    "code": "MF",
+    "name_en": "Saint Martin",
+    "name_ar": "سانت مارتن"
+  },
+  "collectivity of saint martin": {
+    "code": "MF",
+    "name_en": "Saint Martin",
+    "name_ar": "سانت مارتن"
+  },
+  "collectivite de saint martin": {
+    "code": "MF",
+    "name_en": "Saint Martin",
+    "name_ar": "سانت مارتن"
+  },
+  "saint martin french part": {
+    "code": "MF",
+    "name_en": "Saint Martin",
+    "name_ar": "سانت مارتن"
+  },
+  "guinea bissau": {
+    "code": "GW",
+    "name_en": "Guinea-Bissau",
+    "name_ar": "غينيا بيساو"
+  },
+  "republic of guinea bissau": {
+    "code": "GW",
+    "name_en": "Guinea-Bissau",
+    "name_ar": "غينيا بيساو"
+  },
+  "gw": {
+    "code": "GW",
+    "name_en": "Guinea-Bissau",
+    "name_ar": "غينيا بيساو"
+  },
+  "repu blica da guine bissau": {
+    "code": "GW",
+    "name_en": "Guinea-Bissau",
+    "name_ar": "غينيا بيساو"
+  },
+  "laos": {
+    "code": "LA",
+    "name_en": "Laos",
+    "name_ar": "لاوس"
+  },
+  "lao people s democratic republic": {
+    "code": "LA",
+    "name_en": "Laos",
+    "name_ar": "لاوس"
+  },
+  "la": {
+    "code": "LA",
+    "name_en": "Laos",
+    "name_ar": "لاوس"
+  },
+  "lao": {
+    "code": "LA",
+    "name_en": "Laos",
+    "name_ar": "لاوس"
+  },
+  "sathalanalat paxathipatai paxaxon lao": {
+    "code": "LA",
+    "name_en": "Laos",
+    "name_ar": "لاوس"
+  },
+  "north macedonia": {
+    "code": "MK",
+    "name_en": "North Macedonia",
+    "name_ar": "شمال مقدونيا"
+  },
+  "republic of north macedonia": {
+    "code": "MK",
+    "name_en": "North Macedonia",
+    "name_ar": "شمال مقدونيا"
+  },
+  "mk": {
+    "code": "MK",
+    "name_en": "North Macedonia",
+    "name_ar": "شمال مقدونيا"
+  },
+  "the former yugoslav republic of macedonia": {
+    "code": "MK",
+    "name_en": "North Macedonia",
+    "name_ar": "شمال مقدونيا"
+  },
+  "macedonia the former yugoslav republic of": {
+    "code": "MK",
+    "name_en": "North Macedonia",
+    "name_ar": "شمال مقدونيا"
+  },
+  "qatar": {
+    "code": "QA",
+    "name_en": "Qatar",
+    "name_ar": "قطر"
+  },
+  "state of qatar": {
+    "code": "QA",
+    "name_en": "Qatar",
+    "name_ar": "قطر"
+  },
+  "qa": {
+    "code": "QA",
+    "name_en": "Qatar",
+    "name_ar": "قطر"
+  },
+  "dawlat qat ar": {
+    "code": "QA",
+    "name_en": "Qatar",
+    "name_ar": "قطر"
+  },
+  "zambia": {
+    "code": "ZM",
+    "name_en": "Zambia",
+    "name_ar": "زامبيا"
+  },
+  "republic of zambia": {
+    "code": "ZM",
+    "name_en": "Zambia",
+    "name_ar": "زامبيا"
+  },
+  "zm": {
+    "code": "ZM",
+    "name_en": "Zambia",
+    "name_ar": "زامبيا"
+  },
+  "barbados": {
+    "code": "BB",
+    "name_en": "Barbados",
+    "name_ar": "باربادوس"
+  },
+  "bb": {
+    "code": "BB",
+    "name_en": "Barbados",
+    "name_ar": "باربادوس"
+  },
+  "vatican city": {
+    "code": "VA",
+    "name_en": "Vatican City",
+    "name_ar": "مدينة الفاتيكان"
+  },
+  "vatican city state": {
+    "code": "VA",
+    "name_en": "Vatican City",
+    "name_ar": "مدينة الفاتيكان"
+  },
+  "va": {
+    "code": "VA",
+    "name_en": "Vatican City",
+    "name_ar": "مدينة الفاتيكان"
+  },
+  "holy see vatican city state": {
+    "code": "VA",
+    "name_en": "Vatican City",
+    "name_ar": "مدينة الفاتيكان"
+  },
+  "stato della citta del vaticano": {
+    "code": "VA",
+    "name_en": "Vatican City",
+    "name_ar": "مدينة الفاتيكان"
+  },
+  "italy": {
+    "code": "IT",
+    "name_en": "Italy",
+    "name_ar": "إيطاليا"
+  },
+  "italian republic": {
+    "code": "IT",
+    "name_en": "Italy",
+    "name_ar": "إيطاليا"
+  },
+  "it": {
+    "code": "IT",
+    "name_en": "Italy",
+    "name_ar": "إيطاليا"
+  },
+  "repubblica italiana": {
+    "code": "IT",
+    "name_en": "Italy",
+    "name_ar": "إيطاليا"
+  },
+  "comoros": {
+    "code": "KM",
+    "name_en": "Comoros",
+    "name_ar": "جزر القمر"
+  },
+  "union of the comoros": {
+    "code": "KM",
+    "name_en": "Comoros",
+    "name_ar": "جزر القمر"
+  },
+  "km": {
+    "code": "KM",
+    "name_en": "Comoros",
+    "name_ar": "جزر القمر"
+  },
+  "union des comores": {
+    "code": "KM",
+    "name_en": "Comoros",
+    "name_ar": "جزر القمر"
+  },
+  "udzima wa komori": {
+    "code": "KM",
+    "name_en": "Comoros",
+    "name_ar": "جزر القمر"
+  },
+  "al ittih a d al qumuri": {
+    "code": "KM",
+    "name_en": "Comoros",
+    "name_ar": "جزر القمر"
+  },
+  "albania": {
+    "code": "AL",
+    "name_en": "Albania",
+    "name_ar": "ألبانيا"
+  },
+  "republic of albania": {
+    "code": "AL",
+    "name_en": "Albania",
+    "name_ar": "ألبانيا"
+  },
+  "al": {
+    "code": "AL",
+    "name_en": "Albania",
+    "name_ar": "ألبانيا"
+  },
+  "shqipe ri": {
+    "code": "AL",
+    "name_en": "Albania",
+    "name_ar": "ألبانيا"
+  },
+  "shqipe ria": {
+    "code": "AL",
+    "name_en": "Albania",
+    "name_ar": "ألبانيا"
+  },
+  "shqipnia": {
+    "code": "AL",
+    "name_en": "Albania",
+    "name_ar": "ألبانيا"
+  },
+  "gibraltar": {
+    "code": "GI",
+    "name_en": "Gibraltar",
+    "name_ar": "جبل طارق"
+  },
+  "gi": {
+    "code": "GI",
+    "name_en": "Gibraltar",
+    "name_ar": "جبل طارق"
+  },
+  "mongolia": {
+    "code": "MN",
+    "name_en": "Mongolia",
+    "name_ar": "منغوليا"
+  },
+  "mn": {
+    "code": "MN",
+    "name_en": "Mongolia",
+    "name_ar": "منغوليا"
+  },
+  "tonga": {
+    "code": "TO",
+    "name_en": "Tonga",
+    "name_ar": "تونغا"
+  },
+  "kingdom of tonga": {
+    "code": "TO",
+    "name_en": "Tonga",
+    "name_ar": "تونغا"
+  },
+  "to": {
+    "code": "TO",
+    "name_en": "Tonga",
+    "name_ar": "تونغا"
+  },
+  "madagascar": {
+    "code": "MG",
+    "name_en": "Madagascar",
+    "name_ar": "مدغشقر"
+  },
+  "republic of madagascar": {
+    "code": "MG",
+    "name_en": "Madagascar",
+    "name_ar": "مدغشقر"
+  },
+  "mg": {
+    "code": "MG",
+    "name_en": "Madagascar",
+    "name_ar": "مدغشقر"
+  },
+  "repoblikan i madagasikara": {
+    "code": "MG",
+    "name_en": "Madagascar",
+    "name_ar": "مدغشقر"
+  },
+  "re publique de madagascar": {
+    "code": "MG",
+    "name_en": "Madagascar",
+    "name_ar": "مدغشقر"
+  },
+  "saint pierre and miquelon": {
+    "code": "PM",
+    "name_en": "Saint Pierre and Miquelon",
+    "name_ar": "سان بيير وميكلون"
+  },
+  "pm": {
+    "code": "PM",
+    "name_en": "Saint Pierre and Miquelon",
+    "name_ar": "سان بيير وميكلون"
+  },
+  "collectivite territoriale de saint pierre et miquelon": {
+    "code": "PM",
+    "name_en": "Saint Pierre and Miquelon",
+    "name_ar": "سان بيير وميكلون"
+  },
+  "saint helena ascension and tristan da cunha": {
+    "code": "SH",
+    "name_en": "Saint Helena, Ascension and Tristan da Cunha",
+    "name_ar": "سانت هيلينا وأسينشين وتريستان دا كونا"
+  },
+  "saint helena": {
+    "code": "SH",
+    "name_en": "Saint Helena, Ascension and Tristan da Cunha",
+    "name_ar": "سانت هيلينا وأسينشين وتريستان دا كونا"
+  },
+  "st helena ascension and tristan da cunha": {
+    "code": "SH",
+    "name_en": "Saint Helena, Ascension and Tristan da Cunha",
+    "name_ar": "سانت هيلينا وأسينشين وتريستان دا كونا"
+  },
+  "monaco": {
+    "code": "MC",
+    "name_en": "Monaco",
+    "name_ar": "موناكو"
+  },
+  "principality of monaco": {
+    "code": "MC",
+    "name_en": "Monaco",
+    "name_ar": "موناكو"
+  },
+  "mc": {
+    "code": "MC",
+    "name_en": "Monaco",
+    "name_ar": "موناكو"
+  },
+  "principaute de monaco": {
+    "code": "MC",
+    "name_en": "Monaco",
+    "name_ar": "موناكو"
+  },
+  "brazil": {
+    "code": "BR",
+    "name_en": "Brazil",
+    "name_ar": "البرازيل"
+  },
+  "federative republic of brazil": {
+    "code": "BR",
+    "name_en": "Brazil",
+    "name_ar": "البرازيل"
+  },
+  "br": {
+    "code": "BR",
+    "name_en": "Brazil",
+    "name_ar": "البرازيل"
+  },
+  "brasil": {
+    "code": "BR",
+    "name_en": "Brazil",
+    "name_ar": "البرازيل"
+  },
+  "repu blica federativa do brasil": {
+    "code": "BR",
+    "name_en": "Brazil",
+    "name_ar": "البرازيل"
+  },
+  "australia": {
+    "code": "AU",
+    "name_en": "Australia",
+    "name_ar": "أستراليا"
+  },
+  "commonwealth of australia": {
+    "code": "AU",
+    "name_en": "Australia",
+    "name_ar": "أستراليا"
+  },
+  "au": {
+    "code": "AU",
+    "name_en": "Australia",
+    "name_ar": "أستراليا"
+  },
+  "guyana": {
+    "code": "GY",
+    "name_en": "Guyana",
+    "name_ar": "غيانا"
+  },
+  "co operative republic of guyana": {
+    "code": "GY",
+    "name_en": "Guyana",
+    "name_ar": "غيانا"
+  },
+  "gy": {
+    "code": "GY",
+    "name_en": "Guyana",
+    "name_ar": "غيانا"
+  },
+  "slovenia": {
+    "code": "SI",
+    "name_en": "Slovenia",
+    "name_ar": "سلوفينيا"
+  },
+  "republic of slovenia": {
+    "code": "SI",
+    "name_en": "Slovenia",
+    "name_ar": "سلوفينيا"
+  },
+  "si": {
+    "code": "SI",
+    "name_en": "Slovenia",
+    "name_ar": "سلوفينيا"
+  },
+  "republika slovenija": {
+    "code": "SI",
+    "name_en": "Slovenia",
+    "name_ar": "سلوفينيا"
+  },
+  "san marino": {
+    "code": "SM",
+    "name_en": "San Marino",
+    "name_ar": "سان مارينو"
+  },
+  "republic of san marino": {
+    "code": "SM",
+    "name_en": "San Marino",
+    "name_ar": "سان مارينو"
+  },
+  "sm": {
+    "code": "SM",
+    "name_en": "San Marino",
+    "name_ar": "سان مارينو"
+  },
+  "repubblica di san marino": {
+    "code": "SM",
+    "name_en": "San Marino",
+    "name_ar": "سان مارينو"
+  },
+  "tokelau": {
+    "code": "TK",
+    "name_en": "Tokelau",
+    "name_ar": "توكيلاو"
+  },
+  "tk": {
+    "code": "TK",
+    "name_en": "Tokelau",
+    "name_ar": "توكيلاو"
+  },
+  "palestine": {
+    "code": "PS",
+    "name_en": "Palestine",
+    "name_ar": "فلسطين"
+  },
+  "state of palestine": {
+    "code": "PS",
+    "name_en": "Palestine",
+    "name_ar": "فلسطين"
+  },
+  "ps": {
+    "code": "PS",
+    "name_en": "Palestine",
+    "name_ar": "فلسطين"
+  },
+  "palestine state of": {
+    "code": "PS",
+    "name_en": "Palestine",
+    "name_ar": "فلسطين"
+  },
+  "dawlat filast in": {
+    "code": "PS",
+    "name_en": "Palestine",
+    "name_ar": "فلسطين"
+  },
+  "bhutan": {
+    "code": "BT",
+    "name_en": "Bhutan",
+    "name_ar": "بوتان"
+  },
+  "kingdom of bhutan": {
+    "code": "BT",
+    "name_en": "Bhutan",
+    "name_ar": "بوتان"
+  },
+  "bt": {
+    "code": "BT",
+    "name_en": "Bhutan",
+    "name_ar": "بوتان"
+  },
+  "sint maarten": {
+    "code": "SX",
+    "name_en": "Sint Maarten",
+    "name_ar": "سينت مارتن"
+  },
+  "sx": {
+    "code": "SX",
+    "name_en": "Sint Maarten",
+    "name_ar": "سينت مارتن"
+  },
+  "sint maarten dutch part": {
+    "code": "SX",
+    "name_en": "Sint Maarten",
+    "name_ar": "سينت مارتن"
+  },
+  "philippines": {
+    "code": "PH",
+    "name_en": "Philippines",
+    "name_ar": "الفلبين"
+  },
+  "republic of the philippines": {
+    "code": "PH",
+    "name_en": "Philippines",
+    "name_ar": "الفلبين"
+  },
+  "ph": {
+    "code": "PH",
+    "name_en": "Philippines",
+    "name_ar": "الفلبين"
+  },
+  "repu blika ng pilipinas": {
+    "code": "PH",
+    "name_en": "Philippines",
+    "name_ar": "الفلبين"
+  },
+  "chile": {
+    "code": "CL",
+    "name_en": "Chile",
+    "name_ar": "تشيلي"
+  },
+  "republic of chile": {
+    "code": "CL",
+    "name_en": "Chile",
+    "name_ar": "تشيلي"
+  },
+  "cl": {
+    "code": "CL",
+    "name_en": "Chile",
+    "name_ar": "تشيلي"
+  },
+  "repu blica de chile": {
+    "code": "CL",
+    "name_en": "Chile",
+    "name_ar": "تشيلي"
+  },
+  "martinique": {
+    "code": "MQ",
+    "name_en": "Martinique",
+    "name_ar": "مارتينيك"
+  },
+  "mq": {
+    "code": "MQ",
+    "name_en": "Martinique",
+    "name_ar": "مارتينيك"
+  },
+  "haiti": {
+    "code": "HT",
+    "name_en": "Haiti",
+    "name_ar": "هايتي"
+  },
+  "republic of haiti": {
+    "code": "HT",
+    "name_en": "Haiti",
+    "name_ar": "هايتي"
+  },
+  "ht": {
+    "code": "HT",
+    "name_en": "Haiti",
+    "name_ar": "هايتي"
+  },
+  "re publique d hai ti": {
+    "code": "HT",
+    "name_en": "Haiti",
+    "name_ar": "هايتي"
+  },
+  "repiblik ayiti": {
+    "code": "HT",
+    "name_en": "Haiti",
+    "name_ar": "هايتي"
+  },
+  "heard island and mcdonald islands": {
+    "code": "HM",
+    "name_en": "Heard Island and McDonald Islands",
+    "name_ar": "جزيرة هيرد وجزر ماكدونالد"
+  },
+  "hm": {
+    "code": "HM",
+    "name_en": "Heard Island and McDonald Islands",
+    "name_ar": "جزيرة هيرد وجزر ماكدونالد"
+  },
+  "antarctica": {
+    "code": "AQ",
+    "name_en": "Antarctica",
+    "name_ar": "أنتارتيكا"
+  },
+  "aq": {
+    "code": "AQ",
+    "name_en": "Antarctica",
+    "name_ar": "أنتارتيكا"
+  },
+  "sa o tome and pri ncipe": {
+    "code": "ST",
+    "name_en": "São Tomé and Príncipe",
+    "name_ar": "ساو تومي وبرينسيب"
+  },
+  "democratic republic of sa o tome and pri ncipe": {
+    "code": "ST",
+    "name_en": "São Tomé and Príncipe",
+    "name_ar": "ساو تومي وبرينسيب"
+  },
+  "st": {
+    "code": "ST",
+    "name_en": "São Tomé and Príncipe",
+    "name_ar": "ساو تومي وبرينسيب"
+  },
+  "sao tome and principe": {
+    "code": "ST",
+    "name_en": "São Tomé and Príncipe",
+    "name_ar": "ساو تومي وبرينسيب"
+  },
+  "repu blica democra tica de sa o tome e pri ncipe": {
+    "code": "ST",
+    "name_en": "São Tomé and Príncipe",
+    "name_ar": "ساو تومي وبرينسيب"
+  },
+  "macau": {
+    "code": "MO",
+    "name_en": "Macau",
+    "name_ar": "ماكاو"
+  },
+  "macao special administrative region of the people s republic of china": {
+    "code": "MO",
+    "name_en": "Macau",
+    "name_ar": "ماكاو"
+  },
+  "mo": {
+    "code": "MO",
+    "name_en": "Macau",
+    "name_ar": "ماكاو"
+  },
+  "macao": {
+    "code": "MO",
+    "name_en": "Macau",
+    "name_ar": "ماكاو"
+  },
+  "regia o administrativa especial de macau da repu blica popular da china": {
+    "code": "MO",
+    "name_en": "Macau",
+    "name_ar": "ماكاو"
+  },
+  "mauritius": {
+    "code": "MU",
+    "name_en": "Mauritius",
+    "name_ar": "موريشيوس"
+  },
+  "republic of mauritius": {
+    "code": "MU",
+    "name_en": "Mauritius",
+    "name_ar": "موريشيوس"
+  },
+  "mu": {
+    "code": "MU",
+    "name_en": "Mauritius",
+    "name_ar": "موريشيوس"
+  },
+  "re publique de maurice": {
+    "code": "MU",
+    "name_en": "Mauritius",
+    "name_ar": "موريشيوس"
+  },
+  "bahrain": {
+    "code": "BH",
+    "name_en": "Bahrain",
+    "name_ar": "‏البحرين"
+  },
+  "kingdom of bahrain": {
+    "code": "BH",
+    "name_en": "Bahrain",
+    "name_ar": "‏البحرين"
+  },
+  "bh": {
+    "code": "BH",
+    "name_en": "Bahrain",
+    "name_ar": "‏البحرين"
+  },
+  "mamlakat al bah rayn": {
+    "code": "BH",
+    "name_en": "Bahrain",
+    "name_ar": "‏البحرين"
+  },
+  "mexico": {
+    "code": "MX",
+    "name_en": "Mexico",
+    "name_ar": "المسكيك"
+  },
+  "united mexican states": {
+    "code": "MX",
+    "name_en": "Mexico",
+    "name_ar": "المسكيك"
+  },
+  "mx": {
+    "code": "MX",
+    "name_en": "Mexico",
+    "name_ar": "المسكيك"
+  },
+  "mexicanos": {
+    "code": "MX",
+    "name_en": "Mexico",
+    "name_ar": "المسكيك"
+  },
+  "estados unidos mexicanos": {
+    "code": "MX",
+    "name_en": "Mexico",
+    "name_ar": "المسكيك"
+  },
+  "pitcairn islands": {
+    "code": "PN",
+    "name_en": "Pitcairn Islands",
+    "name_ar": "جزر بيتكيرن"
+  },
+  "pitcairn group of islands": {
+    "code": "PN",
+    "name_en": "Pitcairn Islands",
+    "name_ar": "جزر بيتكيرن"
+  },
+  "pn": {
+    "code": "PN",
+    "name_en": "Pitcairn Islands",
+    "name_ar": "جزر بيتكيرن"
+  },
+  "pitcairn": {
+    "code": "PN",
+    "name_en": "Pitcairn Islands",
+    "name_ar": "جزر بيتكيرن"
+  },
+  "pitcairn henderson ducie and oeno islands": {
+    "code": "PN",
+    "name_en": "Pitcairn Islands",
+    "name_ar": "جزر بيتكيرن"
+  },
+  "argentina": {
+    "code": "AR",
+    "name_en": "Argentina",
+    "name_ar": "الأرجنتين"
+  },
+  "argentine republic": {
+    "code": "AR",
+    "name_en": "Argentina",
+    "name_ar": "الأرجنتين"
+  },
+  "ar": {
+    "code": "AR",
+    "name_en": "Argentina",
+    "name_ar": "الأرجنتين"
+  },
+  "repu blica argentina": {
+    "code": "AR",
+    "name_en": "Argentina",
+    "name_ar": "الأرجنتين"
+  },
+  "nepal": {
+    "code": "NP",
+    "name_en": "Nepal",
+    "name_ar": "نيبال"
+  },
+  "federal democratic republic of nepal": {
+    "code": "NP",
+    "name_en": "Nepal",
+    "name_ar": "نيبال"
+  },
+  "np": {
+    "code": "NP",
+    "name_en": "Nepal",
+    "name_ar": "نيبال"
+  },
+  "lokta ntrik ganatantra nepa l": {
+    "code": "NP",
+    "name_en": "Nepal",
+    "name_ar": "نيبال"
+  },
+  "sweden": {
+    "code": "SE",
+    "name_en": "Sweden",
+    "name_ar": "السويد"
+  },
+  "kingdom of sweden": {
+    "code": "SE",
+    "name_en": "Sweden",
+    "name_ar": "السويد"
+  },
+  "se": {
+    "code": "SE",
+    "name_en": "Sweden",
+    "name_ar": "السويد"
+  },
+  "konungariket sverige": {
+    "code": "SE",
+    "name_en": "Sweden",
+    "name_ar": "السويد"
+  },
+  "sierra leone": {
+    "code": "SL",
+    "name_en": "Sierra Leone",
+    "name_ar": "سيراليون"
+  },
+  "republic of sierra leone": {
+    "code": "SL",
+    "name_en": "Sierra Leone",
+    "name_ar": "سيراليون"
+  },
+  "sl": {
+    "code": "SL",
+    "name_en": "Sierra Leone",
+    "name_ar": "سيراليون"
+  },
+  "eswatini": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "kingdom of eswatini": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "sz": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "swaziland": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "weswatini": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "swatini": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "ngwane": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "umbuso weswatini": {
+    "code": "SZ",
+    "name_en": "Eswatini",
+    "name_ar": "إسواتيني"
+  },
+  "spain": {
+    "code": "ES",
+    "name_en": "Spain",
+    "name_ar": "إسبانيا"
+  },
+  "kingdom of spain": {
+    "code": "ES",
+    "name_en": "Spain",
+    "name_ar": "إسبانيا"
+  },
+  "es": {
+    "code": "ES",
+    "name_en": "Spain",
+    "name_ar": "إسبانيا"
+  },
+  "reino de espan a": {
+    "code": "ES",
+    "name_en": "Spain",
+    "name_ar": "إسبانيا"
+  },
+  "colombia": {
+    "code": "CO",
+    "name_en": "Colombia",
+    "name_ar": "كولومبيا"
+  },
+  "republic of colombia": {
+    "code": "CO",
+    "name_en": "Colombia",
+    "name_ar": "كولومبيا"
+  },
+  "co": {
+    "code": "CO",
+    "name_en": "Colombia",
+    "name_ar": "كولومبيا"
+  },
+  "repu blica de colombia": {
+    "code": "CO",
+    "name_en": "Colombia",
+    "name_ar": "كولومبيا"
+  },
+  "turks and caicos islands": {
+    "code": "TC",
+    "name_en": "Turks and Caicos Islands",
+    "name_ar": "جزر توركس وكايكوس"
+  },
+  "tc": {
+    "code": "TC",
+    "name_en": "Turks and Caicos Islands",
+    "name_ar": "جزر توركس وكايكوس"
+  },
+  "djibouti": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "republic of djibouti": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "dj": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "jabuuti": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "gabuuti": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "re publique de djibouti": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "gabuutih ummuuno": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "jamhuuriyadda jabuuti": {
+    "code": "DJ",
+    "name_en": "Djibouti",
+    "name_ar": "جيبوتي"
+  },
+  "nauru": {
+    "code": "NR",
+    "name_en": "Nauru",
+    "name_ar": "ناورو"
+  },
+  "republic of nauru": {
+    "code": "NR",
+    "name_en": "Nauru",
+    "name_ar": "ناورو"
+  },
+  "nr": {
+    "code": "NR",
+    "name_en": "Nauru",
+    "name_ar": "ناورو"
+  },
+  "naoero": {
+    "code": "NR",
+    "name_en": "Nauru",
+    "name_ar": "ناورو"
+  },
+  "pleasant island": {
+    "code": "NR",
+    "name_en": "Nauru",
+    "name_ar": "ناورو"
+  },
+  "ripublik naoero": {
+    "code": "NR",
+    "name_en": "Nauru",
+    "name_ar": "ناورو"
+  },
+  "el salvador": {
+    "code": "SV",
+    "name_en": "El Salvador",
+    "name_ar": "السلفادور"
+  },
+  "republic of el salvador": {
+    "code": "SV",
+    "name_en": "El Salvador",
+    "name_ar": "السلفادور"
+  },
+  "sv": {
+    "code": "SV",
+    "name_en": "El Salvador",
+    "name_ar": "السلفادور"
+  },
+  "repu blica de el salvador": {
+    "code": "SV",
+    "name_en": "El Salvador",
+    "name_ar": "السلفادور"
+  },
+  "a land islands": {
+    "code": "AX",
+    "name_en": "Åland Islands",
+    "name_ar": "جزر أولاند"
+  },
+  "ax": {
+    "code": "AX",
+    "name_en": "Åland Islands",
+    "name_ar": "جزر أولاند"
+  },
+  "aaland": {
+    "code": "AX",
+    "name_en": "Åland Islands",
+    "name_ar": "جزر أولاند"
+  },
+  "aland": {
+    "code": "AX",
+    "name_en": "Åland Islands",
+    "name_ar": "جزر أولاند"
+  },
+  "ahvenanmaa": {
+    "code": "AX",
+    "name_en": "Åland Islands",
+    "name_ar": "جزر أولاند"
+  },
+  "guadeloupe": {
+    "code": "GP",
+    "name_en": "Guadeloupe",
+    "name_ar": "غوادلوب"
+  },
+  "gp": {
+    "code": "GP",
+    "name_en": "Guadeloupe",
+    "name_ar": "غوادلوب"
+  },
+  "gwadloup": {
+    "code": "GP",
+    "name_en": "Guadeloupe",
+    "name_ar": "غوادلوب"
+  },
+  "honduras": {
+    "code": "HN",
+    "name_en": "Honduras",
+    "name_ar": "هندوراس"
+  },
+  "republic of honduras": {
+    "code": "HN",
+    "name_en": "Honduras",
+    "name_ar": "هندوراس"
+  },
+  "hn": {
+    "code": "HN",
+    "name_en": "Honduras",
+    "name_ar": "هندوراس"
+  },
+  "repu blica de honduras": {
+    "code": "HN",
+    "name_en": "Honduras",
+    "name_ar": "هندوراس"
+  },
+  "kenya": {
+    "code": "KE",
+    "name_en": "Kenya",
+    "name_ar": "كينيا"
+  },
+  "republic of kenya": {
+    "code": "KE",
+    "name_en": "Kenya",
+    "name_ar": "كينيا"
+  },
+  "ke": {
+    "code": "KE",
+    "name_en": "Kenya",
+    "name_ar": "كينيا"
+  },
+  "jamhuri ya kenya": {
+    "code": "KE",
+    "name_en": "Kenya",
+    "name_ar": "كينيا"
+  },
+  "malta": {
+    "code": "MT",
+    "name_en": "Malta",
+    "name_ar": "مالطا"
+  },
+  "republic of malta": {
+    "code": "MT",
+    "name_en": "Malta",
+    "name_ar": "مالطا"
+  },
+  "mt": {
+    "code": "MT",
+    "name_en": "Malta",
+    "name_ar": "مالطا"
+  },
+  "repubblika ta malta": {
+    "code": "MT",
+    "name_en": "Malta",
+    "name_ar": "مالطا"
+  },
+  "latvia": {
+    "code": "LV",
+    "name_en": "Latvia",
+    "name_ar": "لاتفيا"
+  },
+  "republic of latvia": {
+    "code": "LV",
+    "name_en": "Latvia",
+    "name_ar": "لاتفيا"
+  },
+  "lv": {
+    "code": "LV",
+    "name_en": "Latvia",
+    "name_ar": "لاتفيا"
+  },
+  "latvijas republika": {
+    "code": "LV",
+    "name_en": "Latvia",
+    "name_ar": "لاتفيا"
+  },
+  "gabon": {
+    "code": "GA",
+    "name_en": "Gabon",
+    "name_ar": "الغابون"
+  },
+  "gabonese republic": {
+    "code": "GA",
+    "name_en": "Gabon",
+    "name_ar": "الغابون"
+  },
+  "ga": {
+    "code": "GA",
+    "name_en": "Gabon",
+    "name_ar": "الغابون"
+  },
+  "re publique gabonaise": {
+    "code": "GA",
+    "name_en": "Gabon",
+    "name_ar": "الغابون"
+  },
+  "hong kong": {
+    "code": "HK",
+    "name_en": "Hong Kong",
+    "name_ar": "هونغ كونغ"
+  },
+  "hong kong special administrative region of the people s republic of china": {
+    "code": "HK",
+    "name_en": "Hong Kong",
+    "name_ar": "هونغ كونغ"
+  },
+  "hk": {
+    "code": "HK",
+    "name_en": "Hong Kong",
+    "name_ar": "هونغ كونغ"
+  },
+  "svalbard and jan mayen": {
+    "code": "SJ",
+    "name_en": "Svalbard and Jan Mayen",
+    "name_ar": "سفالبارد ويان ماين"
+  },
+  "svalbard og jan mayen": {
+    "code": "SJ",
+    "name_en": "Svalbard and Jan Mayen",
+    "name_ar": "سفالبارد ويان ماين"
+  },
+  "sj": {
+    "code": "SJ",
+    "name_en": "Svalbard and Jan Mayen",
+    "name_ar": "سفالبارد ويان ماين"
+  },
+  "svalbard and jan mayen islands": {
+    "code": "SJ",
+    "name_en": "Svalbard and Jan Mayen",
+    "name_ar": "سفالبارد ويان ماين"
+  },
+  "tuvalu": {
+    "code": "TV",
+    "name_en": "Tuvalu",
+    "name_ar": "توفالو"
+  },
+  "tv": {
+    "code": "TV",
+    "name_en": "Tuvalu",
+    "name_ar": "توفالو"
+  },
+  "timor leste": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "democratic republic of timor leste": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "tl": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "east timor": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "repu blica democra tica de timor leste": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "repu blika demokra tika timo r leste": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "timo r lorosa e": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "timor lorosae": {
+    "code": "TL",
+    "name_en": "Timor-Leste",
+    "name_ar": "تيمور الشرقية"
+  },
+  "western sahara": {
+    "code": "EH",
+    "name_en": "Western Sahara",
+    "name_ar": "الصحراء الغربية"
+  },
+  "sahrawi arab democratic republic": {
+    "code": "EH",
+    "name_en": "Western Sahara",
+    "name_ar": "الصحراء الغربية"
+  },
+  "eh": {
+    "code": "EH",
+    "name_en": "Western Sahara",
+    "name_ar": "الصحراء الغربية"
+  },
+  "tanez roft tutrimt": {
+    "code": "EH",
+    "name_en": "Western Sahara",
+    "name_ar": "الصحراء الغربية"
+  },
+  "lesotho": {
+    "code": "LS",
+    "name_en": "Lesotho",
+    "name_ar": "ليسوتو"
+  },
+  "kingdom of lesotho": {
+    "code": "LS",
+    "name_en": "Lesotho",
+    "name_ar": "ليسوتو"
+  },
+  "ls": {
+    "code": "LS",
+    "name_en": "Lesotho",
+    "name_ar": "ليسوتو"
+  },
+  "muso oa lesotho": {
+    "code": "LS",
+    "name_en": "Lesotho",
+    "name_ar": "ليسوتو"
+  },
+  "united states": {
+    "code": "US",
+    "name_en": "United States",
+    "name_ar": "الولايات المتحدة"
+  },
+  "united states of america": {
+    "code": "US",
+    "name_en": "United States",
+    "name_ar": "الولايات المتحدة"
+  },
+  "us": {
+    "code": "US",
+    "name_en": "United States",
+    "name_ar": "الولايات المتحدة"
+  },
+  "usa": {
+    "code": "US",
+    "name_en": "United States",
+    "name_ar": "الولايات المتحدة"
+  },
+  "thailand": {
+    "code": "TH",
+    "name_en": "Thailand",
+    "name_ar": "تايلند"
+  },
+  "kingdom of thailand": {
+    "code": "TH",
+    "name_en": "Thailand",
+    "name_ar": "تايلند"
+  },
+  "th": {
+    "code": "TH",
+    "name_en": "Thailand",
+    "name_ar": "تايلند"
+  },
+  "prathet": {
+    "code": "TH",
+    "name_en": "Thailand",
+    "name_ar": "تايلند"
+  },
+  "thai": {
+    "code": "TH",
+    "name_en": "Thailand",
+    "name_ar": "تايلند"
+  },
+  "ratcha anachak thai": {
+    "code": "TH",
+    "name_en": "Thailand",
+    "name_ar": "تايلند"
+  },
+  "british indian ocean territory": {
+    "code": "IO",
+    "name_en": "British Indian Ocean Territory",
+    "name_ar": "إقليم المحيط الهندي البريطاني"
+  },
+  "io": {
+    "code": "IO",
+    "name_en": "British Indian Ocean Territory",
+    "name_ar": "إقليم المحيط الهندي البريطاني"
+  },
+  "india": {
+    "code": "IN",
+    "name_en": "India",
+    "name_ar": "الهند"
+  },
+  "republic of india": {
+    "code": "IN",
+    "name_en": "India",
+    "name_ar": "الهند"
+  },
+  "in": {
+    "code": "IN",
+    "name_en": "India",
+    "name_ar": "الهند"
+  },
+  "bha rat": {
+    "code": "IN",
+    "name_en": "India",
+    "name_ar": "الهند"
+  },
+  "bharat ganrajya": {
+    "code": "IN",
+    "name_en": "India",
+    "name_ar": "الهند"
+  },
+  "lithuania": {
+    "code": "LT",
+    "name_en": "Lithuania",
+    "name_ar": "ليتوانيا"
+  },
+  "republic of lithuania": {
+    "code": "LT",
+    "name_en": "Lithuania",
+    "name_ar": "ليتوانيا"
+  },
+  "lt": {
+    "code": "LT",
+    "name_en": "Lithuania",
+    "name_ar": "ليتوانيا"
+  },
+  "lietuvos respublika": {
+    "code": "LT",
+    "name_en": "Lithuania",
+    "name_ar": "ليتوانيا"
+  },
+  "montserrat": {
+    "code": "MS",
+    "name_en": "Montserrat",
+    "name_ar": "مونتسرات"
+  },
+  "ms": {
+    "code": "MS",
+    "name_en": "Montserrat",
+    "name_ar": "مونتسرات"
+  },
+  "zimbabwe": {
+    "code": "ZW",
+    "name_en": "Zimbabwe",
+    "name_ar": "زيمبابوي"
+  },
+  "republic of zimbabwe": {
+    "code": "ZW",
+    "name_en": "Zimbabwe",
+    "name_ar": "زيمبابوي"
+  },
+  "zw": {
+    "code": "ZW",
+    "name_en": "Zimbabwe",
+    "name_ar": "زيمبابوي"
+  },
+  "falkland islands": {
+    "code": "FK",
+    "name_en": "Falkland Islands",
+    "name_ar": "جزر فوكلاند"
+  },
+  "fk": {
+    "code": "FK",
+    "name_en": "Falkland Islands",
+    "name_ar": "جزر فوكلاند"
+  },
+  "islas malvinas": {
+    "code": "FK",
+    "name_en": "Falkland Islands",
+    "name_ar": "جزر فوكلاند"
+  },
+  "falkland islands malvinas": {
+    "code": "FK",
+    "name_en": "Falkland Islands",
+    "name_ar": "جزر فوكلاند"
+  },
+  "maldives": {
+    "code": "MV",
+    "name_en": "Maldives",
+    "name_ar": "المالديف"
+  },
+  "republic of the maldives": {
+    "code": "MV",
+    "name_en": "Maldives",
+    "name_ar": "المالديف"
+  },
+  "mv": {
+    "code": "MV",
+    "name_en": "Maldives",
+    "name_ar": "المالديف"
+  },
+  "maldive islands": {
+    "code": "MV",
+    "name_en": "Maldives",
+    "name_ar": "المالديف"
+  },
+  "dhivehi raajjeyge jumhooriyya": {
+    "code": "MV",
+    "name_en": "Maldives",
+    "name_ar": "المالديف"
+  },
+  "tunisia": {
+    "code": "TN",
+    "name_en": "Tunisia",
+    "name_ar": "تونس"
+  },
+  "tunisian republic": {
+    "code": "TN",
+    "name_en": "Tunisia",
+    "name_ar": "تونس"
+  },
+  "tn": {
+    "code": "TN",
+    "name_en": "Tunisia",
+    "name_ar": "تونس"
+  },
+  "republic of tunisia": {
+    "code": "TN",
+    "name_en": "Tunisia",
+    "name_ar": "تونس"
+  },
+  "al jumhu riyyah at tu nisiyyah": {
+    "code": "TN",
+    "name_en": "Tunisia",
+    "name_ar": "تونس"
+  },
+  "estonia": {
+    "code": "EE",
+    "name_en": "Estonia",
+    "name_ar": "إستونيا"
+  },
+  "republic of estonia": {
+    "code": "EE",
+    "name_en": "Estonia",
+    "name_ar": "إستونيا"
+  },
+  "ee": {
+    "code": "EE",
+    "name_en": "Estonia",
+    "name_ar": "إستونيا"
+  },
+  "eesti": {
+    "code": "EE",
+    "name_en": "Estonia",
+    "name_ar": "إستونيا"
+  },
+  "eesti vabariik": {
+    "code": "EE",
+    "name_en": "Estonia",
+    "name_ar": "إستونيا"
+  },
+  "bangladesh": {
+    "code": "BD",
+    "name_en": "Bangladesh",
+    "name_ar": "بنغلاديش"
+  },
+  "people s republic of bangladesh": {
+    "code": "BD",
+    "name_en": "Bangladesh",
+    "name_ar": "بنغلاديش"
+  },
+  "bd": {
+    "code": "BD",
+    "name_en": "Bangladesh",
+    "name_ar": "بنغلاديش"
+  },
+  "go no pro jato ntri bangladesh": {
+    "code": "BD",
+    "name_en": "Bangladesh",
+    "name_ar": "بنغلاديش"
+  },
+  "uzbekistan": {
+    "code": "UZ",
+    "name_en": "Uzbekistan",
+    "name_ar": "أوزباكستان"
+  },
+  "republic of uzbekistan": {
+    "code": "UZ",
+    "name_en": "Uzbekistan",
+    "name_ar": "أوزباكستان"
+  },
+  "uz": {
+    "code": "UZ",
+    "name_en": "Uzbekistan",
+    "name_ar": "أوزباكستان"
+  },
+  "o zbekiston respublikasi": {
+    "code": "UZ",
+    "name_en": "Uzbekistan",
+    "name_ar": "أوزباكستان"
+  },
+  "ghana": {
+    "code": "GH",
+    "name_en": "Ghana",
+    "name_ar": "غانا"
+  },
+  "republic of ghana": {
+    "code": "GH",
+    "name_en": "Ghana",
+    "name_ar": "غانا"
+  },
+  "gh": {
+    "code": "GH",
+    "name_en": "Ghana",
+    "name_ar": "غانا"
+  },
+  "norway": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "kingdom of norway": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "no": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "norge": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "noreg": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "kongeriket norge": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "kongeriket noreg": {
+    "code": "NO",
+    "name_en": "Norway",
+    "name_ar": "النرويج"
+  },
+  "somalia": {
+    "code": "SO",
+    "name_en": "Somalia",
+    "name_ar": "الصومال"
+  },
+  "federal republic of somalia": {
+    "code": "SO",
+    "name_en": "Somalia",
+    "name_ar": "الصومال"
+  },
+  "so": {
+    "code": "SO",
+    "name_en": "Somalia",
+    "name_ar": "الصومال"
+  },
+  "as s u ma l": {
+    "code": "SO",
+    "name_en": "Somalia",
+    "name_ar": "الصومال"
+  },
+  "jamhuuriyadda federaalka soomaaliya": {
+    "code": "SO",
+    "name_en": "Somalia",
+    "name_ar": "الصومال"
+  },
+  "jumhu riyyat as s u ma l al fidera liyya": {
+    "code": "SO",
+    "name_en": "Somalia",
+    "name_ar": "الصومال"
+  },
+  "bahamas": {
+    "code": "BS",
+    "name_en": "Bahamas",
+    "name_ar": "باهاماس"
+  },
+  "commonwealth of the bahamas": {
+    "code": "BS",
+    "name_en": "Bahamas",
+    "name_ar": "باهاماس"
+  },
+  "bs": {
+    "code": "BS",
+    "name_en": "Bahamas",
+    "name_ar": "باهاماس"
+  },
+  "oman": {
+    "code": "OM",
+    "name_en": "Oman",
+    "name_ar": "عمان"
+  },
+  "sultanate of oman": {
+    "code": "OM",
+    "name_en": "Oman",
+    "name_ar": "عمان"
+  },
+  "om": {
+    "code": "OM",
+    "name_en": "Oman",
+    "name_ar": "عمان"
+  },
+  "salt anat uma n": {
+    "code": "OM",
+    "name_en": "Oman",
+    "name_ar": "عمان"
+  },
+  "luxembourg": {
+    "code": "LU",
+    "name_en": "Luxembourg",
+    "name_ar": "لوكسمبورغ"
+  },
+  "grand duchy of luxembourg": {
+    "code": "LU",
+    "name_en": "Luxembourg",
+    "name_ar": "لوكسمبورغ"
+  },
+  "lu": {
+    "code": "LU",
+    "name_en": "Luxembourg",
+    "name_ar": "لوكسمبورغ"
+  },
+  "grand duche de luxembourg": {
+    "code": "LU",
+    "name_en": "Luxembourg",
+    "name_ar": "لوكسمبورغ"
+  },
+  "gro herzogtum luxemburg": {
+    "code": "LU",
+    "name_en": "Luxembourg",
+    "name_ar": "لوكسمبورغ"
+  },
+  "groussherzogtum le tzebuerg": {
+    "code": "LU",
+    "name_en": "Luxembourg",
+    "name_ar": "لوكسمبورغ"
+  },
+  "iraq": {
+    "code": "IQ",
+    "name_en": "Iraq",
+    "name_ar": "العراق"
+  },
+  "republic of iraq": {
+    "code": "IQ",
+    "name_en": "Iraq",
+    "name_ar": "العراق"
+  },
+  "iq": {
+    "code": "IQ",
+    "name_en": "Iraq",
+    "name_ar": "العراق"
+  },
+  "jumhu riyyat al ira q": {
+    "code": "IQ",
+    "name_en": "Iraq",
+    "name_ar": "العراق"
+  },
+  "united states virgin islands": {
+    "code": "VI",
+    "name_en": "United States Virgin Islands",
+    "name_ar": "جزر العذراء الامريكية"
+  },
+  "virgin islands of the united states": {
+    "code": "VI",
+    "name_en": "United States Virgin Islands",
+    "name_ar": "جزر العذراء الامريكية"
+  },
+  "vi": {
+    "code": "VI",
+    "name_en": "United States Virgin Islands",
+    "name_ar": "جزر العذراء الامريكية"
+  },
+  "virgin islands u s": {
+    "code": "VI",
+    "name_en": "United States Virgin Islands",
+    "name_ar": "جزر العذراء الامريكية"
+  },
+  "mauritania": {
+    "code": "MR",
+    "name_en": "Mauritania",
+    "name_ar": "موريتانيا"
+  },
+  "islamic republic of mauritania": {
+    "code": "MR",
+    "name_en": "Mauritania",
+    "name_ar": "موريتانيا"
+  },
+  "mr": {
+    "code": "MR",
+    "name_en": "Mauritania",
+    "name_ar": "موريتانيا"
+  },
+  "al jumhu riyyah al isla miyyah al mu ri ta niyyah": {
+    "code": "MR",
+    "name_en": "Mauritania",
+    "name_ar": "موريتانيا"
+  },
+  "canada": {
+    "code": "CA",
+    "name_en": "Canada",
+    "name_ar": "كندا"
+  },
+  "ca": {
+    "code": "CA",
+    "name_en": "Canada",
+    "name_ar": "كندا"
+  },
+  "myanmar": {
+    "code": "MM",
+    "name_en": "Myanmar",
+    "name_ar": "ميانمار"
+  },
+  "republic of the union of myanmar": {
+    "code": "MM",
+    "name_en": "Myanmar",
+    "name_ar": "ميانمار"
+  },
+  "mm": {
+    "code": "MM",
+    "name_en": "Myanmar",
+    "name_ar": "ميانمار"
+  },
+  "burma": {
+    "code": "MM",
+    "name_en": "Myanmar",
+    "name_ar": "ميانمار"
+  },
+  "pyidaunzu thanma da mya ma nainngandaw": {
+    "code": "MM",
+    "name_en": "Myanmar",
+    "name_ar": "ميانمار"
+  },
+  "malaysia": {
+    "code": "MY",
+    "name_en": "Malaysia",
+    "name_ar": "ماليزيا"
+  },
+  "my": {
+    "code": "MY",
+    "name_en": "Malaysia",
+    "name_ar": "ماليزيا"
+  },
+  "cocos keeling islands": {
+    "code": "CC",
+    "name_en": "Cocos (Keeling) Islands",
+    "name_ar": "جزر كوكوس"
+  },
+  "territory of the cocos keeling islands": {
+    "code": "CC",
+    "name_en": "Cocos (Keeling) Islands",
+    "name_ar": "جزر كوكوس"
+  },
+  "cc": {
+    "code": "CC",
+    "name_en": "Cocos (Keeling) Islands",
+    "name_ar": "جزر كوكوس"
+  },
+  "keeling islands": {
+    "code": "CC",
+    "name_en": "Cocos (Keeling) Islands",
+    "name_ar": "جزر كوكوس"
+  },
+  "cocos islands": {
+    "code": "CC",
+    "name_en": "Cocos (Keeling) Islands",
+    "name_ar": "جزر كوكوس"
+  },
+  "caribbean netherlands": {
+    "code": "BQ",
+    "name_en": "Caribbean Netherlands",
+    "name_ar": "الجزر الكاريبية الهولندية"
+  },
+  "bonaire sint eustatius and saba": {
+    "code": "BQ",
+    "name_en": "Caribbean Netherlands",
+    "name_ar": "الجزر الكاريبية الهولندية"
+  },
+  "bes islands": {
+    "code": "BQ",
+    "name_en": "Caribbean Netherlands",
+    "name_ar": "الجزر الكاريبية الهولندية"
+  },
+  "uganda": {
+    "code": "UG",
+    "name_en": "Uganda",
+    "name_ar": "أوغندا"
+  },
+  "republic of uganda": {
+    "code": "UG",
+    "name_en": "Uganda",
+    "name_ar": "أوغندا"
+  },
+  "ug": {
+    "code": "UG",
+    "name_en": "Uganda",
+    "name_ar": "أوغندا"
+  },
+  "jamhuri ya uganda": {
+    "code": "UG",
+    "name_en": "Uganda",
+    "name_ar": "أوغندا"
+  },
+  "iran": {
+    "code": "IR",
+    "name_en": "Iran",
+    "name_ar": "إيران"
+  },
+  "islamic republic of iran": {
+    "code": "IR",
+    "name_en": "Iran",
+    "name_ar": "إيران"
+  },
+  "ir": {
+    "code": "IR",
+    "name_en": "Iran",
+    "name_ar": "إيران"
+  },
+  "iran islamic republic of": {
+    "code": "IR",
+    "name_en": "Iran",
+    "name_ar": "إيران"
+  },
+  "jomhuri ye esla mi ye ira n": {
+    "code": "IR",
+    "name_en": "Iran",
+    "name_ar": "إيران"
+  },
+  "curac ao": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "country of curac ao": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "cw": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "curacao": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "ko rsou": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "land curac ao": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "pais ko rsou": {
+    "code": "CW",
+    "name_en": "Curaçao",
+    "name_ar": "كوراساو"
+  },
+  "romania": {
+    "code": "RO",
+    "name_en": "Romania",
+    "name_ar": "رومانيا"
+  },
+  "ro": {
+    "code": "RO",
+    "name_en": "Romania",
+    "name_ar": "رومانيا"
+  },
+  "rumania": {
+    "code": "RO",
+    "name_en": "Romania",
+    "name_ar": "رومانيا"
+  },
+  "roumania": {
+    "code": "RO",
+    "name_en": "Romania",
+    "name_ar": "رومانيا"
+  },
+  "roma nia": {
+    "code": "RO",
+    "name_en": "Romania",
+    "name_ar": "رومانيا"
+  },
+  "syria": {
+    "code": "SY",
+    "name_en": "Syria",
+    "name_ar": "سوريا"
+  },
+  "syrian arab republic": {
+    "code": "SY",
+    "name_en": "Syria",
+    "name_ar": "سوريا"
+  },
+  "sy": {
+    "code": "SY",
+    "name_en": "Syria",
+    "name_ar": "سوريا"
+  },
+  "al jumhu ri yah al arabi yah as su ri yah": {
+    "code": "SY",
+    "name_en": "Syria",
+    "name_ar": "سوريا"
+  },
+  "fiji": {
+    "code": "FJ",
+    "name_en": "Fiji",
+    "name_ar": "فيجي"
+  },
+  "republic of fiji": {
+    "code": "FJ",
+    "name_en": "Fiji",
+    "name_ar": "فيجي"
+  },
+  "fj": {
+    "code": "FJ",
+    "name_en": "Fiji",
+    "name_ar": "فيجي"
+  },
+  "viti": {
+    "code": "FJ",
+    "name_en": "Fiji",
+    "name_ar": "فيجي"
+  },
+  "matanitu ko viti": {
+    "code": "FJ",
+    "name_en": "Fiji",
+    "name_ar": "فيجي"
+  },
+  "fiji gan ara jya": {
+    "code": "FJ",
+    "name_en": "Fiji",
+    "name_ar": "فيجي"
+  },
+  "aruba": {
+    "code": "AW",
+    "name_en": "Aruba",
+    "name_ar": "أروبا"
+  },
+  "aw": {
+    "code": "AW",
+    "name_en": "Aruba",
+    "name_ar": "أروبا"
+  },
+  "netherlands": {
+    "code": "NL",
+    "name_en": "Netherlands",
+    "name_ar": "هولندا"
+  },
+  "kingdom of the netherlands": {
+    "code": "NL",
+    "name_en": "Netherlands",
+    "name_ar": "هولندا"
+  },
+  "nl": {
+    "code": "NL",
+    "name_en": "Netherlands",
+    "name_ar": "هولندا"
+  },
+  "holland": {
+    "code": "NL",
+    "name_en": "Netherlands",
+    "name_ar": "هولندا"
+  },
+  "nederland": {
+    "code": "NL",
+    "name_en": "Netherlands",
+    "name_ar": "هولندا"
+  },
+  "the netherlands": {
+    "code": "NL",
+    "name_en": "Netherlands",
+    "name_ar": "هولندا"
+  },
+  "peru": {
+    "code": "PE",
+    "name_en": "Peru",
+    "name_ar": "بيرو"
+  },
+  "republic of peru": {
+    "code": "PE",
+    "name_en": "Peru",
+    "name_ar": "بيرو"
+  },
+  "pe": {
+    "code": "PE",
+    "name_en": "Peru",
+    "name_ar": "بيرو"
+  },
+  "repu blica del peru": {
+    "code": "PE",
+    "name_en": "Peru",
+    "name_ar": "بيرو"
+  },
+  "re union": {
+    "code": "RE",
+    "name_en": "Réunion",
+    "name_ar": "لا ريونيون"
+  },
+  "re union island": {
+    "code": "RE",
+    "name_en": "Réunion",
+    "name_ar": "لا ريونيون"
+  },
+  "re": {
+    "code": "RE",
+    "name_en": "Réunion",
+    "name_ar": "لا ريونيون"
+  },
+  "reunion": {
+    "code": "RE",
+    "name_en": "Réunion",
+    "name_ar": "لا ريونيون"
+  },
+  "botswana": {
+    "code": "BW",
+    "name_en": "Botswana",
+    "name_ar": "بوتسوانا"
+  },
+  "republic of botswana": {
+    "code": "BW",
+    "name_en": "Botswana",
+    "name_ar": "بوتسوانا"
+  },
+  "bw": {
+    "code": "BW",
+    "name_en": "Botswana",
+    "name_ar": "بوتسوانا"
+  },
+  "lefatshe la botswana": {
+    "code": "BW",
+    "name_en": "Botswana",
+    "name_ar": "بوتسوانا"
+  },
+  "afghanistan": {
+    "code": "AF",
+    "name_en": "Afghanistan",
+    "name_ar": "أفغانستان"
+  },
+  "islamic republic of afghanistan": {
+    "code": "AF",
+    "name_en": "Afghanistan",
+    "name_ar": "أفغانستان"
+  },
+  "af": {
+    "code": "AF",
+    "name_en": "Afghanistan",
+    "name_ar": "أفغانستان"
+  },
+  "afg a nista n": {
+    "code": "AF",
+    "name_en": "Afghanistan",
+    "name_ar": "أفغانستان"
+  },
+  "serbia": {
+    "code": "RS",
+    "name_en": "Serbia",
+    "name_ar": "صيربيا"
+  },
+  "republic of serbia": {
+    "code": "RS",
+    "name_en": "Serbia",
+    "name_ar": "صيربيا"
+  },
+  "rs": {
+    "code": "RS",
+    "name_en": "Serbia",
+    "name_ar": "صيربيا"
+  },
+  "srbija": {
+    "code": "RS",
+    "name_en": "Serbia",
+    "name_ar": "صيربيا"
+  },
+  "republika srbija": {
+    "code": "RS",
+    "name_en": "Serbia",
+    "name_ar": "صيربيا"
+  },
+  "czechia": {
+    "code": "CZ",
+    "name_en": "Czechia",
+    "name_ar": "التشيك"
+  },
+  "czech republic": {
+    "code": "CZ",
+    "name_en": "Czechia",
+    "name_ar": "التشيك"
+  },
+  "cz": {
+    "code": "CZ",
+    "name_en": "Czechia",
+    "name_ar": "التشيك"
+  },
+  "c eska republika": {
+    "code": "CZ",
+    "name_en": "Czechia",
+    "name_ar": "التشيك"
+  },
+  "c esko": {
+    "code": "CZ",
+    "name_en": "Czechia",
+    "name_ar": "التشيك"
+  },
+  "dominica": {
+    "code": "DM",
+    "name_en": "Dominica",
+    "name_ar": "دومينيكا"
+  },
+  "commonwealth of dominica": {
+    "code": "DM",
+    "name_en": "Dominica",
+    "name_ar": "دومينيكا"
+  },
+  "dm": {
+    "code": "DM",
+    "name_en": "Dominica",
+    "name_ar": "دومينيكا"
+  },
+  "dominique": {
+    "code": "DM",
+    "name_en": "Dominica",
+    "name_ar": "دومينيكا"
+  },
+  "wai tu kubuli": {
+    "code": "DM",
+    "name_en": "Dominica",
+    "name_ar": "دومينيكا"
+  },
+  "poland": {
+    "code": "PL",
+    "name_en": "Poland",
+    "name_ar": "بولندا"
+  },
+  "republic of poland": {
+    "code": "PL",
+    "name_en": "Poland",
+    "name_ar": "بولندا"
+  },
+  "pl": {
+    "code": "PL",
+    "name_en": "Poland",
+    "name_ar": "بولندا"
+  },
+  "rzeczpospolita polska": {
+    "code": "PL",
+    "name_en": "Poland",
+    "name_ar": "بولندا"
+  },
+  "benin": {
+    "code": "BJ",
+    "name_en": "Benin",
+    "name_ar": "بنين"
+  },
+  "republic of benin": {
+    "code": "BJ",
+    "name_en": "Benin",
+    "name_ar": "بنين"
+  },
+  "bj": {
+    "code": "BJ",
+    "name_en": "Benin",
+    "name_ar": "بنين"
+  },
+  "re publique du be nin": {
+    "code": "BJ",
+    "name_en": "Benin",
+    "name_ar": "بنين"
+  },
+  "moldova": {
+    "code": "MD",
+    "name_en": "Moldova",
+    "name_ar": "مولدوڤا"
+  },
+  "republic of moldova": {
+    "code": "MD",
+    "name_en": "Moldova",
+    "name_ar": "مولدوڤا"
+  },
+  "md": {
+    "code": "MD",
+    "name_en": "Moldova",
+    "name_ar": "مولدوڤا"
+  },
+  "moldova republic of": {
+    "code": "MD",
+    "name_en": "Moldova",
+    "name_ar": "مولدوڤا"
+  },
+  "republica moldova": {
+    "code": "MD",
+    "name_en": "Moldova",
+    "name_ar": "مولدوڤا"
+  },
+  "russia": {
+    "code": "RU",
+    "name_en": "Russia",
+    "name_ar": "روسيا"
+  },
+  "russian federation": {
+    "code": "RU",
+    "name_en": "Russia",
+    "name_ar": "روسيا"
+  },
+  "ru": {
+    "code": "RU",
+    "name_en": "Russia",
+    "name_ar": "روسيا"
+  },
+  "saint barthe lemy": {
+    "code": "BL",
+    "name_en": "Saint Barthélemy",
+    "name_ar": "سان بارتليمي"
+  },
+  "collectivity of saint barthe lemy": {
+    "code": "BL",
+    "name_en": "Saint Barthélemy",
+    "name_ar": "سان بارتليمي"
+  },
+  "bl": {
+    "code": "BL",
+    "name_en": "Saint Barthélemy",
+    "name_ar": "سان بارتليمي"
+  },
+  "st barthelemy": {
+    "code": "BL",
+    "name_en": "Saint Barthélemy",
+    "name_ar": "سان بارتليمي"
+  },
+  "collectivite de saint barthe lemy": {
+    "code": "BL",
+    "name_en": "Saint Barthélemy",
+    "name_ar": "سان بارتليمي"
+  },
+  "indonesia": {
+    "code": "ID",
+    "name_en": "Indonesia",
+    "name_ar": "إندونيسيا"
+  },
+  "republic of indonesia": {
+    "code": "ID",
+    "name_en": "Indonesia",
+    "name_ar": "إندونيسيا"
+  },
+  "id": {
+    "code": "ID",
+    "name_en": "Indonesia",
+    "name_ar": "إندونيسيا"
+  },
+  "republik indonesia": {
+    "code": "ID",
+    "name_en": "Indonesia",
+    "name_ar": "إندونيسيا"
+  },
+  "nicaragua": {
+    "code": "NI",
+    "name_en": "Nicaragua",
+    "name_ar": "نيكاراغوا"
+  },
+  "republic of nicaragua": {
+    "code": "NI",
+    "name_en": "Nicaragua",
+    "name_ar": "نيكاراغوا"
+  },
+  "ni": {
+    "code": "NI",
+    "name_en": "Nicaragua",
+    "name_ar": "نيكاراغوا"
+  },
+  "repu blica de nicaragua": {
+    "code": "NI",
+    "name_en": "Nicaragua",
+    "name_ar": "نيكاراغوا"
+  },
+  "armenia": {
+    "code": "AM",
+    "name_en": "Armenia",
+    "name_ar": "أرمينيا"
+  },
+  "republic of armenia": {
+    "code": "AM",
+    "name_en": "Armenia",
+    "name_ar": "أرمينيا"
+  },
+  "am": {
+    "code": "AM",
+    "name_en": "Armenia",
+    "name_ar": "أرمينيا"
+  },
+  "hayastan": {
+    "code": "AM",
+    "name_en": "Armenia",
+    "name_ar": "أرمينيا"
+  },
+  "belarus": {
+    "code": "BY",
+    "name_en": "Belarus",
+    "name_ar": "بيلاروسيا"
+  },
+  "republic of belarus": {
+    "code": "BY",
+    "name_en": "Belarus",
+    "name_ar": "بيلاروسيا"
+  },
+  "by": {
+    "code": "BY",
+    "name_en": "Belarus",
+    "name_ar": "بيلاروسيا"
+  },
+  "bielarus": {
+    "code": "BY",
+    "name_en": "Belarus",
+    "name_ar": "بيلاروسيا"
+  },
+  "ethiopia": {
+    "code": "ET",
+    "name_en": "Ethiopia",
+    "name_ar": "إثيوبيا"
+  },
+  "federal democratic republic of ethiopia": {
+    "code": "ET",
+    "name_en": "Ethiopia",
+    "name_ar": "إثيوبيا"
+  },
+  "et": {
+    "code": "ET",
+    "name_en": "Ethiopia",
+    "name_ar": "إثيوبيا"
+  },
+  "i tyo p p ya": {
+    "code": "ET",
+    "name_en": "Ethiopia",
+    "name_ar": "إثيوبيا"
+  },
+  "costa rica": {
+    "code": "CR",
+    "name_en": "Costa Rica",
+    "name_ar": "كوستاريكا"
+  },
+  "republic of costa rica": {
+    "code": "CR",
+    "name_en": "Costa Rica",
+    "name_ar": "كوستاريكا"
+  },
+  "cr": {
+    "code": "CR",
+    "name_en": "Costa Rica",
+    "name_ar": "كوستاريكا"
+  },
+  "repu blica de costa rica": {
+    "code": "CR",
+    "name_en": "Costa Rica",
+    "name_ar": "كوستاريكا"
+  },
+  "jordan": {
+    "code": "JO",
+    "name_en": "Jordan",
+    "name_ar": "الأردن"
+  },
+  "hashemite kingdom of jordan": {
+    "code": "JO",
+    "name_en": "Jordan",
+    "name_ar": "الأردن"
+  },
+  "jo": {
+    "code": "JO",
+    "name_en": "Jordan",
+    "name_ar": "الأردن"
+  },
+  "al mamlakah al urduni yah al ha shimi yah": {
+    "code": "JO",
+    "name_en": "Jordan",
+    "name_ar": "الأردن"
+  },
+  "germany": {
+    "code": "DE",
+    "name_en": "Germany",
+    "name_ar": "ألمانيا"
+  },
+  "federal republic of germany": {
+    "code": "DE",
+    "name_en": "Germany",
+    "name_ar": "ألمانيا"
+  },
+  "de": {
+    "code": "DE",
+    "name_en": "Germany",
+    "name_ar": "ألمانيا"
+  },
+  "bundesrepublik deutschland": {
+    "code": "DE",
+    "name_en": "Germany",
+    "name_ar": "ألمانيا"
+  },
+  "ecuador": {
+    "code": "EC",
+    "name_en": "Ecuador",
+    "name_ar": "الإكوادور"
+  },
+  "republic of ecuador": {
+    "code": "EC",
+    "name_en": "Ecuador",
+    "name_ar": "الإكوادور"
+  },
+  "ec": {
+    "code": "EC",
+    "name_en": "Ecuador",
+    "name_ar": "الإكوادور"
+  },
+  "repu blica del ecuador": {
+    "code": "EC",
+    "name_en": "Ecuador",
+    "name_ar": "الإكوادور"
+  },
+  "north korea": {
+    "code": "KP",
+    "name_en": "North Korea",
+    "name_ar": "كوريا الشمالية"
+  },
+  "democratic people s republic of korea": {
+    "code": "KP",
+    "name_en": "North Korea",
+    "name_ar": "كوريا الشمالية"
+  },
+  "kp": {
+    "code": "KP",
+    "name_en": "North Korea",
+    "name_ar": "كوريا الشمالية"
+  },
+  "dprk": {
+    "code": "KP",
+    "name_en": "North Korea",
+    "name_ar": "كوريا الشمالية"
+  },
+  "choso n minjujuu i inmin konghwaguk": {
+    "code": "KP",
+    "name_en": "North Korea",
+    "name_ar": "كوريا الشمالية"
+  },
+  "korea democratic people s republic of": {
+    "code": "KP",
+    "name_en": "North Korea",
+    "name_ar": "كوريا الشمالية"
+  },
+  "iceland": {
+    "code": "IS",
+    "name_en": "Iceland",
+    "name_ar": "آيسلندا"
+  },
+  "is": {
+    "code": "IS",
+    "name_en": "Iceland",
+    "name_ar": "آيسلندا"
+  },
+  "island": {
+    "code": "IS",
+    "name_en": "Iceland",
+    "name_ar": "آيسلندا"
+  },
+  "republic of iceland": {
+    "code": "IS",
+    "name_en": "Iceland",
+    "name_ar": "آيسلندا"
+  },
+  "ly veldi i sland": {
+    "code": "IS",
+    "name_en": "Iceland",
+    "name_ar": "آيسلندا"
+  },
+  "south sudan": {
+    "code": "SS",
+    "name_en": "South Sudan",
+    "name_ar": "جنوب السودان"
+  },
+  "republic of south sudan": {
+    "code": "SS",
+    "name_en": "South Sudan",
+    "name_ar": "جنوب السودان"
+  },
+  "ss": {
+    "code": "SS",
+    "name_en": "South Sudan",
+    "name_ar": "جنوب السودان"
+  },
+  "malawi": {
+    "code": "MW",
+    "name_en": "Malawi",
+    "name_ar": "مالاوي"
+  },
+  "republic of malawi": {
+    "code": "MW",
+    "name_en": "Malawi",
+    "name_ar": "مالاوي"
+  },
+  "mw": {
+    "code": "MW",
+    "name_en": "Malawi",
+    "name_ar": "مالاوي"
+  },
+  "burkina faso": {
+    "code": "BF",
+    "name_en": "Burkina Faso",
+    "name_ar": "بوركينا فاسو"
+  },
+  "bf": {
+    "code": "BF",
+    "name_en": "Burkina Faso",
+    "name_ar": "بوركينا فاسو"
+  },
+  "dr congo": {
+    "code": "CD",
+    "name_en": "DR Congo",
+    "name_ar": "الكونغو"
+  },
+  "democratic republic of the congo": {
+    "code": "CD",
+    "name_en": "DR Congo",
+    "name_ar": "الكونغو"
+  },
+  "cd": {
+    "code": "CD",
+    "name_en": "DR Congo",
+    "name_ar": "الكونغو"
+  },
+  "congo kinshasa": {
+    "code": "CD",
+    "name_en": "DR Congo",
+    "name_ar": "الكونغو"
+  },
+  "congo the democratic republic of the": {
+    "code": "CD",
+    "name_en": "DR Congo",
+    "name_ar": "الكونغو"
+  },
+  "drc": {
+    "code": "CD",
+    "name_en": "DR Congo",
+    "name_ar": "الكونغو"
+  },
+  "venezuela": {
+    "code": "VE",
+    "name_en": "Venezuela",
+    "name_ar": "فنزويلا"
+  },
+  "bolivarian republic of venezuela": {
+    "code": "VE",
+    "name_en": "Venezuela",
+    "name_ar": "فنزويلا"
+  },
+  "ve": {
+    "code": "VE",
+    "name_en": "Venezuela",
+    "name_ar": "فنزويلا"
+  },
+  "venezuela bolivarian republic of": {
+    "code": "VE",
+    "name_en": "Venezuela",
+    "name_ar": "فنزويلا"
+  },
+  "repu blica bolivariana de venezuela": {
+    "code": "VE",
+    "name_en": "Venezuela",
+    "name_ar": "فنزويلا"
+  },
+  "brunei": {
+    "code": "BN",
+    "name_en": "Brunei",
+    "name_ar": "بروناي"
+  },
+  "nation of brunei abode of peace": {
+    "code": "BN",
+    "name_en": "Brunei",
+    "name_ar": "بروناي"
+  },
+  "bn": {
+    "code": "BN",
+    "name_en": "Brunei",
+    "name_ar": "بروناي"
+  },
+  "brunei darussalam": {
+    "code": "BN",
+    "name_en": "Brunei",
+    "name_ar": "بروناي"
+  },
+  "nation of brunei": {
+    "code": "BN",
+    "name_en": "Brunei",
+    "name_ar": "بروناي"
+  },
+  "the abode of peace": {
+    "code": "BN",
+    "name_en": "Brunei",
+    "name_ar": "بروناي"
+  },
+  "paraguay": {
+    "code": "PY",
+    "name_en": "Paraguay",
+    "name_ar": "باراغواي"
+  },
+  "republic of paraguay": {
+    "code": "PY",
+    "name_en": "Paraguay",
+    "name_ar": "باراغواي"
+  },
+  "py": {
+    "code": "PY",
+    "name_en": "Paraguay",
+    "name_ar": "باراغواي"
+  },
+  "repu blica del paraguay": {
+    "code": "PY",
+    "name_en": "Paraguay",
+    "name_ar": "باراغواي"
+  },
+  "teta paragua i": {
+    "code": "PY",
+    "name_en": "Paraguay",
+    "name_ar": "باراغواي"
+  },
+  "bulgaria": {
+    "code": "BG",
+    "name_en": "Bulgaria",
+    "name_ar": "بلغاريا"
+  },
+  "republic of bulgaria": {
+    "code": "BG",
+    "name_en": "Bulgaria",
+    "name_ar": "بلغاريا"
+  },
+  "bg": {
+    "code": "BG",
+    "name_en": "Bulgaria",
+    "name_ar": "بلغاريا"
+  },
+  "usa virtual": {
+    "code": "US",
+    "name_en": "United States",
+    "name_ar": "الولايات المتحدة"
+  },
+  "england": {
+    "code": "GB",
+    "name_en": "United Kingdom",
+    "name_ar": "المملكة المتحدة"
+  }
+}

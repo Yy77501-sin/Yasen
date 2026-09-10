@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: vaultx-bot
+    runtime: node
+    plan: free
+    autoDeploy: true
+    buildCommand: npm ci
+    startCommand: node src/index.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 20

@@ -1,0 +1,52 @@
+{
+  "services": {
+    "virtual_numbers": {
+      "price": 1,
+      "enabled": true
+    },
+    "social_boost": {
+      "price": 2,
+      "enabled": true
+    },
+    "game_topup": {
+      "price": 3,
+      "enabled": true
+    },
+    "social_accounts": {
+      "price": 2.5,
+      "enabled": true
+    },
+    "pro_accounts": {
+      "price": 4,
+      "enabled": true
+    },
+    "cloud_services": {
+      "price": 5,
+      "enabled": true
+    },
+    "virtual_visa": {
+      "price": 6,
+      "enabled": true
+    },
+    "temporary_emails": {
+      "price": 0.5,
+      "enabled": true
+    },
+    "other_services": {
+      "price": 1.5,
+      "enabled": true
+    },
+    "balance_topup": {
+      "price": 0,
+      "enabled": true
+    }
+  },
+  "botStats": {
+    "totalRequests": 2279,
+    "totalProfits": 0,
+    "todayProfits": 0,
+    "todayDate": "2026-04-17"
+  },
+  "giftCodes": {},
+  "temporaryEmailInventory": {}
+}
