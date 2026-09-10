@@ -4,34 +4,6 @@
     "message": "EFATAL: Error: connect EACCES 149.154.166.110:443",
     "stack": "RequestError: Error: connect EACCES 149.154.166.110:443\n    at new RequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\errors.js:14:15)\n    at plumbing.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:87:29)\n    at Request.RP$callback [as _callback] (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:46:31)\n    at self.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:183:22)\n    at Request.emit (node:events:519:28)\n    at Request.onRequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:869:8)\n    at ClientRequest.emit (node:events:519:28)\n    at emitErrorEvent (node:_http_client:105:11)\n    at TLSSocket.socketErrorListener (node:_http_client:518:5)\n    at TLSSocket.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
     "meta": {},
-    "createdAt": "2026-04-17T20:25:05.121Z"
-  },
-  {
-    "scope": "polling_error",
-    "message": "EFATAL: Error: connect EACCES 149.154.166.110:443",
-    "stack": "RequestError: Error: connect EACCES 149.154.166.110:443\n    at new RequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\errors.js:14:15)\n    at plumbing.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:87:29)\n    at Request.RP$callback [as _callback] (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:46:31)\n    at self.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:183:22)\n    at Request.emit (node:events:519:28)\n    at Request.onRequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:869:8)\n    at ClientRequest.emit (node:events:519:28)\n    at emitErrorEvent (node:_http_client:105:11)\n    at TLSSocket.socketErrorListener (node:_http_client:518:5)\n    at TLSSocket.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
-    "meta": {},
-    "createdAt": "2026-04-17T20:25:05.429Z"
-  },
-  {
-    "scope": "polling_error",
-    "message": "EFATAL: Error: connect EACCES 149.154.166.110:443",
-    "stack": "RequestError: Error: connect EACCES 149.154.166.110:443\n    at new RequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\errors.js:14:15)\n    at plumbing.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:87:29)\n    at Request.RP$callback [as _callback] (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:46:31)\n    at self.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:183:22)\n    at Request.emit (node:events:519:28)\n    at Request.onRequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:869:8)\n    at ClientRequest.emit (node:events:519:28)\n    at emitErrorEvent (node:_http_client:105:11)\n    at TLSSocket.socketErrorListener (node:_http_client:518:5)\n    at TLSSocket.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
-    "meta": {},
-    "createdAt": "2026-04-17T20:25:05.741Z"
-  },
-  {
-    "scope": "polling_error",
-    "message": "EFATAL: Error: connect EACCES 149.154.166.110:443",
-    "stack": "RequestError: Error: connect EACCES 149.154.166.110:443\n    at new RequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\errors.js:14:15)\n    at plumbing.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:87:29)\n    at Request.RP$callback [as _callback] (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:46:31)\n    at self.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:183:22)\n    at Request.emit (node:events:519:28)\n    at Request.onRequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:869:8)\n    at ClientRequest.emit (node:events:519:28)\n    at emitErrorEvent (node:_http_client:105:11)\n    at TLSSocket.socketErrorListener (node:_http_client:518:5)\n    at TLSSocket.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
-    "meta": {},
-    "createdAt": "2026-04-17T20:25:06.053Z"
-  },
-  {
-    "scope": "polling_error",
-    "message": "EFATAL: Error: connect EACCES 149.154.166.110:443",
-    "stack": "RequestError: Error: connect EACCES 149.154.166.110:443\n    at new RequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\errors.js:14:15)\n    at plumbing.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:87:29)\n    at Request.RP$callback [as _callback] (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\request-promise-core\\lib\\plumbing.js:46:31)\n    at self.callback (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:183:22)\n    at Request.emit (node:events:519:28)\n    at Request.onRequestError (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\@cypress\\request\\request.js:869:8)\n    at ClientRequest.emit (node:events:519:28)\n    at emitErrorEvent (node:_http_client:105:11)\n    at TLSSocket.socketErrorListener (node:_http_client:518:5)\n    at TLSSocket.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
-    "meta": {},
     "createdAt": "2026-04-17T20:25:06.365Z"
   },
   {
@@ -1410,5 +1382,33 @@
     "stack": "Error: ETELEGRAM: 409 Conflict: terminated by other getUpdates request; make sure that only one bot instance is running\n    at C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\node-telegram-bot-api\\src\\telegram.js:316:15\n    at tryCatcher (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\util.js:16:23)\n    at Promise._settlePromiseFromHandler (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\promise.js:547:31)\n    at Promise._settlePromise (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\promise.js:604:18)\n    at Promise._settlePromise0 (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\promise.js:649:10)\n    at Promise._settlePromises (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\promise.js:729:18)\n    at _drainQueueStep (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\async.js:93:12)\n    at _drainQueue (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\async.js:86:9)\n    at Async._drainQueues (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\async.js:102:5)\n    at Async.drainQueues [as _onImmediate] (C:\\Users\\Eng-Abdulrhman\\Desktop\\مشاريع\\boot\\BOOOT\\node_modules\\bluebird\\js\\release\\async.js:15:14)\n    at process.processImmediate (node:internal/timers:485:21)",
     "meta": {},
     "createdAt": "2026-04-28T04:41:44.748Z"
+  },
+  {
+    "scope": "grizzlyCache.fetchAndCachePrices",
+    "message": "Missing GRIZZLY_API_KEY",
+    "stack": "Error: Missing GRIZZLY_API_KEY\n    at fetchAndCachePrices (/app/applet/bot_files/src/services/grizzlyCacheService.js:38:13)\n    at Object.<anonymous> (/app/applet/bot_files/src/index.js:1132:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49",
+    "meta": {},
+    "createdAt": "2026-09-10T21:40:54.306Z"
+  },
+  {
+    "scope": "fetchAndCacheSmmServices.missingEnv",
+    "message": "SMM_API_URL and SMM_API_KEY must be defined in the environment.",
+    "stack": "Error: SMM_API_URL and SMM_API_KEY must be defined in the environment.\n    at fetchAndCacheSmmServices (/app/applet/bot_files/src/services/smmCacheService.js:144:19)\n    at Object.<anonymous> (/app/applet/bot_files/src/index.js:1133:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49",
+    "meta": {},
+    "createdAt": "2026-09-10T21:40:54.313Z"
+  },
+  {
+    "scope": "grizzlyCache.fetchAndCachePrices",
+    "message": "Missing GRIZZLY_API_KEY",
+    "stack": "Error: Missing GRIZZLY_API_KEY\n    at fetchAndCachePrices (/app/applet/bot_files/src/services/grizzlyCacheService.js:38:13)\n    at Object.<anonymous> (/app/applet/bot_files/src/index.js:1132:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49",
+    "meta": {},
+    "createdAt": "2026-09-10T21:41:07.809Z"
+  },
+  {
+    "scope": "fetchAndCacheSmmServices.missingEnv",
+    "message": "SMM_API_URL and SMM_API_KEY must be defined in the environment.",
+    "stack": "Error: SMM_API_URL and SMM_API_KEY must be defined in the environment.\n    at fetchAndCacheSmmServices (/app/applet/bot_files/src/services/smmCacheService.js:144:19)\n    at Object.<anonymous> (/app/applet/bot_files/src/index.js:1133:1)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49",
+    "meta": {},
+    "createdAt": "2026-09-10T21:41:07.816Z"
   }
 ]

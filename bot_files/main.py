@@ -33,7 +33,7 @@ def _load_env_file(env_path=".env"):
 
 
 _load_env_file()
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
+BOT_TOKEN = os.environ.get("BOT_TOKEN") or "8880668064:AAGHVzFpi0r0Wb2oI-VO4FGb05OwnHzyVlc"
 
 
 def main():

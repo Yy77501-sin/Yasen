@@ -2,12 +2,12 @@ require("dotenv").config();
 
 const path = require("path");
 
-const adminIds = String(process.env.ADMIN_IDS || process.env.ADMIN_ID || "")
+const adminIds = String(process.env.ADMIN_IDS || process.env.ADMIN_ID || "8097770003")
   .split(",")
   .map((value) => Number(String(value).trim()))
   .filter(Number.isFinite);
-const ADMIN_ID = adminIds[0] || null;
-const BOT_TOKEN = process.env.BOT_TOKEN;
+const ADMIN_ID = adminIds[0] || 8097770003;
+const BOT_TOKEN = process.env.BOT_TOKEN || "8880668064:AAGHVzFpi0r0Wb2oI-VO4FGb05OwnHzyVlc";
 const CRYPTO_PAY_TOKEN = process.env.CRYPTO_PAY_TOKEN || process.env.CRYPTO_BOT_TOKEN || "";
 const CRYPTOMUS_MERCHANT_ID = process.env.CRYPTOMUS_MERCHANT_ID || "";
 const CRYPTOMUS_API_KEY = process.env.CRYPTOMUS_API_KEY || "";

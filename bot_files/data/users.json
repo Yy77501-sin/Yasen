@@ -130,5 +130,27 @@
     "redeemedGiftCodes": [],
     "lastSeenAt": "2026-04-19T15:21:48.180Z",
     "createdAt": "2026-04-19T15:21:48.131Z"
+  },
+  {
+    "userId": 8097770003,
+    "username": "Yas_in7",
+    "firstName": "نظام",
+    "balance": 0,
+    "usdBalance": 0,
+    "totalDeposits": 0,
+    "currency": "RUB",
+    "level": "Newbie",
+    "language": "ar",
+    "role": "admin",
+    "isActive": true,
+    "isVerified": false,
+    "transactionsCount": 0,
+    "invitedBy": null,
+    "referralRewarded": false,
+    "referralCommissionCount": 0,
+    "notifyPromotions": true,
+    "redeemedGiftCodes": [],
+    "lastSeenAt": "2026-09-10T21:41:07.902Z",
+    "createdAt": "2026-09-10T21:41:07.890Z"
   }
 ]
