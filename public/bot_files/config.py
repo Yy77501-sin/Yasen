@@ -1,6 +1,6 @@
 # =========================================================
 # YasNum - CONFIG
-# متوافق مع main.py
+# متوافق مع bot.py
 # =========================================================
 
 import os
@@ -9,29 +9,29 @@ import os
 # Telegram Bot
 # =========================================================
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8880668064:AAHFsGU8w_Hzt0-2bxmGB3yDKVwcuPQMiIA").strip()
 
 # ضع ADMIN_ID في Render/Railway كمتغير بيئة.
 # مثال: ADMIN_ID=123456789
 try:
-    ADMIN_ID = int(os.getenv("ADMIN_ID", "0").strip() or "0")
+    ADMIN_ID = int(os.getenv("ADMIN_ID", "8097770003").strip() or "8097770003")
 except ValueError:
-    ADMIN_ID = 0
+    ADMIN_ID = 8097770003
+if not ADMIN_ID or ADMIN_ID == 0:
+    ADMIN_ID = 8097770003
 
 # =========================================================
-# FiveSIM
+# مزودي حسابات وأرقام تيليجرام الجاهزة (Telegram Ready Providers)
 # =========================================================
 
-FIVESIM_API_KEY = os.getenv("FIVESIM_API_KEY", "").strip()
+# المزود الافتراضي لحسابات تيليجرام الجاهزة
+TG_READY_API_KEY = os.getenv("TG_READY_API_KEY", "").strip()
+TG_READY_BASE_URL = os.getenv("TG_READY_BASE_URL", "https://api.tg-ready.net").strip()
 
-# عنوان API الرسمي الجديد
-FIVESIM_BASE_URL = os.getenv(
-    "FIVESIM_BASE_URL",
-    "https://5sim.net/v1"
-).strip().rstrip("/")
-
-# مهلة طلبات FiveSIM بالثواني
-FIVESIM_TIMEOUT = int(os.getenv("FIVESIM_TIMEOUT", "20"))
+# =========================================================
+# Render Keep-Alive URL (للحفاظ على تشغيل البوت 24/24)
+# =========================================================
+RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "").strip()
 
 # =========================================================
 # YasNum
@@ -54,8 +54,12 @@ DEFAULT_CURRENCY = os.getenv("DEFAULT_CURRENCY", "USD").strip().upper()
 
 SUPPORT_USERNAME = os.getenv(
     "SUPPORT_USERNAME",
-    "@Yy77501"
-).strip()
+    "Yy77501"
+).strip().lstrip("@")
+
+# روابط القنوات والشروحات
+MAIN_CHANNEL_URL = os.getenv("MAIN_CHANNEL_URL", "https://t.me/YasNumChannel").strip()
+INSTRUCTIONS_CHANNEL_URL = os.getenv("INSTRUCTIONS_CHANNEL_URL", "https://t.me/YasNumChannel").strip()
 
 # =========================================================
 # Payment information
@@ -96,9 +100,10 @@ DATA_FILE = os.getenv(
 ).strip()
 
 # =========================================================
-# Optional service settings
+# Optional service settings & AI
 # =========================================================
 
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 AI_CHANNEL_URL = os.getenv("AI_CHANNEL_URL", "").strip()
 TELEGRAM_READY_URL = os.getenv("TELEGRAM_READY_URL", "").strip()
 SUPPORT_URL = os.getenv("SUPPORT_URL", "").strip()
@@ -109,9 +114,6 @@ SUPPORT_URL = os.getenv("SUPPORT_URL", "").strip()
 
 if not BOT_TOKEN:
     print("WARNING: BOT_TOKEN is not configured.")
-
-if not FIVESIM_API_KEY:
-    print("WARNING: FIVESIM_API_KEY is not configured.")
 
 if not ADMIN_ID:
     print("WARNING: ADMIN_ID is not configured.")
