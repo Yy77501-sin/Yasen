@@ -1,4 +1,4 @@
-﻿const { ADMIN_ID } = require("../config");
+const { ADMIN_ID } = require("../config");
 const { SERVICE_KEYS } = require("../constants/menu");
 const { getArray, t, getUserLang } = require("../locales");
 const { escapeHtml } = require("../utils/formatters");
@@ -81,6 +81,12 @@ const {
   getTempEmailGroup,
   getTempEmailOptionBySku,
 } = require("../services/tempEmailFlowService");
+const {
+  buildSmsProvidersMenu,
+  buildSmmProvidersMenu,
+  buildSingleSmmProviderMenu,
+} = require("../services/providerManagementService");
+const { fetchAndCacheSmmServices } = require("../services/smmCacheService");
 
 function resolveGrizzlyAppLabel(lang, serviceCode) {
   const { getGrizzlyServiceCode } = require("../constants/grizzly");
@@ -400,6 +406,188 @@ async function handleAdminCallbacks(bot, query, appStore) {
           return true;
         }
 
+        // --- SMS Providers & Keys Management ---
+        if (query.data === "admin:providers") {
+          const menu = buildSmsProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.providers", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:toggle_sms:")) {
+          const pKey = query.data.split(":")[2];
+          const current = appStore.getSmsProvider(pKey);
+          if (current) {
+            appStore.updateSmsProvider(pKey, { enabled: !current.enabled });
+          }
+          const menu = buildSmsProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.toggleSms", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:edit_sms_key:")) {
+          const pKey = query.data.split(":")[2];
+          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMS_KEY", { providerKey: pKey });
+          await safeTelegramCall("handleAdminCallbacks.editSmsKeyPrompt", () =>
+            bot.sendMessage(chatId, `أرسل المفتاح (API Key) الجديد لـ [${pKey}].\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:edit_sms_url:")) {
+          const pKey = query.data.split(":")[2];
+          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMS_URL", { providerKey: pKey });
+          await safeTelegramCall("handleAdminCallbacks.editSmsUrlPrompt", () =>
+            bot.sendMessage(chatId, `أرسل الرابط (Base URL) الجديد لـ [${pKey}].\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        // --- SMM Providers & Sites Management ---
+        if (query.data === "admin:smm_providers") {
+          const menu = buildSmmProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.smmProviders", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data === "admin:smm_sync_now") {
+          await safeTelegramCall("handleAdminCallbacks.smmSyncToast", () =>
+            bot.answerCallbackQuery(query.id, { text: "⏳ جاري مزامنة خدمات وأسعار الرشق الآن...", show_alert: false })
+          );
+          try {
+            await fetchAndCacheSmmServices(true);
+            await safeTelegramCall("handleAdminCallbacks.smmSyncSuccess", () =>
+              bot.sendMessage(chatId, "✅ تمت مزامنة خدمات وأسعار جميع مواقع الرشق بنجاح وتحديث الكاش!")
+            );
+          } catch (err) {
+            await safeTelegramCall("handleAdminCallbacks.smmSyncError", () =>
+              bot.sendMessage(chatId, `❌ حدث خطأ أثناء مزامنة الرشق: ${err.message}`)
+            );
+          }
+          const menu = buildSmmProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.smmProvidersAfterSync", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data === "admin:smm_add") {
+          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_NAME");
+          await safeTelegramCall("handleAdminCallbacks.smmAddPrompt", () =>
+            bot.sendMessage(chatId, "أرسل اسم مزود الرشق الجديد (مثال: SMM Peak أو عرب رشق):\nأو اكتب Cancel للإلغاء:")
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_manage:")) {
+          const providerId = query.data.split(":")[2];
+          const provider = appStore.getSmmProviderById(providerId);
+          if (!provider) {
+            await safeTelegramCall("handleAdminCallbacks.smmNotFound", () =>
+              bot.answerCallbackQuery(query.id, { text: "المزود غير موجود.", show_alert: true })
+            );
+            return true;
+          }
+          const menu = buildSingleSmmProviderMenu("ar", provider);
+          await safeTelegramCall("handleAdminCallbacks.smmManageView", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_toggle:")) {
+          const providerId = query.data.split(":")[2];
+          appStore.toggleSmmProvider(providerId);
+          const provider = appStore.getSmmProviderById(providerId);
+          if (provider) {
+            const menu = buildSingleSmmProviderMenu("ar", provider);
+            await safeTelegramCall("handleAdminCallbacks.smmToggle", () =>
+              bot.editMessageText(menu.text, {
+                chat_id: chatId,
+                message_id: messageId,
+                parse_mode: "HTML",
+                reply_markup: menu.keyboard,
+              })
+            );
+          }
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_delete_confirm:")) {
+          const providerId = query.data.split(":")[2];
+          appStore.deleteSmmProvider(providerId);
+          await safeTelegramCall("handleAdminCallbacks.smmDeletedToast", () =>
+            bot.answerCallbackQuery(query.id, { text: "🗑️ تم حذف المزود بنجاح.", show_alert: true })
+          );
+          const menu = buildSmmProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.smmProvidersAfterDelete", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_edit_name:")) {
+          const providerId = query.data.split(":")[2];
+          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_EDIT_NAME", { providerId });
+          await safeTelegramCall("handleAdminCallbacks.smmEditNamePrompt", () =>
+            bot.sendMessage(chatId, "أرسل الاسم الجديد للمزود:\nأو اكتب Cancel للإلغاء:")
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_edit_url:")) {
+          const providerId = query.data.split(":")[2];
+          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_EDIT_URL", { providerId });
+          await safeTelegramCall("handleAdminCallbacks.smmEditUrlPrompt", () =>
+            bot.sendMessage(chatId, "أرسل رابط الـ API الجديد للمزود:\nأو اكتب Cancel للإلغاء:")
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_edit_key:")) {
+          const providerId = query.data.split(":")[2];
+          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_EDIT_KEY", { providerId });
+          await safeTelegramCall("handleAdminCallbacks.smmEditKeyPrompt", () =>
+            bot.sendMessage(chatId, "أرسل مفتاح الـ API الجديد للمزود:\nأو اكتب Cancel للإلغاء:")
+          );
+          return true;
+        }
+
         return false;
     }
   } catch (error) {
@@ -410,6 +598,9 @@ async function handleAdminCallbacks(bot, query, appStore) {
 
 async function handleCallbackQuery(bot, query, appStore, appContext) {
   try {
+    // Instantly acknowledge callback to remove loading clock/spinner in fractions of a second
+    safeTelegramCall("handleCallbackQuery.earlyAnswer", () => bot.answerCallbackQuery(query.id)).catch(() => {});
+
     if (query.data.startsWith("admin:") || query.data.startsWith("adte:")) {
       return await handleAdminCallbacks(bot, query, appStore);
     }

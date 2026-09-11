@@ -13,11 +13,24 @@ const SMS_PROVIDERS = {
   },
 };
 
+let appStoreInstance = null;
+
+function setSmsProviderAppStore(store) {
+  appStoreInstance = store;
+}
+
 function getSmsProvider(providerKey = "server2") {
+  if (appStoreInstance && typeof appStoreInstance.getSmsProvider === "function") {
+    const storeProvider = appStoreInstance.getSmsProvider(providerKey);
+    if (storeProvider && storeProvider.baseUrl) {
+      return storeProvider;
+    }
+  }
   return SMS_PROVIDERS[providerKey] || SMS_PROVIDERS.server2;
 }
 
 module.exports = {
   SMS_PROVIDERS,
   getSmsProvider,
+  setSmsProviderAppStore,
 };

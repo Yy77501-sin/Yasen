@@ -1,4 +1,4 @@
-﻿const { ACTIVATIONS_CHANNEL_ID } = require("../config");
+const { ACTIVATIONS_CHANNEL_ID } = require("../config");
 const { sendOrEditMessage } = require("./profileService");
 const { safeTelegramCall } = require("./telegramSafe");
 const { logBotError } = require("./errorLogger");
@@ -1354,6 +1354,9 @@ async function handleVirtualNumbersTextInput(bot, msg, appStore) {
 async function handleVirtualNumbersCallback(bot, query, appStore) {
   try {
     const raw = String(query.data || "");
+    // Instantly answer callback query to remove Telegram loading spinner in fractions of a second
+    safeTelegramCall("virtualNumbersFlow.earlyAck", () => bot.answerCallbackQuery(query.id)).catch(() => {});
+
     const user = appStore.getOrCreateUser(query.from);
     const lang = getUserLang(user);
     const text = getText(lang);

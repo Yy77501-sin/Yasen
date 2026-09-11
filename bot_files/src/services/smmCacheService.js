@@ -1,4 +1,4 @@
-﻿const axios = require("axios");
+const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const { selectedServiceIds, getServiceInfo } = require("../constants/smmServices");
@@ -10,6 +10,12 @@ const { SMM_API_URL, SMM_API_KEY } = process.env;
 const smmProxyUrl = String(process.env.SMM_PROXY_URL || process.env.HTTPS_PROXY || process.env.HTTP_PROXY || "").trim();
 const smmNetworkOptions = getAxiosNetworkOptions(smmProxyUrl);
 
+let appStoreInstance = null;
+
+function setSmmAppStore(store) {
+  appStoreInstance = store;
+}
+
 function parseApiUrls(raw) {
   return String(raw || "")
     .split(",")
@@ -17,9 +23,27 @@ function parseApiUrls(raw) {
     .filter(Boolean);
 }
 
-function getSmmApiUrls() {
-  const urls = parseApiUrls(process.env.SMM_API_URL || SMM_API_URL);
-  return urls.length ? urls : [];
+function getActiveSmmProviders() {
+  if (appStoreInstance && typeof appStoreInstance.getSmmProviders === "function") {
+    const list = appStoreInstance.getSmmProviders().filter((p) => p.enabled !== false && p.url && p.key);
+    if (list.length > 0) {
+      return list;
+    }
+  }
+
+  const envUrls = parseApiUrls(process.env.SMM_API_URL || SMM_API_URL);
+  const envKey = process.env.SMM_API_KEY || SMM_API_KEY || "";
+  if (envUrls.length > 0 && envKey) {
+    return envUrls.map((url, index) => ({
+      id: `env_${index}`,
+      name: `SMM Provider ${index + 1}`,
+      url,
+      key: envKey,
+      enabled: true,
+    }));
+  }
+
+  return [];
 }
 
 function normalizeApiResponse(data) {
@@ -139,16 +163,18 @@ async function fetchAndCacheSmmServices() {
   const previousServices = loadCacheFile();
   const previousMap = new Map(previousServices.map((item) => [String(item.serviceId), item]));
 
-  const apiUrls = getSmmApiUrls();
-  if (!apiUrls.length || !SMM_API_KEY) {
-    const error = new Error("SMM_API_URL and SMM_API_KEY must be defined in the environment.");
-    logBotError("fetchAndCacheSmmServices.missingEnv", error);
+  const providers = getActiveSmmProviders();
+  if (!providers.length) {
+    const error = new Error("No active SMM providers configured.");
+    logBotError("fetchAndCacheSmmServices.missingProviders", error);
     return previousServices;
   }
 
-  for (const apiUrl of apiUrls) {
+  for (const provider of providers) {
+    const apiUrl = provider.url;
+    const apiKey = provider.key;
     try {
-      const response = await axios.get(`${apiUrl}?key=${encodeURIComponent(SMM_API_KEY)}&action=services`, {
+      const response = await axios.get(`${apiUrl}?key=${encodeURIComponent(apiKey)}&action=services`, {
         timeout: 20000,
         ...smmNetworkOptions,
       });
@@ -165,12 +191,12 @@ async function fetchAndCacheSmmServices() {
         .map((serviceId) => filteredMap.get(serviceId) || previousMap.get(serviceId) || null)
         .filter(Boolean);
 
-      if (!mergedServices.length) return previousServices;
+      if (!mergedServices.length) continue;
 
       fs.writeFileSync(CACHE_FILE, JSON.stringify({ fetchedAt: new Date().toISOString(), lastUpdated: new Date().toISOString(), services: mergedServices }, null, 2), "utf8");
       return mergedServices;
     } catch (error) {
-      logBotError("fetchAndCacheSmmServices", error, { apiUrl });
+      logBotError("fetchAndCacheSmmServices", error, { apiUrl: provider.url, providerName: provider.name });
     }
   }
 
@@ -178,20 +204,22 @@ async function fetchAndCacheSmmServices() {
 }
 
 async function createSmmOrder({ serviceId, link, quantity }) {
-  const apiUrls = getSmmApiUrls();
-  if (!apiUrls.length || !SMM_API_KEY) {
-    return { success: false, error: "missing_env" };
+  const providers = getActiveSmmProviders();
+  if (!providers.length) {
+    return { success: false, error: "missing_providers" };
   }
 
-  const payload = {
-    key: SMM_API_KEY,
-    action: "add",
-    service: String(serviceId),
-    link: String(link || ""),
-    quantity: Number(quantity),
-  };
+  for (const provider of providers) {
+    const apiUrl = provider.url;
+    const apiKey = provider.key;
+    const payload = {
+      key: apiKey,
+      action: "add",
+      service: String(serviceId),
+      link: String(link || ""),
+      quantity: Number(quantity),
+    };
 
-  for (const apiUrl of apiUrls) {
     try {
       const postBody = new URLSearchParams();
       Object.entries(payload).forEach(([key, value]) => postBody.append(key, String(value)));
@@ -209,7 +237,7 @@ async function createSmmOrder({ serviceId, link, quantity }) {
         return { success: false, error: String(data.error), raw: data };
       }
     } catch (error) {
-      logBotError("createSmmOrder.post", error, { serviceId, quantity, apiUrl });
+      logBotError("createSmmOrder.post", error, { serviceId, quantity, apiUrl, providerName: provider.name });
     }
 
     try {
@@ -226,7 +254,7 @@ async function createSmmOrder({ serviceId, link, quantity }) {
         return { success: false, error: String(data.error), raw: data };
       }
     } catch (error) {
-      logBotError("createSmmOrder.get", error, { serviceId, quantity, apiUrl });
+      logBotError("createSmmOrder.get", error, { serviceId, quantity, apiUrl, providerName: provider.name });
     }
   }
 
@@ -238,4 +266,6 @@ module.exports = {
   getCachedSmmServices,
   getCachedSmmServiceById,
   createSmmOrder,
+  setSmmAppStore,
+  getActiveSmmProviders,
 };

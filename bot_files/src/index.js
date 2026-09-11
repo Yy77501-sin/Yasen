@@ -79,8 +79,8 @@ const telegramBaseApiUrl = String(process.env.TELEGRAM_BASE_API_URL || "").trim(
 const botOptions = {
   polling: {
     autoStart: true,
-    params: { timeout: 20 },
-    interval: 800,
+    params: { timeout: 25 },
+    interval: 50,
   },
   request: {
     forever: true,

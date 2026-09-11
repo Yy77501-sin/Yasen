@@ -97,6 +97,8 @@ const locales = {
     admin_btn_manage_services: "إدارة الخدمات",
     admin_btn_upload_data: "رفع بيانات",
     admin_btn_bot_errors: "أخطاء البوت",
+    admin_btn_providers: "🔑 إدارة المزودين والمفاتيح",
+    admin_btn_smm_providers: "🚀 إدارة مواقع الرشق",
     admin_btn_detailed_stats: "إحصائيات تفصيلية",
 
     topup_title: "شحن الرصيد",
@@ -380,6 +382,8 @@ const locales = {
     admin_btn_manage_services: "Manage services",
     admin_btn_upload_data: "Upload data",
     admin_btn_bot_errors: "Bot errors",
+    admin_btn_providers: "🔑 SMS Providers & Keys",
+    admin_btn_smm_providers: "🚀 SMM Providers & Sites",
     admin_btn_detailed_stats: "Detailed stats",
 
     topup_title: "Balance Top-up",

@@ -1,4 +1,4 @@
-﻿const fs = require("fs");
+const fs = require("fs");
 const path = require("path");
 const { ADMIN_ID, USERS_EXPORT_PATH } = require("../config");
 const { clearUserState, getUserState, setUserState } = require("../services/stateStore");
@@ -30,6 +30,11 @@ const { handleProAccountsTextInput } = require("../services/proAccountsFlowServi
 const { handleCloudServicesTextInput } = require("../services/cloudServicesFlowService");
 const { handleDigitalServicesTextInput } = require("../services/digitalServicesFlowService");
 const { handleTemporaryEmailTextInput } = require("../services/tempEmailFlowService");
+const {
+  buildSmsProvidersMenu,
+  buildSmmProvidersMenu,
+  buildSingleSmmProviderMenu,
+} = require("../services/providerManagementService");
 
 async function exportUsersList(bot, chatId, appStore) {
   try {
@@ -502,6 +507,129 @@ async function handleAdminState(bot, msg, appStore) {
         )
       );
       await sendAdminPanel(bot, msg.chat.id, { lang: adminLang });
+      return true;
+    }
+
+    // --- Admin SMS Provider Key & URL Inputs ---
+    if (state.name === "ADMIN_AWAITING_SMS_KEY") {
+      const pKey = state.providerKey;
+      const key = String(msg.text || "").trim();
+      clearUserState(msg.from.id);
+      appStore.updateSmsProvider(pKey, { apiKey: key });
+      await safeTelegramCall("handleAdminState.smsKeySaved", () =>
+        bot.sendMessage(msg.chat.id, `✅ تم حفظ وتحديث المفتاح الخاص بـ [${pKey}] بنجاح.`)
+      );
+      const menu = buildSmsProvidersMenu("ar", appStore);
+      await safeTelegramCall("handleAdminState.smsMenuAfterKey", () =>
+        bot.sendMessage(msg.chat.id, menu.text, { parse_mode: "HTML", reply_markup: menu.keyboard })
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMS_URL") {
+      const pKey = state.providerKey;
+      const url = String(msg.text || "").trim();
+      clearUserState(msg.from.id);
+      appStore.updateSmsProvider(pKey, { baseUrl: url });
+      await safeTelegramCall("handleAdminState.smsUrlSaved", () =>
+        bot.sendMessage(msg.chat.id, `✅ تم حفظ وتحديث رابط الـ Base URL الخاص بـ [${pKey}] بنجاح.`)
+      );
+      const menu = buildSmsProvidersMenu("ar", appStore);
+      await safeTelegramCall("handleAdminState.smsMenuAfterUrl", () =>
+        bot.sendMessage(msg.chat.id, menu.text, { parse_mode: "HTML", reply_markup: menu.keyboard })
+      );
+      return true;
+    }
+
+    // --- Admin SMM Provider Add Flow (Name -> URL -> Key) ---
+    if (state.name === "ADMIN_AWAITING_SMM_NAME") {
+      const name = String(msg.text || "").trim();
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_URL", { smmName: name });
+      await safeTelegramCall("handleAdminState.askSmmUrl", () =>
+        bot.sendMessage(msg.chat.id, `تم تعيين الاسم: <b>${name}</b>.\nالآن أرسل رابط الـ API (API URL) للموقع:\n(مثال: https://smmpeak.com/api/v2)\nأو اكتب Cancel للإلغاء:`, { parse_mode: "HTML" })
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_URL") {
+      const url = String(msg.text || "").trim();
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_KEY", { smmName: state.smmName, smmUrl: url });
+      await safeTelegramCall("handleAdminState.askSmmKey", () =>
+        bot.sendMessage(msg.chat.id, `تم تعيين الرابط: <code>${url}</code>.\nالآن أرسل المفتاح (API Key) الخاص بحسابك في هذا الموقع:\nأو اكتب Cancel للإلغاء:`, { parse_mode: "HTML" })
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_KEY") {
+      const key = String(msg.text || "").trim();
+      const newProvider = appStore.addSmmProvider({
+        name: state.smmName,
+        url: state.smmUrl,
+        key: key,
+      });
+      clearUserState(msg.from.id);
+      await safeTelegramCall("handleAdminState.smmAddedDone", () =>
+        bot.sendMessage(msg.chat.id, `✅ تم إضافة مزود الرشق [<b>${newProvider.name}</b>] بنجاح!`, { parse_mode: "HTML" })
+      );
+      const menu = buildSmmProvidersMenu("ar", appStore);
+      await safeTelegramCall("handleAdminState.smmMenuAfterAdd", () =>
+        bot.sendMessage(msg.chat.id, menu.text, { parse_mode: "HTML", reply_markup: menu.keyboard })
+      );
+      return true;
+    }
+
+    // --- Admin SMM Provider Edit Single Field ---
+    if (state.name === "ADMIN_AWAITING_SMM_EDIT_NAME") {
+      const providerId = state.providerId;
+      const name = String(msg.text || "").trim();
+      clearUserState(msg.from.id);
+      appStore.updateSmmProvider(providerId, { name });
+      const provider = appStore.getSmmProviderById(providerId);
+      await safeTelegramCall("handleAdminState.smmNameUpdated", () =>
+        bot.sendMessage(msg.chat.id, `✅ تم تحديث اسم المزود بنجاح إلى: <b>${name}</b>`, { parse_mode: "HTML" })
+      );
+      if (provider) {
+        const menu = buildSingleSmmProviderMenu("ar", provider);
+        await safeTelegramCall("handleAdminState.smmViewAfterName", () =>
+          bot.sendMessage(msg.chat.id, menu.text, { parse_mode: "HTML", reply_markup: menu.keyboard })
+        );
+      }
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_EDIT_URL") {
+      const providerId = state.providerId;
+      const url = String(msg.text || "").trim();
+      clearUserState(msg.from.id);
+      appStore.updateSmmProvider(providerId, { url });
+      const provider = appStore.getSmmProviderById(providerId);
+      await safeTelegramCall("handleAdminState.smmUrlUpdated", () =>
+        bot.sendMessage(msg.chat.id, `✅ تم تحديث رابط المزود بنجاح إلى: <code>${url}</code>`, { parse_mode: "HTML" })
+      );
+      if (provider) {
+        const menu = buildSingleSmmProviderMenu("ar", provider);
+        await safeTelegramCall("handleAdminState.smmViewAfterUrl", () =>
+          bot.sendMessage(msg.chat.id, menu.text, { parse_mode: "HTML", reply_markup: menu.keyboard })
+        );
+      }
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_EDIT_KEY") {
+      const providerId = state.providerId;
+      const key = String(msg.text || "").trim();
+      clearUserState(msg.from.id);
+      appStore.updateSmmProvider(providerId, { key });
+      const provider = appStore.getSmmProviderById(providerId);
+      await safeTelegramCall("handleAdminState.smmKeyUpdated", () =>
+        bot.sendMessage(msg.chat.id, `✅ تم تحديث مفتاح API للمزود بنجاح.`)
+      );
+      if (provider) {
+        const menu = buildSingleSmmProviderMenu("ar", provider);
+        await safeTelegramCall("handleAdminState.smmViewAfterKey", () =>
+          bot.sendMessage(msg.chat.id, menu.text, { parse_mode: "HTML", reply_markup: menu.keyboard })
+        );
+      }
       return true;
     }
 

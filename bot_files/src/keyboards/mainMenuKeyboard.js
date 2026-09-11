@@ -1,4 +1,4 @@
-﻿const { t } = require("../locales");
+const { t } = require("../locales");
 const { PUBLIC_BASE_URL, TELEGRAM_WEBAPP_URL } = require("../config");
 
 function getVaultXWebAppUrl() {
@@ -174,6 +174,10 @@ function getAdminPanelKeyboard(lang = "ar") {
       [
         { text: t(lang, "admin_btn_upload_data"), callback_data: "admin:upload_data" },
         { text: t(lang, "admin_btn_bot_errors"), callback_data: "admin:bot_errors" },
+      ],
+      [
+        { text: t(lang, "admin_btn_providers"), callback_data: "admin:providers" },
+        { text: t(lang, "admin_btn_smm_providers"), callback_data: "admin:smm_providers" },
       ],
       [{ text: t(lang, "admin_btn_detailed_stats"), callback_data: "admin:detailed_stats" }],
     ],

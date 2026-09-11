@@ -37,6 +37,35 @@ class AppStore {
       },
       giftCodes: {},
       temporaryEmailInventory: {},
+      smsProviders: {
+        server1: {
+          key: "server1",
+          name: "HeroSMS",
+          baseUrl: process.env.HERO_BASE_URL || "https://hero-sms.com/stubs/handler_api.php",
+          apiKey: process.env.HERO_SMS_API_KEY || process.env.HERO_API_KEY || "",
+          enabled: true,
+        },
+        server2: {
+          key: "server2",
+          name: "Grizzly",
+          baseUrl: process.env.GRIZZLY_BASE_URL || "https://api.grizzlysms.com/stubs/handler_api.php",
+          apiKey: process.env.GRIZZLY_API_KEY || "",
+          enabled: true,
+        },
+      },
+      smmProviders: [
+        ...(process.env.SMM_API_URL
+          ? [
+              {
+                id: "default_smm",
+                name: "SMM Main Provider",
+                url: process.env.SMM_API_URL,
+                key: process.env.SMM_API_KEY || "",
+                enabled: true,
+              },
+            ]
+          : []),
+      ],
     };
   }
 
@@ -63,6 +92,13 @@ class AppStore {
       temporaryEmailInventory: {
         ...(loaded.temporaryEmailInventory || {}),
       },
+      smsProviders: {
+        ...defaults.smsProviders,
+        ...(loaded.smsProviders || {}),
+      },
+      smmProviders: Array.isArray(loaded.smmProviders) && loaded.smmProviders.length > 0
+        ? loaded.smmProviders
+        : defaults.smmProviders,
     };
     this.transactions = loadData(TRANSACTIONS_DB_PATH, legacyStore?.transactions || []);
     this.persistAll();
@@ -442,6 +478,86 @@ class AppStore {
     };
     this.persistAll();
     return selected;
+  }
+
+  // --- SMS Providers (Server 1 & Server 2) ---
+  getSmsProviders() {
+    return this.config.smsProviders || {};
+  }
+
+  getSmsProvider(providerKey = "server2") {
+    const providers = this.getSmsProviders();
+    return providers[providerKey] || providers.server2 || null;
+  }
+
+  updateSmsProvider(providerKey, updates = {}) {
+    const providers = this.getSmsProviders();
+    if (!providers[providerKey]) {
+      providers[providerKey] = { key: providerKey, name: providerKey, baseUrl: "", apiKey: "", enabled: true };
+    }
+    providers[providerKey] = {
+      ...providers[providerKey],
+      ...updates,
+    };
+    this.config.smsProviders = providers;
+    this.persistAll();
+    return providers[providerKey];
+  }
+
+  // --- SMM Providers (Dynamic CRUD) ---
+  getSmmProviders() {
+    return Array.isArray(this.config.smmProviders) ? this.config.smmProviders : [];
+  }
+
+  getSmmProviderById(id) {
+    return this.getSmmProviders().find((p) => String(p.id) === String(id)) || null;
+  }
+
+  addSmmProvider({ name, url, key }) {
+    const providers = this.getSmmProviders();
+    const newProvider = {
+      id: `smm_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      name: String(name || "SMM Provider").trim(),
+      url: String(url || "").trim(),
+      key: String(key || "").trim(),
+      enabled: true,
+      createdAt: new Date().toISOString(),
+    };
+    this.config.smmProviders = [...providers, newProvider];
+    this.persistAll();
+    return newProvider;
+  }
+
+  updateSmmProvider(id, updates = {}) {
+    const providers = this.getSmmProviders();
+    const index = providers.findIndex((p) => String(p.id) === String(id));
+    if (index === -1) return null;
+    providers[index] = {
+      ...providers[index],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+    this.config.smmProviders = providers;
+    this.persistAll();
+    return providers[index];
+  }
+
+  deleteSmmProvider(id) {
+    const providers = this.getSmmProviders();
+    const filtered = providers.filter((p) => String(p.id) !== String(id));
+    this.config.smmProviders = filtered;
+    this.persistAll();
+    return filtered;
+  }
+
+  toggleSmmProvider(id) {
+    const providers = this.getSmmProviders();
+    const target = providers.find((p) => String(p.id) === String(id));
+    if (!target) return null;
+    target.enabled = !target.enabled;
+    this.config.smmProviders = providers;
+    this.persistAll();
+    return target;
   }
 }
 
