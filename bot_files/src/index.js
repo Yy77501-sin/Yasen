@@ -19,7 +19,7 @@ const {
   getServicePrices,
   getProviderCountries,
 } = require("./services/grizzlyService");
-const { getSmsProvider } = require("./constants/smsProviders");
+const { getSmsProvider, setSmsProviderAppStore } = require("./constants/smsProviders");
 const { getGrizzlyServiceCode, getGrizzlyCountryMeta } = require("./constants/grizzly");
 const { t, getUserLang } = require("./locales");
 const {
