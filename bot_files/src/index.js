@@ -28,7 +28,7 @@ const {
   grizzlyCountries,
 } = require("./services/grizzlyCacheService");
 const { smmServices, getPlatform, getCategory, getServiceInfo } = require("./constants/smmServices");
-const { fetchAndCacheSmmServices, getCachedSmmServiceById, createSmmOrder } = require("./services/smmCacheService");
+const { fetchAndCacheSmmServices, getCachedSmmServiceById, createSmmOrder, setSmmAppStore } = require("./services/smmCacheService");
 const { getGameTopupCatalog, getGamesByCategory, getGameByKey } = require("./services/gameTopupCatalogService");
 const { executeGameTopupOrder } = require("./services/gameTopupProviderService");
 const {
@@ -96,6 +96,7 @@ if (telegramBaseApiUrl) {
 const bot = new TelegramBot(BOT_TOKEN, botOptions);
 const appStore = new AppStore();
 setSmsProviderAppStore(appStore);
+setSmmAppStore(appStore);
 const { setAdminNotifierBot } = require("./services/adminNotifier");
 setAdminNotifierBot(bot);
 const appContext = {

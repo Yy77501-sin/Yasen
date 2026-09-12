@@ -1003,7 +1003,7 @@ async function sendActivationToChannel(bot, lang, payload) {
   ].join("\n");
 
   await safeTelegramCall("virtualNumbersFlow.sendActivationToChannel", () =>
-    bot.sendMessage(ACTIVATIONS_CHANNEL_ID || -1003311851705, text, {
+    bot.sendMessage(ACTIVATIONS_CHANNEL_ID || -1004402036146, text, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
       reply_markup: {

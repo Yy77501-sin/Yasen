@@ -440,7 +440,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
 
         if (query.data.startsWith("admin:edit_sms_key:")) {
           const pKey = query.data.split(":")[2];
-          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMS_KEY", { providerKey: pKey });
+          setUserState(query.from.id, "ADMIN_AWAITING_SMS_KEY", { providerKey: pKey });
           await safeTelegramCall("handleAdminCallbacks.editSmsKeyPrompt", () =>
             bot.sendMessage(chatId, `أرسل المفتاح (API Key) الجديد لـ [${pKey}].\nأو اكتب Cancel للإلغاء:`)
           );
@@ -449,7 +449,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
 
         if (query.data.startsWith("admin:edit_sms_url:")) {
           const pKey = query.data.split(":")[2];
-          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMS_URL", { providerKey: pKey });
+          setUserState(query.from.id, "ADMIN_AWAITING_SMS_URL", { providerKey: pKey });
           await safeTelegramCall("handleAdminCallbacks.editSmsUrlPrompt", () =>
             bot.sendMessage(chatId, `أرسل الرابط (Base URL) الجديد لـ [${pKey}].\nأو اكتب Cancel للإلغاء:`)
           );
@@ -497,7 +497,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
         }
 
         if (query.data === "admin:smm_add") {
-          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_NAME");
+          setUserState(query.from.id, "ADMIN_AWAITING_SMM_NAME");
           await safeTelegramCall("handleAdminCallbacks.smmAddPrompt", () =>
             bot.sendMessage(chatId, "أرسل اسم مزود الرشق الجديد (مثال: SMM Peak أو عرب رشق):\nأو اكتب Cancel للإلغاء:")
           );
@@ -563,7 +563,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
 
         if (query.data.startsWith("admin:smm_edit_name:")) {
           const providerId = query.data.split(":")[2];
-          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_EDIT_NAME", { providerId });
+          setUserState(query.from.id, "ADMIN_AWAITING_SMM_EDIT_NAME", { providerId });
           await safeTelegramCall("handleAdminCallbacks.smmEditNamePrompt", () =>
             bot.sendMessage(chatId, "أرسل الاسم الجديد للمزود:\nأو اكتب Cancel للإلغاء:")
           );
@@ -572,7 +572,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
 
         if (query.data.startsWith("admin:smm_edit_url:")) {
           const providerId = query.data.split(":")[2];
-          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_EDIT_URL", { providerId });
+          setUserState(query.from.id, "ADMIN_AWAITING_SMM_EDIT_URL", { providerId });
           await safeTelegramCall("handleAdminCallbacks.smmEditUrlPrompt", () =>
             bot.sendMessage(chatId, "أرسل رابط الـ API الجديد للمزود:\nأو اكتب Cancel للإلغاء:")
           );
@@ -581,7 +581,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
 
         if (query.data.startsWith("admin:smm_edit_key:")) {
           const providerId = query.data.split(":")[2];
-          setUserState(ADMIN_ID, "ADMIN_AWAITING_SMM_EDIT_KEY", { providerId });
+          setUserState(query.from.id, "ADMIN_AWAITING_SMM_EDIT_KEY", { providerId });
           await safeTelegramCall("handleAdminCallbacks.smmEditKeyPrompt", () =>
             bot.sendMessage(chatId, "أرسل مفتاح الـ API الجديد للمزود:\nأو اكتب Cancel للإلغاء:")
           );
