@@ -2,6 +2,7 @@ const { logBotError } = require("./errorLogger");
 const { getGrizzlyServiceCode, getGrizzlyCountryMeta } = require("../constants/grizzly");
 const { getSmsProvider } = require("../constants/smsProviders");
 const { getAxiosNetworkOptions } = require("../utils/network");
+const { notifyAdminAlert } = require("./adminNotifier");
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
@@ -132,13 +133,55 @@ async function fetchText(url, providerKey = "server2") {
   return await fetchRaw(url, providerKey, "text/plain,*/*;q=0.8");
 }
 
+function isApiKeyError(error) {
+  if (!error) return false;
+  const msg = String(error.message || error).toUpperCase();
+  const status = error.response?.status;
+  return (
+    status === 401 ||
+    status === 403 ||
+    msg.includes("BAD_KEY") ||
+    msg.includes("ERROR_KEY") ||
+    msg.includes("INVALID_KEY") ||
+    msg.includes("MISSING API KEY") ||
+    msg.includes("NO_KEY") ||
+    msg.includes("WRONG_KEY") ||
+    msg.includes("ACCESS_DENIED") ||
+    msg.includes("AUTH_KEY")
+  );
+}
+
+function checkAndAlertApiKeyFailure(providerKey, error, actionContext = "query") {
+  const provider = getSmsProvider(providerKey);
+  const provName = provider?.name || providerKey;
+  const errorMsg = String(error?.message || error || "Unknown error");
+
+  if (isApiKeyError(error)) {
+    const alertHtml = [
+      `🚨 <b>تنبيه هام للأدمن: خطأ في مفتاح المزود!</b>`,
+      `━━━━━━━━━━━━━━━━━━━`,
+      `🏢 <b>المزود:</b> ${provName} (<code>${providerKey}</code>)`,
+      `⚙️ <b>العملية:</b> ${actionContext}`,
+      `❌ <b>الخطأ:</b> <code>${errorMsg}</code>`,
+      `🔑 <b>المفتاح الحالي:</b> <code>${provider?.apiKey ? provider.apiKey.slice(0, 6) + "..." : "غير محدد"}</code>`,
+      `━━━━━━━━━━━━━━━━━━━`,
+      `⚠️ يرجى التوجه إلى لوحة الإدارة <b>لوحة التحكم > مزودو الأرقام (SMS)</b> لتحديث المفتاح أو تفعيله لتجنب توقف الخدمة.`,
+    ].join("\n");
+
+    notifyAdminAlert(null, alertHtml, {
+      alertKey: `sms_key_err_${providerKey}`,
+      cooldownMs: 180000, // 3 minutes cooldown per provider
+    }).catch(() => {});
+  }
+}
+
 async function requestProviderWithFailover(providerKey, params, mode = "json") {
   const baseUrls = parseProviderBaseUrls(providerKey);
   let lastError = null;
 
   for (const baseUrl of baseUrls) {
-    const url = buildProviderUrl(baseUrl, providerKey, params);
     try {
+      const url = buildProviderUrl(baseUrl, providerKey, params);
       if (mode === "text") {
         return await fetchText(url, providerKey);
       }
@@ -146,6 +189,7 @@ async function requestProviderWithFailover(providerKey, params, mode = "json") {
     } catch (error) {
       lastError = error;
       logBotError("provider.request.failover", error, { providerKey, baseUrl, action: params.action });
+      checkAndAlertApiKeyFailure(providerKey, error, `request_${params.action}`);
     }
   }
 

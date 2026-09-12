@@ -1,3 +1,21 @@
+const http = require("http");
+const https = require("https");
+
+// Global keep-alive agents to reuse TCP/TLS connections and drastically reduce latency
+const httpAgent = new http.Agent({
+  keepAlive: true,
+  maxSockets: 100,
+  maxFreeSockets: 20,
+  timeout: 60000,
+});
+
+const httpsAgent = new https.Agent({
+  keepAlive: true,
+  maxSockets: 100,
+  maxFreeSockets: 20,
+  timeout: 60000,
+});
+
 function parseProxyUrl(proxyUrl) {
   const raw = String(proxyUrl || "").trim();
   if (!raw) return null;
@@ -24,8 +42,16 @@ function parseProxyUrl(proxyUrl) {
 
 function getAxiosNetworkOptions(proxyEnvValue) {
   const proxy = parseProxyUrl(proxyEnvValue);
-  if (!proxy) return {};
+  const baseOptions = {
+    httpAgent,
+    httpsAgent,
+    timeout: 15000, // 15s timeout to prevent hanging connections
+  };
+
+  if (!proxy) return baseOptions;
+
   return {
+    ...baseOptions,
     proxy: {
       protocol: proxy.protocol,
       host: proxy.host,
@@ -53,6 +79,8 @@ function isNetworkPermissionError(error) {
 }
 
 module.exports = {
+  httpAgent,
+  httpsAgent,
   parseProxyUrl,
   getAxiosNetworkOptions,
   isNetworkPermissionError,

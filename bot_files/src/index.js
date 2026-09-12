@@ -95,6 +95,9 @@ if (telegramBaseApiUrl) {
 
 const bot = new TelegramBot(BOT_TOKEN, botOptions);
 const appStore = new AppStore();
+setSmsProviderAppStore(appStore);
+const { setAdminNotifierBot } = require("./services/adminNotifier");
+setAdminNotifierBot(bot);
 const appContext = {
   botUsername: "VaultX",
 };
