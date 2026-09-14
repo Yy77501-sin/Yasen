@@ -1,4 +1,25 @@
 require("dotenv").config();
+
+process.on("uncaughtException", (error) => {
+  console.error("[CRITICAL] Uncaught Exception caught to prevent crash:", error);
+  try {
+    const { logBotError } = require("./services/errorLogger");
+    logBotError("process.uncaughtException", error);
+  } catch (_) {}
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("[CRITICAL] Unhandled Promise Rejection at:", promise, "reason:", reason);
+  try {
+    const { logBotError } = require("./services/errorLogger");
+    logBotError("process.unhandledRejection", reason);
+  } catch (_) {}
+});
+
+process.on("SIGHUP", () => {
+  console.log("[process] Received SIGHUP (terminal disconnected). Bot remains running.");
+});
+
 const http = require("http");
 const TelegramBot = require("node-telegram-bot-api");
 const {
@@ -1592,22 +1613,28 @@ bot.on("message", async (msg) => {
 bot.on("polling_error", (error) => {
   try {
     logBotError("polling_error", error);
-    if (isNetworkPermissionError(error)) {
-      if (!pollingRestartTimer) {
-        pollingRestartTimer = setTimeout(async () => {
-          pollingRestartTimer = null;
-          try {
+    const errText = String(error?.message || error?.code || "").toLowerCase();
+    const isConflict = errText.includes("409 conflict") || errText.includes("terminated by other getupdates");
+
+    if (!pollingRestartTimer) {
+      // If 409 conflict, back off longer (10s) to give previous instance time to exit
+      const delay = isConflict ? 10000 : pollingRestartDelayMs;
+      pollingRestartTimer = setTimeout(async () => {
+        pollingRestartTimer = null;
+        try {
+          if (bot.isPolling()) {
             await bot.stopPolling({ cancel: false });
-          } catch (_) {}
-          try {
-            await bot.startPolling();
-            pollingRestartDelayMs = 5000;
-          } catch (restartError) {
-            logBotError("polling_restart", restartError);
-            pollingRestartDelayMs = Math.min(pollingRestartDelayMs * 2, 60000);
           }
-        }, pollingRestartDelayMs);
-      }
+        } catch (_) {}
+        try {
+          await bot.startPolling();
+          pollingRestartDelayMs = 5000;
+          console.log("[polling] Successfully recovered and resumed Telegram polling.");
+        } catch (restartError) {
+          logBotError("polling_restart", restartError);
+          pollingRestartDelayMs = Math.min(pollingRestartDelayMs * 2, 60000);
+        }
+      }, delay);
     }
   } catch (innerError) {
     console.error("Fatal polling logger failure:", innerError.message);

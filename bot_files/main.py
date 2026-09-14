@@ -41,12 +41,23 @@ def main():
         print("BOT_TOKEN is missing in environment.", file=sys.stderr)
         sys.exit(1)
 
+    import time
     keep_alive()
 
     command = ["node", "src/index.js"]
-    process = subprocess.Popen(command)
-    process.wait()
-    sys.exit(process.returncode)
+    while True:
+        try:
+            print("[runner] Starting node src/index.js...")
+            process = subprocess.Popen(command)
+            process.wait()
+            print(f"[runner] Node process exited with code {process.returncode}. Restarting in 3 seconds...")
+            time.sleep(3)
+        except KeyboardInterrupt:
+            print("[runner] Shutting down cleanly.")
+            break
+        except Exception as e:
+            print(f"[runner] Process error: {e}. Restarting in 5 seconds...", file=sys.stderr)
+            time.sleep(5)
 
 
 if __name__ == "__main__":
