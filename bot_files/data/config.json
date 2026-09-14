@@ -48,5 +48,36 @@
     "todayDate": "2026-04-17"
   },
   "giftCodes": {},
-  "temporaryEmailInventory": {}
+  "temporaryEmailInventory": {},
+  "smsProviders": {
+    "server1": {
+      "key": "server1",
+      "name": "السيرفر 1 (HeroSMS)",
+      "baseUrl": "https://hero-sms.com/stubs/handler_api.php",
+      "apiKey": "",
+      "enabled": true
+    },
+    "server2": {
+      "key": "server2",
+      "name": "السيرفر 2 (Grizzly)",
+      "baseUrl": "https://api.grizzlysms.com/stubs/handler_api.php",
+      "apiKey": "",
+      "enabled": true
+    },
+    "server3": {
+      "key": "server3",
+      "name": "السيرفر 3 (SMS-Activate)",
+      "baseUrl": "https://api.sms-activate.org/stubs/handler_api.php",
+      "apiKey": "",
+      "enabled": false
+    },
+    "server4": {
+      "key": "server4",
+      "name": "السيرفر 4 (5SIM)",
+      "baseUrl": "https://api1.5sim.net/stubs/handler_api.php",
+      "apiKey": "",
+      "enabled": false
+    }
+  },
+  "smmProviders": []
 }

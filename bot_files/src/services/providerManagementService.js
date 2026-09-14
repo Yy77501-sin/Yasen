@@ -243,7 +243,13 @@ async function checkSmmProviderBalance(provider) {
  * Check All Configured Providers (SMS & SMM) Concurrently
  */
 async function checkAllProviders(appStore) {
-  const smsChecks = ["server1", "server2"].map((key) => checkSmsProviderBalance(key, appStore));
+  let smsKeys = ["server1", "server2"];
+  if (appStore && typeof appStore.getSmsProviders === "function") {
+    smsKeys = Object.keys(appStore.getSmsProviders());
+    if (!smsKeys.includes("server1")) smsKeys.unshift("server1");
+    if (!smsKeys.includes("server2")) smsKeys.splice(1, 0, "server2");
+  }
+  const smsChecks = smsKeys.map((key) => checkSmsProviderBalance(key, appStore));
 
   let smmProviders = [];
   if (appStore && typeof appStore.getSmmProviders === "function") {
@@ -334,54 +340,125 @@ async function buildProviderCheckReport(lang = "ar", appStore) {
 }
 
 /**
- * Build SMS Providers Management Menu
+ * Build Single SMS Provider Details & Control Menu
  */
-function buildSmsProvidersMenu(lang = "ar", appStore) {
-  const p1 = appStore ? appStore.getSmsProvider("server1") : getSmsProvider("server1");
-  const p2 = appStore ? appStore.getSmsProvider("server2") : getSmsProvider("server2");
+function buildSingleSmsProviderMenu(lang = "ar", provider) {
+  const isDefault = provider.key === "server1" || provider.key === "server2";
+  const maskedKey = provider.apiKey ? "••••" + provider.apiKey.slice(-6) : "غير مدخل ⚠️";
 
   const lines = [
-    "⚙️ <b>إدارة مزودي الأرقام الافتراضية (SMS)</b>",
+    `⚙️ <b>إعدادات مزود الأرقام: ${provider.name || provider.key}</b>`,
     "────────────────────",
-    `1️⃣ <b>${p1?.name || "السيرفر 1 (HeroSMS)"}</b>:`,
-    `   • الحالة: ${p1?.enabled !== false ? "✅ مفعّل" : "❌ معطّل"}`,
-    `   • الرابط: <code>${p1?.baseUrl ? p1.baseUrl.slice(0, 35) + "..." : "غير مضبوط"}</code>`,
-    `   • المفتاح: <code>${p1?.apiKey ? "••••" + p1.apiKey.slice(-6) : "غير مدخل"}</code>`,
-    "",
-    `2️⃣ <b>${p2?.name || "السيرفر 2 (Grizzly)"}</b>:`,
-    `   • الحالة: ${p2?.enabled !== false ? "✅ مفعّل" : "❌ معطّل"}`,
-    `   • الرابط: <code>${p2?.baseUrl ? p2.baseUrl.slice(0, 35) + "..." : "غير مضبوط"}</code>`,
-    `   • المفتاح: <code>${p2?.apiKey ? "••••" + p2.apiKey.slice(-6) : "غير مدخل"}</code>`,
+    `• <b>المعرف:</b> <code>${provider.key}</code>`,
+    `• <b>الحالة:</b> ${provider.enabled !== false ? "✅ مفعّل" : "❌ معطّل"}`,
+    `• <b>الرابط (Base URL):</b>\n<code>${provider.baseUrl || "غير مضبوط"}</code>`,
+    `• <b>مفتاح API:</b> <code>${maskedKey}</code>`,
     "────────────────────",
-    "اضغط أدناه لتعديل المفتاح، الرابط، أو فحص الرصيد:",
+    "اضغط على الإجراء المطلوب:",
   ];
 
   const keyboard = {
     inline_keyboard: [
       [
-        { text: "🔍 فحص رصيد السيرفر 1", callback_data: "admin:test_sms:server1" },
-        { text: "🔍 فحص رصيد السيرفر 2", callback_data: "admin:test_sms:server2" },
+        { text: "🔍 فحص رصيد هذا السيرفر الآن", callback_data: `admin:test_sms:${provider.key}` },
       ],
       [
-        { text: `${p1?.enabled !== false ? "🔴 تعطيل" : "🟢 تفعيل"} سيرفر 1`, callback_data: "admin:toggle_sms:server1" },
-        { text: `${p2?.enabled !== false ? "🔴 تعطيل" : "🟢 تفعيل"} سيرفر 2`, callback_data: "admin:toggle_sms:server2" },
+        { text: `${provider.enabled !== false ? "🔴 تعطيل السيرفر" : "🟢 تفعيل السيرفر"}`, callback_data: `admin:toggle_sms:${provider.key}` },
       ],
       [
-        { text: "🔑 تعديل مفتاح سيرفر 1", callback_data: "admin:edit_sms_key:server1" },
-        { text: "🔑 تعديل مفتاح سيرفر 2", callback_data: "admin:edit_sms_key:server2" },
+        { text: "🔑 تعديل مفتاح API", callback_data: `admin:edit_sms_key:${provider.key}` },
+        { text: "🌐 تعديل رابط API", callback_data: `admin:edit_sms_url:${provider.key}` },
       ],
       [
-        { text: "🌐 تعديل رابط سيرفر 1", callback_data: "admin:edit_sms_url:server1" },
-        { text: "🌐 تعديل رابط سيرفر 2", callback_data: "admin:edit_sms_url:server2" },
+        { text: "✏️ تعديل اسم السيرفر", callback_data: `admin:edit_sms_name:${provider.key}` },
+        ...(isDefault ? [] : [{ text: "🗑️ حذف المزود", callback_data: `admin:delete_sms:${provider.key}` }]),
       ],
       [
-        { text: "📡 فحص جميع المزودين", callback_data: "admin:check_providers" },
-        { text: "🔙 رجوع للوحة التحكم", callback_data: "admin:panel" },
+        { text: "🔙 رجوع لقائمة مزودي الأرقام", callback_data: "admin:providers" },
       ],
     ],
   };
 
   return { text: lines.join("\n"), keyboard };
+}
+
+/**
+ * Build SMS Providers Management Menu
+ */
+function buildSmsProvidersMenu(lang = "ar", appStore) {
+  let providersObj = {};
+  if (appStore && typeof appStore.getSmsProviders === "function") {
+    providersObj = appStore.getSmsProviders();
+  }
+
+  // Ensure server1 and server2 exist
+  if (!providersObj.server1) {
+    providersObj.server1 = getSmsProvider("server1");
+  }
+  if (!providersObj.server2) {
+    providersObj.server2 = getSmsProvider("server2");
+  }
+
+  const providers = Object.values(providersObj);
+
+  const lines = [
+    "⚙️ <b>إدارة مزودي وسيرفرات الأرقام الافتراضية (SMS)</b>",
+    "────────────────────",
+    "يمكنك إضافة وإدارة مفاتيح مواقع الأرقام (HeroSMS، Grizzly، وغيرها).",
+    "",
+    `📊 <b>عدد السيرفرات المتاحة:</b> ${providers.length}`,
+    "",
+  ];
+
+  providers.forEach((p, idx) => {
+    const isConfigured = Boolean(p.apiKey && p.apiKey.trim());
+    const statusIcon = p.enabled !== false ? (isConfigured ? "🟢" : "🟡") : "🔴";
+    const masked = isConfigured ? "••••" + p.apiKey.slice(-6) : "مفتاح مفقود ⚠️";
+    lines.push(`${idx + 1}️⃣ ${statusIcon} <b>${p.name || p.key}:</b>`);
+    lines.push(`   • الحالة: ${p.enabled !== false ? "✅ مفعّل" : "❌ معطّل"}`);
+    lines.push(`   • المفتاح: <code>${masked}</code>`);
+    lines.push(`   • الرابط: <code>${p.baseUrl ? p.baseUrl.slice(0, 32) + "..." : "غير مضبوط"}</code>`);
+    lines.push("");
+  });
+
+  lines.push("────────────────────");
+  lines.push("💡 <i>اضغط لتعديل أي سيرفر، فحص رصيده، أو إضافة مزود جديد:</i>");
+
+  const rows = [];
+
+  // Quick buttons for primary servers
+  rows.push([
+    { text: "🔑 تعديل مفتاح سيرفر 1 (Hero)", callback_data: "admin:edit_sms_key:server1" },
+    { text: "🔍 فحص رصيد سيرفر 1", callback_data: "admin:test_sms:server1" },
+  ]);
+  rows.push([
+    { text: "🔑 تعديل مفتاح سيرفر 2 (Grizzly)", callback_data: "admin:edit_sms_key:server2" },
+    { text: "🔍 فحص رصيد سيرفر 2", callback_data: "admin:test_sms:server2" },
+  ]);
+
+  // If there are additional servers (like server3, server4, custom)
+  providers.forEach((p) => {
+    if (p.key !== "server1" && p.key !== "server2") {
+      rows.push([
+        { text: `⚙️ إعدادات: ${p.name || p.key}`, callback_data: `admin:sms_manage:${p.key}` },
+        { text: "🔍 فحص الرصيد", callback_data: `admin:test_sms:${p.key}` },
+      ]);
+    }
+  });
+
+  // Action buttons
+  rows.push([
+    { text: "➕ إضافة مزود أرقام جديد (سيرفر إضافي)", callback_data: "admin:sms_add" },
+  ]);
+  rows.push([
+    { text: "📡 فحص جميع المزودين والأرصدة", callback_data: "admin:check_providers" },
+    { text: "🚀 مزودو الرشق (SMM)", callback_data: "admin:smm_providers" },
+  ]);
+  rows.push([
+    { text: "🔙 رجوع للوحة التحكم", callback_data: "admin:panel" },
+  ]);
+
+  return { text: lines.join("\n"), keyboard: { inline_keyboard: rows } };
 }
 
 /**
@@ -495,6 +572,7 @@ module.exports = {
   checkAllProviders,
   buildProviderCheckReport,
   buildSmsProvidersMenu,
+  buildSingleSmsProviderMenu,
   buildSmmProvidersMenu,
   buildSingleSmmProviderMenu,
 };

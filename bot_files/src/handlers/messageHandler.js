@@ -1,7 +1,11 @@
 const fs = require("fs");
 const path = require("path");
-const { ADMIN_ID, USERS_EXPORT_PATH } = require("../config");
+const { ADMIN_ID, ADMIN_IDS, USERS_EXPORT_PATH } = require("../config");
 const { clearUserState, getUserState, setUserState } = require("../services/stateStore");
+const {
+  checkSmsProviderBalance,
+  checkSmmProviderBalance,
+} = require("../services/providerManagementService");
 const {
   sendMainMenu,
   sendTransferHome,
@@ -353,14 +357,16 @@ async function handleGiftCodeInput(bot, msg, appStore) {
 async function handleAdminState(bot, msg, appStore) {
   try {
     const state = getUserState(msg.from.id);
-    if (!state || msg.from.id !== ADMIN_ID) {
+    const isAdmin = (Array.isArray(ADMIN_IDS) && ADMIN_IDS.includes(Number(msg.from.id))) || msg.from.id === ADMIN_ID;
+    if (!state || !isAdmin) {
       return false;
     }
     const adminLang = getUserLang(appStore.findUserById(msg.from.id));
 
-    if (msg.text.trim().toLowerCase() === "cancel") {
+    const textTrim = String(msg.text || "").trim();
+    if (textTrim.toLowerCase() === "cancel" || textTrim === "الغاء" || textTrim === "إلغاء") {
       clearUserState(msg.from.id);
-      await safeTelegramCall("handleAdminState.cancel", () => bot.sendMessage(msg.chat.id, "طھظ… ط¥ظ„ط؛ط§ط، ط§ظ„ط¹ظ…ظ„ظٹط©."));
+      await safeTelegramCall("handleAdminState.cancel", () => bot.sendMessage(msg.chat.id, "❌ تم إلغاء العملية."));
       await sendAdminPanel(bot, msg.chat.id, { lang: adminLang });
       return true;
     }
@@ -535,6 +541,409 @@ async function handleAdminState(bot, msg, appStore) {
         )
       );
       await sendAdminPanel(bot, msg.chat.id, { lang: adminLang });
+      return true;
+    }
+
+    // --- SMS Providers Management States ---
+    if (state.name === "ADMIN_AWAITING_SMS_KEY") {
+      const apiKey = textTrim;
+      const providerKey = state.providerKey || "server1";
+      if (!apiKey) {
+        await safeTelegramCall("handleAdminState.emptySmsKey", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ الرجاء إرسال مفتاح صالح أو كتابة Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      appStore.updateSmsProvider(providerKey, { apiKey });
+      clearUserState(msg.from.id);
+
+      const res = await checkSmsProviderBalance(providerKey, appStore);
+      const maskedKey = apiKey.length > 8 ? "••••" + apiKey.slice(-6) : apiKey;
+
+      await safeTelegramCall("handleAdminState.smsKeyUpdated", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تم حفظ وتحديث مفتاح [${res.name || providerKey}] بنجاح!</b>\n\n` +
+          `• <b>المفتاح المحفوظ:</b> <code>${maskedKey}</code>\n` +
+          `• <b>فحص الاتصال:</b> ${res.statusText}\n` +
+          `• <b>الرصيد المتوفر بالموقع:</b> <b>${res.formatted}</b>\n\n` +
+          `<i>${res.success ? "🟢 الاتصال بالسيرفر يعمل بنجاح تام!" : "⚠️ تم حفظ المفتاح، ولكن لم يرجع السيرفر رصيداً. تأكد من صحة المفتاح والرابط."}</i>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🔄 فحص الرصيد الآن", callback_data: `admin:test_sms:${providerKey}` }],
+                [{ text: "📱 مزودو الأرقام (SMS)", callback_data: "admin:providers" }],
+                [{ text: "🔙 لوحة الإدارة", callback_data: "admin:panel" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMS_URL") {
+      const baseUrl = textTrim;
+      const providerKey = state.providerKey || "server1";
+      if (!baseUrl || !baseUrl.startsWith("http")) {
+        await safeTelegramCall("handleAdminState.invalidSmsUrl", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ الرجاء إرسال رابط صالح يبدأ بـ http:// أو https:// أو اكتب Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      appStore.updateSmsProvider(providerKey, { baseUrl });
+      clearUserState(msg.from.id);
+
+      const res = await checkSmsProviderBalance(providerKey, appStore);
+      await safeTelegramCall("handleAdminState.smsUrlUpdated", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تم تحديث رابط الـ API لـ [${res.name || providerKey}] بنجاح!</b>\n\n` +
+          `• <b>الرابط الجديد:</b> <code>${baseUrl}</code>\n` +
+          `• <b>فحص الاتصال:</b> ${res.statusText}\n` +
+          `• <b>الرصيد بالموقع:</b> <b>${res.formatted}</b>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🔄 فحص الرصيد", callback_data: `admin:test_sms:${providerKey}` }],
+                [{ text: "📱 مزودو الأرقام (SMS)", callback_data: "admin:providers" }],
+                [{ text: "🔙 لوحة الإدارة", callback_data: "admin:panel" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMS_EDIT_NAME") {
+      const name = textTrim;
+      const providerKey = state.providerKey || "server1";
+      if (!name) {
+        await safeTelegramCall("handleAdminState.invalidSmsName", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ الرجاء إرسال اسم صالح أو اكتب Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      appStore.updateSmsProvider(providerKey, { name });
+      clearUserState(msg.from.id);
+
+      await safeTelegramCall("handleAdminState.smsNameUpdated", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تم تحديث اسم المزود إلى:</b> <b>${name}</b>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "⚙️ إعدادات المزود", callback_data: `admin:sms_manage:${providerKey}` }],
+                [{ text: "📱 مزودو الأرقام (SMS)", callback_data: "admin:providers" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMS_ADD_NAME") {
+      const name = textTrim;
+      if (!name) {
+        await safeTelegramCall("handleAdminState.invalidAddSmsName", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال اسم صحيح للمزود الجديد (مثال: السيرفر 3 أو SMS-Activate):")
+        );
+        return true;
+      }
+
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMS_ADD_URL", { name });
+      await safeTelegramCall("handleAdminState.askSmsAddUrl", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `🌐 <b>اسم المزود:</b> ${name}\n\n` +
+          `أرسل الآن رابط الـ API (Base URL) الخاص بموقع الأرقام:\n` +
+          `<i>مثال: https://api.sms-activate.org/stubs/handler_api.php</i>\n\n` +
+          `أو اكتب Cancel للإلغاء:`,
+          { parse_mode: "HTML" }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMS_ADD_URL") {
+      const url = textTrim;
+      if (!url || !url.startsWith("http")) {
+        await safeTelegramCall("handleAdminState.invalidAddSmsUrl", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ الرجاء إرسال رابط صالح يبدأ بـ http:// أو https:// أو اكتب Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMS_ADD_KEY", { name: state.name, url });
+      await safeTelegramCall("handleAdminState.askSmsAddKey", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `🔑 <b>المزود:</b> ${state.name}\n` +
+          `🌐 <b>الرابط:</b> <code>${url}</code>\n\n` +
+          `أرسل الآن مفتاح الـ API (API Key) الخاص بهذا الموقع:\n\n` +
+          `أو اكتب Cancel للإلغاء:`,
+          { parse_mode: "HTML" }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMS_ADD_KEY") {
+      const key = textTrim;
+      if (!key) {
+        await safeTelegramCall("handleAdminState.invalidAddSmsKey", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال مفتاح API صحيح أو كتابة Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      const existing = appStore.getSmsProviders();
+      let targetKey = "server3";
+      if (existing.server3 && existing.server3.apiKey) {
+        if (!existing.server4 || !existing.server4.apiKey) {
+          targetKey = "server4";
+        } else {
+          targetKey = `sms_${Date.now()}`;
+        }
+      }
+
+      const newSms = appStore.updateSmsProvider(targetKey, {
+        key: targetKey,
+        name: state.name,
+        baseUrl: state.url,
+        apiKey: key,
+        enabled: true,
+      });
+
+      clearUserState(msg.from.id);
+
+      const res = await checkSmsProviderBalance(targetKey, appStore);
+      const masked = key.length > 8 ? "••••" + key.slice(-6) : key;
+
+      await safeTelegramCall("handleAdminState.smsAddedDone", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تمت إضافة مزود الأرقام الافتراضية بنجاح!</b>\n\n` +
+          `• <b>المزود:</b> ${newSms.name} [${targetKey}]\n` +
+          `• <b>الرابط:</b> <code>${newSms.baseUrl}</code>\n` +
+          `• <b>المفتاح:</b> <code>${masked}</code>\n` +
+          `• <b>فحص الاتصال:</b> ${res.statusText}\n` +
+          `• <b>الرصيد بالموقع:</b> <b>${res.formatted}</b>\n\n` +
+          `<i>${res.success ? "🟢 الاتصال متصل وسيعمل في قسم الأرقام فوراً!" : "⚠️ تم الحفظ، تأكد من صحة الرابط والمفتاح."}</i>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🔄 فحص الرصيد", callback_data: `admin:test_sms:${targetKey}` }],
+                [{ text: "📱 مزودو الأرقام (SMS)", callback_data: "admin:providers" }],
+                [{ text: "🔙 لوحة الإدارة", callback_data: "admin:panel" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    // --- SMM Providers (بوت الرشق) Management States ---
+    if (state.name === "ADMIN_AWAITING_SMM_NAME") {
+      const name = textTrim;
+      if (!name) {
+        await safeTelegramCall("handleAdminState.invalidSmmName", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال اسم صحيح لموقع الرشق (مثال: SMM Peak أو عرب رشق):")
+        );
+        return true;
+      }
+
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_URL", { name });
+      await safeTelegramCall("handleAdminState.askSmmUrl", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `🌐 <b>اسم موقع الرشق:</b> ${name}\n\n` +
+          `أرسل الآن رابط الـ API (API URL) لموقع الرشق:\n` +
+          `<i>مثال: https://smmsite.com/api/v2</i>\n\n` +
+          `أو اكتب Cancel للإلغاء:`,
+          { parse_mode: "HTML" }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_URL") {
+      const url = textTrim;
+      if (!url || !url.startsWith("http")) {
+        await safeTelegramCall("handleAdminState.invalidSmmUrl", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ الرجاء إرسال رابط صالح يبدأ بـ http:// أو https:// أو اكتب Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_KEY", { name: state.name, url });
+      await safeTelegramCall("handleAdminState.askSmmKey", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `🔑 <b>الموقع:</b> ${state.name}\n` +
+          `🌐 <b>الرابط:</b> <code>${url}</code>\n\n` +
+          `أرسل الآن مفتاح الـ API (API Key) الخاص بموقع الرشق:\n\n` +
+          `أو اكتب Cancel للإلغاء:`,
+          { parse_mode: "HTML" }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_KEY") {
+      const key = textTrim;
+      if (!key) {
+        await safeTelegramCall("handleAdminState.invalidSmmKey", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال مفتاح API صحيح أو كتابة Cancel للإلغاء:")
+        );
+        return true;
+      }
+
+      const newProvider = appStore.addSmmProvider({
+        name: state.name,
+        url: state.url,
+        key,
+      });
+
+      clearUserState(msg.from.id);
+
+      const res = await checkSmmProviderBalance(newProvider);
+      const masked = key.length > 8 ? "••••" + key.slice(-6) : key;
+
+      await safeTelegramCall("handleAdminState.smmAddedDone", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تمت إضافة موقع الرشق بنجاح!</b>\n\n` +
+          `• <b>الموقع:</b> ${newProvider.name}\n` +
+          `• <b>الرابط:</b> <code>${newProvider.url}</code>\n` +
+          `• <b>المفتاح:</b> <code>${masked}</code>\n` +
+          `• <b>فحص الاتصال:</b> ${res.statusText}\n` +
+          `• <b>الرصيد بالموقع:</b> <b>${res.formatted}</b>\n\n` +
+          `<i>${res.success ? "🟢 الموقع متصل بنجاح!" : "⚠️ تم الحفظ، تأكد من صحة الرابط والمفتاح."}</i>\n\n` +
+          `💡 <i>يمكنك الآن الضغط على (مزامنة وسحب الخدمات) لسحب جميع الخدمات المتاحة بالموقع وتضمينها فوراً في البوت.</i>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🔄 مزامنة وسحب الخدمات الآن", callback_data: "admin:smm_sync_now" }],
+                [{ text: "🔍 فحص الرصيد", callback_data: `admin:smm_balance:${newProvider.id}` }],
+                [{ text: "🚀 إدارة مواقع الرشق (SMM)", callback_data: "admin:smm_providers" }],
+                [{ text: "🔙 لوحة الإدارة", callback_data: "admin:panel" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_EDIT_NAME") {
+      const name = textTrim;
+      if (!name) {
+        await safeTelegramCall("handleAdminState.invalidSmmEditName", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال اسم صالح أو كتابة Cancel للإلغاء:")
+        );
+        return true;
+      }
+      appStore.updateSmmProvider(state.providerId, { name });
+      clearUserState(msg.from.id);
+      await safeTelegramCall("handleAdminState.smmEditNameDone", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تم تحديث اسم موقع الرشق إلى:</b> <b>${name}</b>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "⚙️ إعدادات المزود", callback_data: `admin:smm_manage:${state.providerId}` }],
+                [{ text: "🚀 قائمة مواقع الرشق", callback_data: "admin:smm_providers" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_EDIT_URL") {
+      const url = textTrim;
+      if (!url || !url.startsWith("http")) {
+        await safeTelegramCall("handleAdminState.invalidSmmEditUrl", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال رابط صالح يبدأ بـ http:// أو https:// أو كتابة Cancel للإلغاء:")
+        );
+        return true;
+      }
+      appStore.updateSmmProvider(state.providerId, { url });
+      clearUserState(msg.from.id);
+      const provider = appStore.getSmmProviderById(state.providerId);
+      const res = await checkSmmProviderBalance(provider);
+      await safeTelegramCall("handleAdminState.smmEditUrlDone", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تم تحديث رابط الـ API بنجاح!</b>\n\n` +
+          `• <b>الرابط:</b> <code>${url}</code>\n` +
+          `• <b>فحص الاتصال:</b> ${res.statusText}\n` +
+          `• <b>الرصيد:</b> <b>${res.formatted}</b>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🔍 فحص الرصيد", callback_data: `admin:smm_balance:${state.providerId}` }],
+                [{ text: "⚙️ إعدادات المزود", callback_data: `admin:smm_manage:${state.providerId}` }],
+                [{ text: "🚀 قائمة مواقع الرشق", callback_data: "admin:smm_providers" }],
+              ],
+            },
+          }
+        )
+      );
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_SMM_EDIT_KEY") {
+      const key = textTrim;
+      if (!key) {
+        await safeTelegramCall("handleAdminState.invalidSmmEditKey", () =>
+          bot.sendMessage(msg.chat.id, "⚠️ يرجى إرسال مفتاح صالح أو كتابة Cancel للإلغاء:")
+        );
+        return true;
+      }
+      appStore.updateSmmProvider(state.providerId, { key });
+      clearUserState(msg.from.id);
+      const provider = appStore.getSmmProviderById(state.providerId);
+      const res = await checkSmmProviderBalance(provider);
+      const masked = key.length > 8 ? "••••" + key.slice(-6) : key;
+      await safeTelegramCall("handleAdminState.smmEditKeyDone", () =>
+        bot.sendMessage(
+          msg.chat.id,
+          `✅ <b>تم تحديث مفتاح API لموقع الرشق بنجاح!</b>\n\n` +
+          `• <b>المفتاح:</b> <code>${masked}</code>\n` +
+          `• <b>فحص الاتصال:</b> ${res.statusText}\n` +
+          `• <b>الرصيد:</b> <b>${res.formatted}</b>\n\n` +
+          `<i>${res.success ? "🟢 الاتصال متصل بنجاح!" : "⚠️ تحقق من صحة المفتاح والرابط."}</i>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "🔄 مزامنة وسحب الخدمات", callback_data: "admin:smm_sync_now" }],
+                [{ text: "🔍 فحص الرصيد", callback_data: `admin:smm_balance:${state.providerId}` }],
+                [{ text: "⚙️ إعدادات المزود", callback_data: `admin:smm_manage:${state.providerId}` }],
+                [{ text: "🚀 قائمة مواقع الرشق", callback_data: "admin:smm_providers" }],
+              ],
+            },
+          }
+        )
+      );
       return true;
     }
 

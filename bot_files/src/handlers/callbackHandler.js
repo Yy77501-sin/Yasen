@@ -83,6 +83,7 @@ const {
 } = require("../services/tempEmailFlowService");
 const {
   buildSmsProvidersMenu,
+  buildSingleSmsProviderMenu,
   buildSmmProvidersMenu,
   buildSingleSmmProviderMenu,
   checkSmsProviderBalance,
@@ -525,6 +526,68 @@ async function handleAdminCallbacks(bot, query, appStore) {
           return true;
         }
 
+        if (query.data === "admin:sms_add") {
+          setUserState(query.from.id, "ADMIN_AWAITING_SMS_ADD_NAME");
+          await safeTelegramCall("handleAdminCallbacks.smsAddPrompt", () =>
+            bot.sendMessage(
+              chatId,
+              "📱 <b>إضافة مزود أرقام افتراضية جديد (سيرفر جديد):</b>\n\n" +
+              "أرسل اسم المزود أو السيرفر الجديد (مثال: السيرفر 3 أو SMS-Activate أو 5SIM):\n\n" +
+              "أو اكتب Cancel للإلغاء:",
+              { parse_mode: "HTML" }
+            )
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:sms_manage:")) {
+          const pKey = query.data.split(":")[2];
+          const provider = appStore.getSmsProvider(pKey) || { key: pKey, name: pKey, baseUrl: "", apiKey: "", enabled: true };
+          const menu = buildSingleSmsProviderMenu("ar", provider);
+          await safeTelegramCall("handleAdminCallbacks.smsManageView", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:edit_sms_name:")) {
+          const pKey = query.data.split(":")[2];
+          setUserState(query.from.id, "ADMIN_AWAITING_SMS_EDIT_NAME", { providerKey: pKey });
+          await safeTelegramCall("handleAdminCallbacks.editSmsNamePrompt", () =>
+            bot.sendMessage(chatId, `أرسل الاسم الجديد لـ [${pKey}]:\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:delete_sms:")) {
+          const pKey = query.data.split(":")[2];
+          if (pKey === "server1" || pKey === "server2") {
+            await safeTelegramCall("handleAdminCallbacks.cannotDeleteDefaultSms", () =>
+              bot.answerCallbackQuery(query.id, { text: "لا يمكن حذف السيرفرين الأساسيين 1 و 2، يمكنك تعطيلهما بدلاً من ذلك.", show_alert: true })
+            );
+            return true;
+          }
+          appStore.deleteSmsProvider(pKey);
+          await safeTelegramCall("handleAdminCallbacks.smsDeletedToast", () =>
+            bot.answerCallbackQuery(query.id, { text: "🗑️ تم حذف مزود الأرقام بنجاح.", show_alert: true })
+          );
+          const menu = buildSmsProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.smsProvidersAfterDelete", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
         if (query.data.startsWith("admin:edit_sms_key:")) {
           const pKey = query.data.split(":")[2];
           setUserState(query.from.id, "ADMIN_AWAITING_SMS_KEY", { providerKey: pKey });
@@ -588,7 +651,7 @@ async function handleAdminCallbacks(bot, query, appStore) {
             bot.answerCallbackQuery(query.id, { text: "⏳ جاري مزامنة خدمات وأسعار الرشق الآن...", show_alert: false })
           );
           try {
-            await fetchAndCacheSmmServices(true);
+            await fetchAndCacheSmmServices(true, appStore);
             await safeTelegramCall("handleAdminCallbacks.smmSyncSuccess", () =>
               bot.sendMessage(chatId, "✅ تمت مزامنة خدمات وأسعار جميع مواقع الرشق بنجاح وتحديث الكاش!")
             );

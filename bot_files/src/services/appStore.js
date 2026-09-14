@@ -40,17 +40,31 @@ class AppStore {
       smsProviders: {
         server1: {
           key: "server1",
-          name: "HeroSMS",
+          name: "السيرفر 1 (HeroSMS)",
           baseUrl: process.env.HERO_BASE_URL || "https://hero-sms.com/stubs/handler_api.php",
           apiKey: process.env.HERO_SMS_API_KEY || process.env.HERO_API_KEY || "",
           enabled: true,
         },
         server2: {
           key: "server2",
-          name: "Grizzly",
+          name: "السيرفر 2 (Grizzly)",
           baseUrl: process.env.GRIZZLY_BASE_URL || "https://api.grizzlysms.com/stubs/handler_api.php",
           apiKey: process.env.GRIZZLY_API_KEY || "",
           enabled: true,
+        },
+        server3: {
+          key: "server3",
+          name: "السيرفر 3 (SMS-Activate)",
+          baseUrl: process.env.SMS3_BASE_URL || "https://api.sms-activate.org/stubs/handler_api.php",
+          apiKey: process.env.SMS3_API_KEY || "",
+          enabled: false,
+        },
+        server4: {
+          key: "server4",
+          name: "السيرفر 4 (5SIM)",
+          baseUrl: process.env.SMS4_BASE_URL || "https://api1.5sim.net/stubs/handler_api.php",
+          apiKey: process.env.SMS4_API_KEY || "",
+          enabled: false,
         },
       },
       smmProviders: [
@@ -502,6 +516,42 @@ class AppStore {
     this.config.smsProviders = providers;
     this.persistAll();
     return providers[providerKey];
+  }
+
+  toggleSmsProvider(providerKey) {
+    const providers = this.getSmsProviders();
+    if (!providers[providerKey]) return null;
+    providers[providerKey].enabled = providers[providerKey].enabled === false ? true : false;
+    this.config.smsProviders = providers;
+    this.persistAll();
+    return providers[providerKey];
+  }
+
+  addSmsProvider({ key = null, name, baseUrl, apiKey }) {
+    const providers = this.getSmsProviders();
+    const providerKey = key || `sms_${Date.now()}`;
+    providers[providerKey] = {
+      key: providerKey,
+      name: String(name || providerKey).trim(),
+      baseUrl: String(baseUrl || "").trim(),
+      apiKey: String(apiKey || "").trim(),
+      enabled: true,
+      createdAt: new Date().toISOString(),
+    };
+    this.config.smsProviders = providers;
+    this.persistAll();
+    return providers[providerKey];
+  }
+
+  deleteSmsProvider(providerKey) {
+    const providers = this.getSmsProviders();
+    if (providers[providerKey]) {
+      delete providers[providerKey];
+      this.config.smsProviders = providers;
+      this.persistAll();
+      return true;
+    }
+    return false;
   }
 
   // --- SMM Providers (Dynamic CRUD) ---

@@ -19,7 +19,7 @@ const {
   getServicePrices,
   getProviderCountries,
 } = require("./services/grizzlyService");
-const { getSmsProvider } = require("./constants/smsProviders");
+const { getSmsProvider, setSmsProviderAppStore } = require("./constants/smsProviders");
 const { getGrizzlyServiceCode, getGrizzlyCountryMeta } = require("./constants/grizzly");
 const { t, getUserLang } = require("./locales");
 const {
@@ -95,6 +95,7 @@ if (telegramBaseApiUrl) {
 
 const bot = new TelegramBot(BOT_TOKEN, botOptions);
 const appStore = new AppStore();
+setSmsProviderAppStore(appStore);
 const appContext = {
   botUsername: "VaultX",
 };
