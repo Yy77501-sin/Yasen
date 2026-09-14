@@ -33,9 +33,9 @@ function writeCacheFile(data) {
 async function fetchAndCachePrices() {
   try {
     const provider = getSmsProvider("server2");
-    const apiKey = provider.apiKey;
-    if (!apiKey || !provider.baseUrl) {
-      throw new Error("Missing GRIZZLY_API_KEY");
+    const apiKey = provider?.apiKey;
+    if (!apiKey || !apiKey.trim() || !provider.baseUrl || provider.enabled === false) {
+      return readCacheFile();
     }
 
     const url = `${provider.baseUrl}?api_key=${encodeURIComponent(apiKey)}&action=getPrices`;

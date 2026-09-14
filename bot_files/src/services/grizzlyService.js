@@ -32,13 +32,13 @@ function parseProviderBaseUrls(providerKey) {
 
 function buildProviderUrl(baseUrl, providerKey, params) {
   const provider = getSmsProvider(providerKey);
-  const apiKey = provider.apiKey;
-  if (!apiKey) {
-    throw new Error(`Missing API key for provider ${provider.key}`);
+  const apiKey = provider?.apiKey;
+  if (!apiKey || !apiKey.trim()) {
+    throw new Error(`Missing API key for provider ${provider?.key || providerKey}`);
   }
 
   const query = new URLSearchParams({
-    api_key: apiKey,
+    api_key: apiKey.trim(),
     ...params,
   });
   return `${baseUrl}?${query.toString()}`;
@@ -153,6 +153,9 @@ function isApiKeyError(error) {
 
 function checkAndAlertApiKeyFailure(providerKey, error, actionContext = "query") {
   const provider = getSmsProvider(providerKey);
+  if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+    return;
+  }
   const provName = provider?.name || providerKey;
   const errorMsg = String(error?.message || error || "Unknown error");
 
@@ -176,6 +179,11 @@ function checkAndAlertApiKeyFailure(providerKey, error, actionContext = "query")
 }
 
 async function requestProviderWithFailover(providerKey, params, mode = "json") {
+  const provider = getSmsProvider(providerKey);
+  if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+    return mode === "text" ? "" : null;
+  }
+
   const baseUrls = parseProviderBaseUrls(providerKey);
   let lastError = null;
 
@@ -188,8 +196,10 @@ async function requestProviderWithFailover(providerKey, params, mode = "json") {
       return await fetchJson(url, providerKey);
     } catch (error) {
       lastError = error;
-      logBotError("provider.request.failover", error, { providerKey, baseUrl, action: params.action });
-      checkAndAlertApiKeyFailure(providerKey, error, `request_${params.action}`);
+      if (provider.apiKey && provider.apiKey.trim()) {
+        logBotError("provider.request.failover", error, { providerKey, baseUrl, action: params.action });
+        checkAndAlertApiKeyFailure(providerKey, error, `request_${params.action}`);
+      }
     }
   }
 
@@ -243,6 +253,10 @@ function parseCountriesPayload(payload) {
 
 async function getProviderCountries(providerKey = "server2") {
   try {
+    const provider = getSmsProvider(providerKey);
+    if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+      return {};
+    }
     const data = await requestProviderWithFailover(providerKey, { action: "getCountries" }, "json");
     return parseCountriesPayload(data);
   } catch (error) {
@@ -253,6 +267,11 @@ async function getProviderCountries(providerKey = "server2") {
 
 async function getServicePrices(serviceCode, providerKey = "server2", options = {}) {
   try {
+    const provider = getSmsProvider(providerKey);
+    if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+      return null;
+    }
+
     const cacheKey = getCacheKey(providerKey, serviceCode);
     const cached = priceCache.get(cacheKey);
     if (!options.forceRefresh && cached && Date.now() - cached.at < CACHE_TTL_MS) {
@@ -277,7 +296,7 @@ async function getServicePrices(serviceCode, providerKey = "server2", options = 
     }, "json");
 
     if (!data || typeof data !== "object") {
-      throw new Error("Provider returned an invalid JSON payload");
+      return null;
     }
 
     if (providerKey === "server1" && DEBUG_HERO) {
@@ -298,6 +317,10 @@ async function getServicePrices(serviceCode, providerKey = "server2", options = 
 
 async function requestNumber(serviceCode, countryId, providerKey = "server2") {
   try {
+    const provider = getSmsProvider(providerKey);
+    if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+      return null;
+    }
     const responseText = await requestProviderWithFailover(providerKey, {
       action: "getNumber",
       service: serviceCode,
@@ -315,6 +338,10 @@ async function requestNumber(serviceCode, countryId, providerKey = "server2") {
 
 async function getSmsStatus(activationId, providerKey = "server2") {
   try {
+    const provider = getSmsProvider(providerKey);
+    if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+      return null;
+    }
     return await requestProviderWithFailover(providerKey, {
       action: "getStatus",
       id: activationId,
@@ -330,6 +357,10 @@ async function getSmsStatus(activationId, providerKey = "server2") {
 
 async function cancelNumber(activationId, providerKey = "server2") {
   try {
+    const provider = getSmsProvider(providerKey);
+    if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+      return "ACCESS_CANCEL";
+    }
     return await requestProviderWithFailover(providerKey, {
       action: "setStatus",
       status: "8",

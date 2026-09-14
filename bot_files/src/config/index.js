@@ -18,10 +18,19 @@ const SMS_WEBHOOK_TOKEN = String(process.env.SMS_WEBHOOK_TOKEN || "").trim();
 const GMAIL_IMAP_USER = String(process.env.GMAIL_IMAP_USER || "").trim();
 const GMAIL_IMAP_APP_PASSWORD = String(process.env.GMAIL_IMAP_APP_PASSWORD || "").trim();
 const BINANCE_EMAIL_FROM = String(process.env.BINANCE_EMAIL_FROM || "do-not-reply@directmail.binance.com").trim().toLowerCase();
-const LOG_CHANNEL_ID = Number(process.env.LOG_CHANNEL_ID || -1003822505585);
-const ACTIVATIONS_CHANNEL_ID = Number(process.env.ACTIVATIONS_CHANNEL_ID || -1003311851705);
-const PRO_ACCOUNTS_CHANNEL_ID = Number(process.env.PRO_ACCOUNTS_CHANNEL_ID || -1003869626536);
-const ADMIN_CHANNEL_ID = Number(process.env.ADMIN_CHANNEL_ID || PRO_ACCOUNTS_CHANNEL_ID);
+function parseChannelId(envVal, defaultVal = null) {
+  const str = String(envVal !== undefined && envVal !== null ? envVal : (defaultVal || "")).trim();
+  if (!str || str === "-1000000000000" || str === "0" || str === "null" || str === "undefined") {
+    return null;
+  }
+  const num = Number(str);
+  return Number.isFinite(num) ? num : null;
+}
+
+const LOG_CHANNEL_ID = parseChannelId(process.env.LOG_CHANNEL_ID, null);
+const ACTIVATIONS_CHANNEL_ID = parseChannelId(process.env.ACTIVATIONS_CHANNEL_ID, -1003311851705);
+const PRO_ACCOUNTS_CHANNEL_ID = parseChannelId(process.env.PRO_ACCOUNTS_CHANNEL_ID, -1003869626536);
+const ADMIN_CHANNEL_ID = parseChannelId(process.env.ADMIN_CHANNEL_ID, PRO_ACCOUNTS_CHANNEL_ID);
 
 module.exports = {
   ADMIN_ID,

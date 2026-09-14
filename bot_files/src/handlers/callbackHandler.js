@@ -71,7 +71,7 @@ const { requestNumber, getSmsStatus, cancelNumber } = require("../services/grizz
 const { getTempEmailActionsKeyboard } = require("../keyboards/serviceMenusKeyboard");
 const { setUserState, getUserState, clearUserState } = require("../services/stateStore");
 const { safeTelegramCall } = require("../services/telegramSafe");
-const { getRecentErrors, logBotError } = require("../services/errorLogger");
+const { getRecentErrors, logBotError, clearBotErrors } = require("../services/errorLogger");
 const { sendLanguageMenu } = require("./startHandler");
 const { exportUsersList } = require("./messageHandler");
 const {
@@ -311,12 +311,31 @@ async function handleAdminCallbacks(bot, query, appStore) {
         const text = recent.length
           ? recent.map((item, index) => `${index + 1}. ${item.scope} | ${item.message}`).join("\n")
           : "لا توجد أخطاء مسجلة.";
+        const keyboard = [];
+        if (recent.length) {
+          keyboard.push([{ text: "🗑 مسح سجل الأخطاء", callback_data: "admin:clear_errors" }]);
+        }
+        keyboard.push([{ text: "رجوع", callback_data: "admin:panel" }]);
+
         await safeTelegramCall("handleAdminCallbacks.botErrors", () =>
           bot.editMessageText(`<b>=== آخر الأخطاء ===</b>\n\n${text}`, {
             chat_id: chatId,
             message_id: messageId,
             parse_mode: "HTML",
-            reply_markup: { inline_keyboard: [[{ text: "رجوع", callback_data: "admin:panel" }]] },
+            reply_markup: { inline_keyboard: keyboard },
+          })
+        );
+        return true;
+      }
+
+      case "admin:clear_errors": {
+        clearBotErrors();
+        await safeTelegramCall("handleAdminCallbacks.clearErrors", () =>
+          bot.editMessageText(`✅ <b>تم مسح سجل الأخطاء بالكامل بنجاح.</b>\n\nسجل الأخطاء نظيف الآن.`, {
+            chat_id: chatId,
+            message_id: messageId,
+            parse_mode: "HTML",
+            reply_markup: { inline_keyboard: [[{ text: "رجوع للوحة الإدارة", callback_data: "admin:panel" }]] },
           })
         );
         return true;

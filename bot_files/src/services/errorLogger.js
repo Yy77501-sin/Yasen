@@ -56,10 +56,17 @@ function getRecentErrors(limit = 5) {
   return botErrors.slice(-limit).reverse();
 }
 
+function clearBotErrors() {
+  botErrors.length = 0;
+  recentErrorMap.clear();
+  persistErrors();
+}
+
 loadExistingErrors();
 
 module.exports = {
   botErrors,
   logBotError,
   getRecentErrors,
+  clearBotErrors,
 };

@@ -589,6 +589,10 @@ function getEntry(prices, countryId, serviceCode) {
 }
 
 async function getProviderCatalog(appKey, providerKey) {
+  const provider = getSmsProvider(providerKey);
+  if (!provider || !provider.apiKey || !provider.apiKey.trim() || provider.enabled === false) {
+    return [];
+  }
   const serviceCode = getServiceCode(appKey);
   const prices = await getServicePrices(serviceCode, providerKey);
   const countries = getProviderCountries(providerKey, serviceCode);
@@ -1001,15 +1005,17 @@ async function sendActivationToChannel(bot, lang, payload) {
     `- ${t(lang, "virtualNumbers_sms_received_password")}: <code>${payload.password || "-"}</code>`,
   ].join("\n");
 
-  await safeTelegramCall("virtualNumbersFlow.sendActivationToChannel", () =>
-    bot.sendMessage(ACTIVATIONS_CHANNEL_ID || -1003311851705, text, {
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-      reply_markup: {
-        inline_keyboard: [[{ text: getText(lang).buySameServer, url: buyUrl }]],
-      },
-    })
-  );
+  if (ACTIVATIONS_CHANNEL_ID && Number.isFinite(ACTIVATIONS_CHANNEL_ID)) {
+    await safeTelegramCall("virtualNumbersFlow.sendActivationToChannel", () =>
+      bot.sendMessage(ACTIVATIONS_CHANNEL_ID, text, {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: {
+          inline_keyboard: [[{ text: getText(lang).buySameServer, url: buyUrl }]],
+        },
+      })
+    );
+  }
 }
 
 function pad(num) {

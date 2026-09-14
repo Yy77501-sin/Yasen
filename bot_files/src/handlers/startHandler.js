@@ -77,19 +77,21 @@ async function logRegistration(bot, user) {
       `🔗 ${escapeHtml(getDisplayUsername(user))}`,
     ].join("\n");
 
-    await safeTelegramCall("logRegistration.channel", () =>
-      bot.sendMessage(LOG_CHANNEL_ID, text, {
-        parse_mode: "HTML",
-        disable_notification: true,
-      })
-    );
+    if (LOG_CHANNEL_ID && Number.isFinite(LOG_CHANNEL_ID)) {
+      await safeTelegramCall("logRegistration.channel", () =>
+        bot.sendMessage(LOG_CHANNEL_ID, text, {
+          parse_mode: "HTML",
+          disable_notification: true,
+        })
+      );
+    }
 
     await notifyAdmin(
       bot,
       ["<b>New Registration</b>", `User: ${escapeHtml(getDisplayName(user))}`, `ID: <code>${user.userId}</code>`].join("\n")
     );
   } catch (error) {
-    logBotError("logRegistration", error, { userId: user.userId });
+    console.warn("[logRegistration] Non-fatal notification error:", error.message);
   }
 }
 
