@@ -1037,6 +1037,160 @@ async function handleAdminState(bot, msg, appStore) {
       return true;
     }
 
+    // --- TG Ready Providers Management States ---
+    if (state.name === "ADMIN_AWAITING_TG_READY_KEY") {
+      const apiKey = textTrim;
+      const providerKey = state.providerKey || "tg_server1";
+      if (!apiKey) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال مفتاح صالح أو كتابة <code>Cancel</code> للإلغاء:", "⚠️ يرجى إرسال مفتاح صالح أو كتابة Cancel للإلغاء:");
+        return true;
+      }
+      appStore.updateTgReadyProvider(providerKey, { apiKey });
+      clearUserState(msg.from.id);
+      const { buildSingleTgReadyProviderMenu } = require("../services/providerManagementService");
+      const updated = appStore.getTgReadyProvider(providerKey);
+      const menu = buildSingleTgReadyProviderMenu("ar", updated);
+      await safeSendHtmlOrText(bot, msg.chat.id, `✅ <b>تم تحديث المفتاح لموقع الأرقام الجاهزة [${escapeHtml(updated?.name || providerKey)}] بنجاح!</b>\n\n` + menu.text, `✅ تم تحديث المفتاح لموقع الأرقام الجاهزة بنجاح!`, { reply_markup: menu.keyboard });
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_TG_READY_URL") {
+      const baseUrl = normalizeApiUrl(textTrim);
+      const providerKey = state.providerKey || "tg_server1";
+      if (!baseUrl) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال رابط صالح لموقع الأرقام الجاهزة أو كتابة <code>Cancel</code> للإلغاء:", "⚠️ يرجى إرسال رابط صالح لموقع الأرقام الجاهزة:");
+        return true;
+      }
+      appStore.updateTgReadyProvider(providerKey, { baseUrl });
+      clearUserState(msg.from.id);
+      const { buildSingleTgReadyProviderMenu } = require("../services/providerManagementService");
+      const updated = appStore.getTgReadyProvider(providerKey);
+      const menu = buildSingleTgReadyProviderMenu("ar", updated);
+      await safeSendHtmlOrText(bot, msg.chat.id, `✅ <b>تم تحديث رابط الـ API لموقع الأرقام الجاهزة [${escapeHtml(updated?.name || providerKey)}] بنجاح!</b>\n\n` + menu.text, `✅ تم تحديث الرابط بنجاح!`, { reply_markup: menu.keyboard });
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_TG_READY_NAME") {
+      const name = textTrim;
+      const providerKey = state.providerKey || "tg_server1";
+      if (!name) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال اسم صالح أو كتابة <code>Cancel</code> للإلغاء:", "⚠️ يرجى إرسال اسم صالح:");
+        return true;
+      }
+      appStore.updateTgReadyProvider(providerKey, { name });
+      clearUserState(msg.from.id);
+      const { buildSingleTgReadyProviderMenu } = require("../services/providerManagementService");
+      const updated = appStore.getTgReadyProvider(providerKey);
+      const menu = buildSingleTgReadyProviderMenu("ar", updated);
+      await safeSendHtmlOrText(bot, msg.chat.id, `✅ <b>تم تحديث الاسم بنجاح!</b>\n\n` + menu.text, `✅ تم تحديث الاسم بنجاح!`, { reply_markup: menu.keyboard });
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_TG_READY_ADD_NAME") {
+      const name = textTrim;
+      if (!name) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال اسم صحيح لموقع الأرقام الجاهزة الجديد:", "⚠️ يرجى إرسال اسم صحيح لموقع الأرقام الجاهزة الجديد:");
+        return true;
+      }
+      setUserState(msg.from.id, "ADMIN_AWAITING_TG_READY_ADD_URL", { providerName: name });
+      await safeSendHtmlOrText(bot, msg.chat.id, `🌐 <b>اسم الموقع:</b> ${escapeHtml(name)}\n\nأرسل الآن رابط الـ API (Base URL) الخاص بموقع الأرقام الجاهزة:\n<i>مثال: https://api.grizzlysms.com/stubs/handler_api.php</i>\n\nأو اكتب Cancel للإلغاء:`, `أرسل رابط الـ API (Base URL):`);
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_TG_READY_ADD_URL") {
+      const url = normalizeApiUrl(textTrim);
+      if (!url) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال رابط صالح لموقع الأرقام الجاهزة:", "⚠️ يرجى إرسال رابط صالح:");
+        return true;
+      }
+      setUserState(msg.from.id, "ADMIN_AWAITING_TG_READY_ADD_KEY", { providerName: state.providerName, url });
+      await safeSendHtmlOrText(bot, msg.chat.id, `🔑 <b>اسم الموقع:</b> ${escapeHtml(state.providerName)}\n🌐 <b>الرابط:</b> <code>${escapeHtml(url)}</code>\n\nأرسل الآن مفتاح الـ API (API Key) الخاص بموقع الأرقام الجاهزة:\n\nأو اكتب Cancel للإلغاء:`, `أرسل مفتاح الـ API:`);
+      return true;
+    }
+
+    if (state.name === "ADMIN_AWAITING_TG_READY_ADD_KEY") {
+      const key = textTrim;
+      if (!key) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال مفتاح API صحيح:", "⚠️ يرجى إرسال مفتاح API صحيح:");
+        return true;
+      }
+      const added = appStore.addTgReadyProvider({
+        name: state.providerName,
+        baseUrl: state.url,
+        apiKey: key,
+      });
+      clearUserState(msg.from.id);
+      const { buildSingleTgReadyProviderMenu } = require("../services/providerManagementService");
+      const menu = buildSingleTgReadyProviderMenu("ar", added);
+      await safeSendHtmlOrText(bot, msg.chat.id, `✅ <b>تمت إضافة موقع أرقام تيليجرام الجاهزة بنجاح!</b>\n\n` + menu.text, `✅ تمت إضافة موقع أرقام تيليجرام الجاهزة بنجاح!`, { reply_markup: menu.keyboard });
+      return true;
+    }
+
+    // --- Restore Backup File State ---
+    if (state.name === "ADMIN_AWAITING_BACKUP_FILE") {
+      let jsonContent = null;
+      const axios = require("axios");
+
+      if (msg.document) {
+        try {
+          const fileLink = await bot.getFileLink(msg.document.file_id);
+          const fileRes = await axios.get(fileLink, { responseType: "text" });
+          jsonContent = fileRes.data;
+        } catch (dlErr) {
+          logBotError("restoreBackup.download", dlErr);
+        }
+      } else if (textTrim && textTrim.startsWith("{")) {
+        jsonContent = textTrim;
+      }
+
+      if (!jsonContent) {
+        await safeSendHtmlOrText(bot, msg.chat.id, "⚠️ يرجى إرسال ملف النسخة الاحتياطية (ملف <code>.json</code>) لاستعادة كافة البيانات، أو اكتب <code>Cancel</code> للإلغاء:", "⚠️ يرجى إرسال ملف النسخة الاحتياطية (.json):");
+        return true;
+      }
+
+      try {
+        const parsed = typeof jsonContent === "string" ? JSON.parse(jsonContent) : jsonContent;
+        if (!parsed || (typeof parsed !== "object")) {
+          throw new Error("تنسيق الملف غير صحيح.");
+        }
+
+        if (Array.isArray(parsed.users)) {
+          appStore.users = parsed.users;
+        }
+        if (parsed.config && typeof parsed.config === "object") {
+          appStore.config = {
+            ...appStore.config,
+            ...parsed.config,
+          };
+        }
+        if (Array.isArray(parsed.transactions)) {
+          appStore.transactions = parsed.transactions;
+        }
+
+        appStore.persistAll();
+        clearUserState(msg.from.id);
+
+        await safeSendHtmlOrText(
+          bot,
+          msg.chat.id,
+          `✅ <b>تمت استعادة النسخة الاحتياطية وتأكيد كافة البيانات بنجاح!</b> 🚀\n\n` +
+          `• <b>تاريخ النسخة:</b> <code>${parsed.exportedAt || "غير محدد"}</code>\n` +
+          `• <b>المستخدمون المستردون:</b> <code>${(parsed.users || []).length}</code> مستخدم\n` +
+          `• <b>المزودون والإعدادات:</b> تم تحديثها واستعادتها كلياً بنجاح! ✅`,
+          `✅ تمت استعادة النسخة الاحتياطية بنجاح!`,
+          {
+            reply_markup: {
+              inline_keyboard: [[{ text: "🔙 لوحة الإدارة", callback_data: "admin:panel" }]],
+            },
+          }
+        );
+      } catch (parseErr) {
+        logBotError("restoreBackup.parse", parseErr);
+        await safeSendHtmlOrText(bot, msg.chat.id, `❌ فشل استعادة الملف: ${escapeHtml(parseErr.message)}\nيرجى التأكد من اختيار ملف النسخة الاحتياطية الصحيح (.json).`, `❌ فشل استعادة الملف.`);
+      }
+      return true;
+    }
+
     return false;
   } catch (error) {
     logBotError("handleAdminState", error, { userId: msg.from?.id });

@@ -612,6 +612,95 @@ function buildSingleSmmProviderMenu(lang = "ar", provider) {
   return { text: lines.join("\n"), keyboard };
 }
 
+/**
+ * Build Ready Telegram Numbers Providers Management Menu
+ */
+function buildTgReadyProvidersMenu(lang = "ar", appStore) {
+  let providers = {};
+  if (appStore && typeof appStore.getTgReadyProviders === "function") {
+    providers = appStore.getTgReadyProviders();
+  } else {
+    const { DEFAULT_TG_READY_PROVIDERS } = require("../constants/tgReadyProviders");
+    providers = DEFAULT_TG_READY_PROVIDERS;
+  }
+
+  const list = Object.values(providers);
+  const lines = [
+    "⚡ <b>إدارة مزودين مواقع أرقام تيليجرام جاهزة</b>",
+    "────────────────────",
+    "هذه المواقع مخصصة حنياً لزر <b>أرقام تيليجرام جاهزة</b> فقط، لتكون منفصلة كلياً عن مزودي الأرقام الوهمية العادية!",
+    "",
+    `📊 <b>عدد المواقع المتاحة:</b> ${list.length}`,
+  ];
+
+  if (list.length > 0) {
+    lines.push("");
+    lines.push("<b>المواقع المضافة:</b>");
+    list.forEach((p, idx) => {
+      lines.push(`${idx + 1}. <b>${p.name}</b> [${p.enabled !== false ? "✅ مفعّل" : "❌ معطّل"}]`);
+    });
+  }
+
+  lines.push("────────────────────");
+
+  const rows = [];
+
+  list.forEach((p) => {
+    rows.push([
+      {
+        text: `⚙️ إعدادات: ${p.name}`,
+        callback_data: `admin:tg_ready_manage:${p.key}`,
+      },
+      {
+        text: p.enabled !== false ? "🔴 تعطيل" : "🟢 تفعيل",
+        callback_data: `admin:tg_ready_toggle:${p.key}`,
+      },
+    ]);
+  });
+
+  rows.push([
+    { text: "➕ إضافة موقع أرقام جاهزة جديد", callback_data: "admin:tg_ready_add" },
+    { text: "🔙 رجوع للوحة التحكم", callback_data: "admin:panel" },
+  ]);
+
+  return { text: lines.join("\n"), keyboard: { inline_keyboard: rows } };
+}
+
+/**
+ * Build Single TG Ready Provider Control Menu
+ */
+function buildSingleTgReadyProviderMenu(lang = "ar", provider) {
+  const lines = [
+    `⚙️ <b>إعدادات موقع أرقام تيليجرام جاهزة: ${provider.name}</b>`,
+    "────────────────────",
+    `• <b>الحالة:</b> ${provider.enabled !== false ? "✅ مفعّل" : "❌ معطّل"}`,
+    `• <b>الرابط (Base URL):</b> <code>${provider.baseUrl || "غير محدد"}</code>`,
+    `• <b>المفتاح (API Key):</b> <code>${provider.apiKey ? "••••" + provider.apiKey.slice(-6) : "غير محدد"}</code>`,
+    "────────────────────",
+  ];
+
+  const keyboard = {
+    inline_keyboard: [
+      [
+        { text: `${provider.enabled !== false ? "🔴 تعطيل الموقع" : "🟢 تفعيل الموقع"}`, callback_data: `admin:tg_ready_toggle:${provider.key}` },
+      ],
+      [
+        { text: "🔑 تعديل المفتاح", callback_data: `admin:edit_tg_ready_key:${provider.key}` },
+        { text: "🌐 تعديل الرابط", callback_data: `admin:edit_tg_ready_url:${provider.key}` },
+      ],
+      [
+        { text: "✏️ تعديل الاسم", callback_data: `admin:edit_tg_ready_name:${provider.key}` },
+        { text: "🗑️ حذف الموقع", callback_data: `admin:delete_tg_ready:${provider.key}` },
+      ],
+      [
+        { text: "🔙 رجوع لمزودي أرقام تيليجرام", callback_data: "admin:tg_ready_providers" },
+      ],
+    ],
+  };
+
+  return { text: lines.join("\n"), keyboard };
+}
+
 module.exports = {
   checkSmsProviderBalance,
   checkSmmProviderBalance,
@@ -621,4 +710,6 @@ module.exports = {
   buildSingleSmsProviderMenu,
   buildSmmProvidersMenu,
   buildSingleSmmProviderMenu,
+  buildTgReadyProvidersMenu,
+  buildSingleTgReadyProviderMenu,
 };

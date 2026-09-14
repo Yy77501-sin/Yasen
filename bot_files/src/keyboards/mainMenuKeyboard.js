@@ -167,6 +167,9 @@ function getAdminPanelKeyboard(lang = "ar") {
         { text: lang === "ar" ? "🚀 مزودو الرشق (SMM)" : "🚀 SMM Providers", callback_data: "admin:smm_providers" },
       ],
       [
+        { text: lang === "ar" ? "⚡ إدارة مزودين أرقام جاهزة" : "⚡ Ready TG Providers", callback_data: "admin:tg_ready_providers" },
+      ],
+      [
         { text: t(lang, "admin_btn_view_users"), callback_data: "admin:view_users" },
         { text: t(lang, "admin_btn_export_users"), callback_data: "admin:export_users" },
       ],

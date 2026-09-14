@@ -1,5 +1,6 @@
 const { getServicePrices, requestNumber, getSmsStatus, setSmsStatus, extractPrice } = require("./grizzlyService");
 const { getSmsProvider } = require("../constants/smsProviders");
+const { getAllTgReadyProviders, getTgReadyProvider } = require("../constants/tgReadyProviders");
 const { logBotError } = require("./errorLogger");
 const { safeTelegramCall } = require("./telegramSafe");
 
@@ -77,10 +78,19 @@ const ITEMS_PER_PAGE = 20;
 /**
  * Get country prices with 30% profit margin and stock
  */
-async function getReadyTelegramCountries() {
+async function getReadyTelegramCountries(appStore = null) {
   let livePrices = null;
+  const tgProviders = appStore && typeof appStore.getTgReadyProviders === "function"
+    ? appStore.getTgReadyProviders()
+    : getAllTgReadyProviders();
+
+  const enabledKeys = Object.keys(tgProviders).filter(
+    (k) => tgProviders[k]?.enabled !== false && tgProviders[k]?.apiKey && tgProviders[k]?.apiKey.trim()
+  );
+
+  const targetProv = enabledKeys.length ? enabledKeys[0] : "server2";
   try {
-    livePrices = await getServicePrices("tg", "server2");
+    livePrices = await getServicePrices("tg", targetProv);
   } catch (_) {}
 
   return READY_COUNTRIES.map((c) => {
@@ -337,16 +347,23 @@ async function executeReadyTelegramBuy(bot, chatId, user, countryId, page, appSt
     { parse_mode: "HTML" }
   );
 
-  // Try server providers in sequence: Server 2 (Grizzly) -> Server 1 (HeroSMS) -> Server 3 -> Server 4
-  const providerCandidates = ["server2", "server1", "server3", "server4"];
-  let chosenProvider = "server2";
+  // Try TG ready providers in sequence from appStore or defaults
+  const tgProviders = appStore && typeof appStore.getTgReadyProviders === "function"
+    ? appStore.getTgReadyProviders()
+    : getAllTgReadyProviders();
+
+  const providerCandidates = Object.keys(tgProviders).filter(
+    (k) => tgProviders[k]?.enabled !== false && tgProviders[k]?.apiKey && tgProviders[k]?.apiKey.trim()
+  );
+
+  if (!providerCandidates.length) {
+    providerCandidates.push("tg_server1", "tg_server2", "server2", "server1");
+  }
+
+  let chosenProvider = providerCandidates[0] || "server2";
   let responseText = null;
 
   for (const provKey of providerCandidates) {
-    const prov = getSmsProvider(provKey);
-    if (!prov || !prov.apiKey || !prov.apiKey.trim() || prov.enabled === false) {
-      continue;
-    }
     try {
       const res = await requestNumber("tg", country.id, provKey);
       if (res && res.includes("ACCESS_NUMBER")) {

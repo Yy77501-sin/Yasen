@@ -86,6 +86,8 @@ const {
   buildSingleSmsProviderMenu,
   buildSmmProvidersMenu,
   buildSingleSmmProviderMenu,
+  buildTgReadyProvidersMenu,
+  buildSingleTgReadyProviderMenu,
   checkSmsProviderBalance,
   checkSmmProviderBalance,
   checkAllProviders,
@@ -297,20 +299,67 @@ async function handleAdminCallbacks(bot, query, appStore) {
         await sendServiceToggleMenu(bot, chatId, services, { messageId });
         return true;
 
-      case "admin:upload_data":
+      case "admin:upload_data": {
         clearUserState(ADMIN_ID);
-        await safeTelegramCall("handleAdminCallbacks.uploadMenu", () =>
-          bot.editMessageText(buildAdminUploadRootText(getUserLang(appStore.findUserById(query.from.id))), {
-            chat_id: chatId,
-            message_id: messageId,
+        await safeTelegramCall("handleAdminCallbacks.uploadToast", () =>
+          bot.answerCallbackQuery(query.id, { text: "⏳ جاري تجهيز النسخة الاحتياطية الشاملة...", show_alert: false })
+        );
+
+        const fs = require("fs");
+        const path = require("path");
+        const backupPath = path.join(__dirname, "../../runtime/vaultx_full_backup.json");
+        const backupPayload = {
+          version: "2.0",
+          exportedAt: new Date().toISOString(),
+          botName: "VaultX",
+          usersCount: (appStore.users || []).length,
+          users: appStore.users || [],
+          config: appStore.config || {},
+          transactions: appStore.transactions || [],
+        };
+
+        try {
+          fs.mkdirSync(path.dirname(backupPath), { recursive: true });
+          fs.writeFileSync(backupPath, JSON.stringify(backupPayload, null, 2), "utf8");
+
+          await bot.sendDocument(chatId, backupPath, {
+            caption: [
+              `📦 <b>النسخة الاحتياطية الشاملة لبيانات البوت</b> 🚀`,
+              `━━━━━━━━━━━━━━━━━━━━`,
+              `📅 <b>تاريخ التصدير:</b> <code>${new Date().toLocaleString("ar-SA")}</code>`,
+              `👥 <b>عدد المستخدمين:</b> <code>${backupPayload.usersCount}</code>`,
+              `⚙️ <b>الإعدادات والمزودين:</b> محفوظة بالكامل ✅`,
+              `━━━━━━━━━━━━━━━━━━━━`,
+              `💡 احتفظ بهذا الملف! لاستعادة البيانات في أي وقت، اضغط على زر <b>استعادة البيانات من ملف</b> وأرسل هذا الملف للبوت.`,
+            ].join("\n"),
             parse_mode: "HTML",
             reply_markup: {
               inline_keyboard: [
-                [{ text: getUserLang(appStore.findUserById(query.from.id)) === "ar" ? "📧 قسم إيميلات مؤقتة" : "📧 Temporary Emails Section", callback_data: "adte:root" }],
-                [{ text: getUserLang(appStore.findUserById(query.from.id)) === "ar" ? "🔙 رجوع" : "🔙 Back", callback_data: "admin:panel" }],
+                [{ text: "📥 استعادة بيانات البوت من ملف (.json)", callback_data: "admin:restore_data" }],
+                [{ text: "📧 قسم إيميلات مؤقتة", callback_data: "adte:root" }],
+                [{ text: "🔙 رجوع للوحة التحكم", callback_data: "admin:panel" }],
               ],
             },
-          })
+          });
+        } catch (exportErr) {
+          logBotError("admin:upload_data", exportErr);
+          await bot.sendMessage(chatId, `❌ تعذر تصدير النسخة الاحتياطية: ${exportErr.message}`, {
+            reply_markup: {
+              inline_keyboard: [[{ text: "🔙 رجوع للوحة التحكم", callback_data: "admin:panel" }]],
+            },
+          });
+        }
+        return true;
+      }
+
+      case "admin:restore_data":
+        setUserState(query.from.id, "ADMIN_AWAITING_BACKUP_FILE");
+        await safeTelegramCall("handleAdminCallbacks.restorePrompt", () =>
+          bot.sendMessage(
+            chatId,
+            `📥 <b>استعادة النسخة الاحتياطية الشاملة</b>\n\nأرسل ملف النسخة الاحتياطية (ملف <code>.json</code> الذي قمت بتنزيله سابقاً) الآن لاستعادة كافة أرقام، رصيد، ومستخدمي ومزودي البوت بالكامل!\n\nأو اكتب <b>Cancel</b> للإلغاء:`,
+            { parse_mode: "HTML" }
+          )
         );
         return true;
 
@@ -734,6 +783,122 @@ async function handleAdminCallbacks(bot, query, appStore) {
           );
           const menu = buildSmmProvidersMenu("ar", appStore);
           await safeTelegramCall("handleAdminCallbacks.smmProvidersAfterDelete", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        // --- Ready Telegram Numbers Providers Handlers ---
+        if (query.data === "admin:tg_ready_providers") {
+          const menu = buildTgReadyProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.tgReadyProviders", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:tg_ready_manage:")) {
+          const providerKey = query.data.split(":")[2];
+          const provider = appStore.getTgReadyProvider(providerKey);
+          if (!provider) {
+            await safeTelegramCall("handleAdminCallbacks.tgReadyNotFound", () =>
+              bot.answerCallbackQuery(query.id, { text: "الموقع غير موجود.", show_alert: true })
+            );
+            return true;
+          }
+          const menu = buildSingleTgReadyProviderMenu("ar", provider);
+          await safeTelegramCall("handleAdminCallbacks.tgReadyManageView", () =>
+            bot.editMessageText(menu.text, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: "HTML",
+              reply_markup: menu.keyboard,
+            })
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:tg_ready_toggle:")) {
+          const providerKey = query.data.split(":")[2];
+          appStore.toggleTgReadyProvider(providerKey);
+          const provider = appStore.getTgReadyProvider(providerKey);
+          if (provider) {
+            const menu = buildSingleTgReadyProviderMenu("ar", provider);
+            await safeTelegramCall("handleAdminCallbacks.tgReadyToggle", () =>
+              bot.editMessageText(menu.text, {
+                chat_id: chatId,
+                message_id: messageId,
+                parse_mode: "HTML",
+                reply_markup: menu.keyboard,
+              })
+            );
+          } else {
+            const menu = buildTgReadyProvidersMenu("ar", appStore);
+            await safeTelegramCall("handleAdminCallbacks.tgReadyToggleBack", () =>
+              bot.editMessageText(menu.text, {
+                chat_id: chatId,
+                message_id: messageId,
+                parse_mode: "HTML",
+                reply_markup: menu.keyboard,
+              })
+            );
+          }
+          return true;
+        }
+
+        if (query.data === "admin:tg_ready_add") {
+          setUserState(query.from.id, "ADMIN_AWAITING_TG_READY_ADD_NAME");
+          await safeTelegramCall("handleAdminCallbacks.tgReadyAddPrompt", () =>
+            bot.sendMessage(chatId, "أرسل اسم موقع أرقام تيليجرام الجاهزة الجديد:\nأو اكتب Cancel للإلغاء:")
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:edit_tg_ready_key:")) {
+          const providerKey = query.data.split(":")[2];
+          setUserState(query.from.id, "ADMIN_AWAITING_TG_READY_KEY", { providerKey });
+          await safeTelegramCall("handleAdminCallbacks.editTgReadyKeyPrompt", () =>
+            bot.sendMessage(chatId, `أرسل المفتاح (API Key) الجديد لموقع أرقام تيليجرام الجاهزة [${providerKey}]:\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:edit_tg_ready_url:")) {
+          const providerKey = query.data.split(":")[2];
+          setUserState(query.from.id, "ADMIN_AWAITING_TG_READY_URL", { providerKey });
+          await safeTelegramCall("handleAdminCallbacks.editTgReadyUrlPrompt", () =>
+            bot.sendMessage(chatId, `أرسل الرابط (Base URL) الجديد لموقع أرقام تيليجرام الجاهزة [${providerKey}]:\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:edit_tg_ready_name:")) {
+          const providerKey = query.data.split(":")[2];
+          setUserState(query.from.id, "ADMIN_AWAITING_TG_READY_NAME", { providerKey });
+          await safeTelegramCall("handleAdminCallbacks.editTgReadyNamePrompt", () =>
+            bot.sendMessage(chatId, `أرسل الاسم الجديد لموقع أرقام تيليجرام الجاهزة [${providerKey}]:\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:delete_tg_ready:")) {
+          const providerKey = query.data.split(":")[2];
+          appStore.deleteTgReadyProvider(providerKey);
+          await safeTelegramCall("handleAdminCallbacks.tgReadyDeletedToast", () =>
+            bot.answerCallbackQuery(query.id, { text: "🗑️ تم حذف موقع الأرقام الجاهزة بنجاح.", show_alert: true })
+          );
+          const menu = buildTgReadyProvidersMenu("ar", appStore);
+          await safeTelegramCall("handleAdminCallbacks.tgReadyProvidersAfterDelete", () =>
             bot.editMessageText(menu.text, {
               chat_id: chatId,
               message_id: messageId,
