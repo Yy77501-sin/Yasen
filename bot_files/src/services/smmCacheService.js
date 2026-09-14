@@ -155,17 +155,76 @@ function detectCategory(name = "", category = "", platformKey = "") {
 }
 
 /**
- * Generate human-friendly Arabic title for raw API service
+ * Generate human-friendly pure Arabic title for raw API service (0% English)
  */
 function cleanServiceNameAr(rawName = "", platformLabelAr = "", categoryLabelAr = "") {
-  let name = String(rawName || "").trim();
-  // Strip common bracketed metadata
-  name = name.replace(/\[[^\]]*\]/g, "").replace(/\([^\)]*\)/g, "").trim();
-  // If clean name is in English or empty, provide a clean Arabic description
-  if (!name || !/[\u0600-\u06FF]/.test(name)) {
-    return `${categoryLabelAr} ${platformLabelAr} (${name || "خدمة سريعة"})`.slice(0, 60);
+  let text = String(rawName || "").trim();
+
+  // Dictionary of common English terms in SMM services
+  const dictionary = [
+    { en: /\btelegram\b/gi, ar: "تيليجرام" },
+    { en: /\binstagram\b/gi, ar: "انستقرام" },
+    { en: /\btiktok\b/gi, ar: "تيك توك" },
+    { en: /\byoutube\b/gi, ar: "يوتيوب" },
+    { en: /\bfacebook\b/gi, ar: "فيسبوك" },
+    { en: /\btwitter\b/gi, ar: "تويتر" },
+    { en: /\bsnapchat\b/gi, ar: "سناب شات" },
+    { en: /\bthreads\b/gi, ar: "ثريدز" },
+    { en: /\bwhatsapp\b/gi, ar: "واتساب" },
+    { en: /\bmembers?\b/gi, ar: "أعضاء" },
+    { en: /\bsubscribers?\b/gi, ar: "مشتركين" },
+    { en: /\bfollowers?\b/gi, ar: "متابعين" },
+    { en: /\bpost views?\b/gi, ar: "مشاهدات منشورات" },
+    { en: /\bstory views?\b/gi, ar: "مشاهدات ستوري" },
+    { en: /\bviews?\b/gi, ar: "مشاهدات" },
+    { en: /\breactions?\b/gi, ar: "تفاعلات" },
+    { en: /\blikes?\b/gi, ar: "لايكات" },
+    { en: /\bcomments?\b/gi, ar: "تعليقات" },
+    { en: /\bshares?\b/gi, ar: "مشاركات" },
+    { en: /\bpoll votes?\b/gi, ar: "تصويتات استطلاع" },
+    { en: /\bvotes?\b/gi, ar: "تصويتات" },
+    { en: /\bsaves?\b/gi, ar: "حفظ منشورات" },
+    { en: /\breal\b/gi, ar: "حقيقي" },
+    { en: /\bhq\b|\bhigh quality\b/gi, ar: "جودة عالية" },
+    { en: /\bpremium\b/gi, ar: "ممتاز" },
+    { en: /\bguaranteed\b/gi, ar: "مضمون" },
+    { en: /\brefill\b/gi, ar: "تعويض تلقائي" },
+    { en: /\bnon drop\b|\bno drop\b|\b0% drop\b/gi, ar: "ثابت بدون نقص" },
+    { en: /\binstant\b|\bfast\b|\bspeed\b/gi, ar: "فوري سريع" },
+    { en: /\bcheap\b|\bcheapest\b/gi, ar: "اقتصادي" },
+    { en: /\bcustom\b/gi, ar: "مخصص" },
+    { en: /\bfemale\b/gi, ar: "إناث" },
+    { en: /\bmale\b/gi, ar: "ذكور" },
+    { en: /\barab\b|\barabic\b/gi, ar: "عربي" },
+    { en: /\bglobal\b|\bworldwide\b/gi, ar: "عالمي" },
+    { en: /\bbots?\b|\blow quality\b/gi, ar: "عادي" },
+    { en: /\bchannel\b/gi, ar: "قناة" },
+    { en: /\bgroup\b/gi, ar: "مجموعة" },
+    { en: /\bdays?\b/gi, ar: "يوم" },
+    { en: /\bmax\b/gi, ar: "أقصى" },
+    { en: /\bmin\b/gi, ar: "أدنى" },
+    { en: /\bauto\b/gi, ar: "تلقائي" },
+  ];
+
+  for (const item of dictionary) {
+    text = text.replace(item.en, item.ar);
   }
-  return name.slice(0, 60);
+
+  // Strictly remove ALL English letters (a-z, A-Z)
+  text = text.replace(/[a-zA-Z]/g, " ");
+
+  // Remove brackets and noise symbols
+  text = text.replace(/[\[\]\(\)\{\}\_\-\|\:\,\/\\]+/g, " ");
+
+  // Clean duplicate spaces
+  text = text.replace(/\s+/g, " ").trim();
+
+  // If text is empty or too short, construct clean standard title
+  if (!text || text.length < 3) {
+    text = `${categoryLabelAr || "خدمة"} ${platformLabelAr || "رشق"} ممتازة`;
+  }
+
+  return text.slice(0, 50);
 }
 
 function buildEntry(apiService, previousEntry = null, providerInfo = null) {

@@ -473,10 +473,26 @@ async function sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categ
   const totalPages = Math.ceil(availableServices.length / PAGE_SIZE) || 1;
   const pageServices = availableServices.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
-  const serviceButtons = pageServices.map((service) => ({
-    text: `🟢 ${service.name} < ( ${service.price} ₽ )`,
-    callback_data: `service_menu:social_boost:service:${platformKey}:${categoryKey}:${service.id}`,
-  }));
+  const serviceButtons = pageServices.map((service) => {
+    let cleanName = String(service.name || "").trim();
+    if (lang === "ar") {
+      // Strip any lingering English letters (a-z, A-Z) to guarantee 100% Arabic UI
+      cleanName = cleanName
+        .replace(/[a-zA-Z]/g, "")
+        .replace(/[\[\]\(\)\{\}\_\-\|\:\,\/\\]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (!cleanName || cleanName.length < 2) {
+        cleanName = "خدمة رشق ممتازة";
+      }
+    }
+    return {
+      text: lang === "ar"
+        ? `🟢 ${cleanName}\n💰 ( ${service.price} ₽ لكل 1 )`
+        : `🟢 ${cleanName} (${service.price} ₽)`,
+      callback_data: `service_menu:social_boost:service:${platformKey}:${categoryKey}:${service.id}`,
+    };
+  });
 
   const pagination = totalPages > 1 ? { currentPage, totalPages } : null;
 

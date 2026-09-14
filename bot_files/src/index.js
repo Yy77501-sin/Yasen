@@ -1631,7 +1631,7 @@ bot.on("polling_error", (error) => {
           }
         } catch (_) {}
         try {
-          await bot.startPolling();
+          await bot.startPolling({ restart: true });
           pollingRestartDelayMs = 5000;
           console.log("[polling] Successfully recovered and resumed Telegram polling.");
         } catch (restartError) {
@@ -1644,6 +1644,30 @@ bot.on("polling_error", (error) => {
     console.error("Fatal polling logger failure:", innerError.message);
   }
 });
+
+// --- 24/7 Self-Healing Heartbeat & Polling Supervisor ---
+// Runs every 15 seconds to ensure polling is ALWAYS ACTIVE and TCP connections never die
+setInterval(async () => {
+  try {
+    if (bot && typeof bot.isPolling === "function" && !bot.isPolling()) {
+      console.log("[heartbeat-supervisor] Polling detected as inactive. Restarting polling now...");
+      await bot.startPolling({ restart: true }).catch((err) => {
+        console.error("[heartbeat-supervisor] Polling restart error:", err?.message || err);
+      });
+    }
+  } catch (hbErr) {
+    console.error("[heartbeat-supervisor] Error during check:", hbErr.message);
+  }
+}, 15000);
+
+// Ping Telegram API every 2 minutes to keep network socket active
+setInterval(async () => {
+  try {
+    if (bot) {
+      await bot.getMe();
+    }
+  } catch (_) {}
+}, 120000);
 
 bot.onText(/\/app/, async (msg) => {
   try {
