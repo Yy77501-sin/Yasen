@@ -1112,18 +1112,23 @@ async function handleBuy(bot, query, appStore, serverKey, appKey, countryId, pri
     })
   );
 
-  if (serverKey === "server3" || serverKey === "server4") {
-    await safeTelegramCall("virtualNumbersFlow.handleBuy.unavailable", () =>
-      bot.editMessageText(`🐼 ${tx.noNumbers}`, {
+  const providerKey = serverKey || "server2";
+  const providerConfig = typeof getSmsProvider === "function" ? getSmsProvider(providerKey) : null;
+  if (providerConfig && (providerConfig.enabled === false || !providerConfig.apiKey || !providerConfig.apiKey.trim())) {
+    const unavailMsg = lang === "ar"
+      ? "⚠️ <b>السيرفر المحدد غير مفعّل أو ينقصه مفتاح API.</b>\nيرجى اختيار سيرفر آخر أو التواصل مع الإدارة."
+      : "⚠️ <b>Selected server is disabled or not configured.</b>";
+    await safeTelegramCall("virtualNumbersFlow.handleBuy.disabledProvider", () =>
+      bot.editMessageText(unavailMsg, {
         chat_id: chatId,
         message_id: messageId,
+        parse_mode: "HTML",
         reply_markup: retryMarkup,
       })
     );
     return true;
   }
 
-  const providerKey = serverKey === "server1" ? "server1" : "server2";
   const currentUser = appStore.findUserById(user.userId);
   if (!currentUser || Number(currentUser.balance) < priceValue) {
     await safeTelegramCall("virtualNumbersFlow.handleBuy.insufficient", () =>
@@ -1137,7 +1142,7 @@ async function handleBuy(bot, query, appStore, serverKey, appKey, countryId, pri
   );
 
   const serviceCode = getServiceCode(appKey);
-  const providerCountryId = resolveProviderCountryId(serverKey, countryId);
+  const providerCountryId = resolveProviderCountryId(providerKey, countryId);
   const response = await requestNumber(serviceCode, providerCountryId, providerKey);
   if (!response || /^(BAD_|ERROR|NO_)/i.test(response) || !String(response).includes("ACCESS_NUMBER")) {
     await safeTelegramCall("virtualNumbersFlow.handleBuy.noNumbers", () =>

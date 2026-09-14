@@ -219,9 +219,9 @@ function buildEntry(apiService, previousEntry = null, providerInfo = null) {
     quality: meta.quality || previousEntry?.quality || "high",
     refillStatus: apiService.refill === true ? "available" : apiService.refill === false ? (meta.refillText || "unavailable") : (meta.refillText || previousEntry?.refillStatus || "available"),
     cancelStatus: apiService.cancel === true ? "available" : apiService.cancel === false ? "unavailable" : (previousEntry?.cancelStatus || "unavailable"),
-    providerName: providerInfo?.name || apiService.name || previousEntry?.providerName || "SMM Provider",
-    providerUrl: providerInfo?.url || null,
-    providerKey: providerInfo?.key || null,
+    providerName: providerInfo?.name || previousEntry?.providerName || "SMM Provider",
+    providerUrl: providerInfo?.url || previousEntry?.providerUrl || null,
+    providerKey: providerInfo?.key || previousEntry?.providerKey || null,
   };
 }
 

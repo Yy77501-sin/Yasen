@@ -1085,6 +1085,10 @@ if (Number.isFinite(renderPort) && renderPort > 0) {
     }
   }).listen(renderPort, "0.0.0.0", () => {
     console.log(`[web] health endpoint listening on :${renderPort}`);
+    // Self-ping keep-alive loop to keep container active 24/7
+    setInterval(() => {
+      http.get(`http://127.0.0.1:${renderPort}/`, () => {}).on("error", () => {});
+    }, 2 * 60 * 1000);
   });
 }
 

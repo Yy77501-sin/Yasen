@@ -484,24 +484,12 @@ function buildSmsProvidersMenu(lang = "ar", appStore) {
 
   const rows = [];
 
-  // Quick buttons for primary servers
-  rows.push([
-    { text: "🔑 تعديل مفتاح سيرفر 1 (Hero)", callback_data: "admin:edit_sms_key:server1" },
-    { text: "🔍 فحص رصيد سيرفر 1", callback_data: "admin:test_sms:server1" },
-  ]);
-  rows.push([
-    { text: "🔑 تعديل مفتاح سيرفر 2 (Grizzly)", callback_data: "admin:edit_sms_key:server2" },
-    { text: "🔍 فحص رصيد سيرفر 2", callback_data: "admin:test_sms:server2" },
-  ]);
-
-  // If there are additional servers (like server3, server4, custom)
+  // Control buttons for all servers (HeroSMS, Grizzly, 5SIM, etc.)
   providers.forEach((p) => {
-    if (p.key !== "server1" && p.key !== "server2") {
-      rows.push([
-        { text: `⚙️ إعدادات: ${p.name || p.key}`, callback_data: `admin:sms_manage:${p.key}` },
-        { text: "🔍 فحص الرصيد", callback_data: `admin:test_sms:${p.key}` },
-      ]);
-    }
+    rows.push([
+      { text: `⚙️ إعدادات: ${p.name || p.key}`, callback_data: `admin:sms_manage:${p.key}` },
+      { text: "🔍 فحص الرصيد", callback_data: `admin:test_sms:${p.key}` },
+    ]);
   });
 
   // Action buttons

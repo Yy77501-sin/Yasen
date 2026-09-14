@@ -332,17 +332,55 @@ async function sendSocialBoostMenu(bot, chatId, user, options = {}) {
 
 async function sendSocialBoostCategoriesMenu(bot, chatId, user, platformKey, options = {}) {
   const lang = getUserLang(user);
-  const platform = getPlatform(platformKey);
+  let platform = getPlatform(platformKey);
 
   if (!platform) {
-    return sendOrEditMessage(bot, chatId, t(lang, "smm_invalid_platform"), { inline_keyboard: [[{ text: t(lang, "socialBoost_btn_back"), callback_data: "service:social_boost" }]] }, options.messageId, "sendSocialBoostCategoriesMenu.error");
+    platform = { key: platformKey, label_ar: platformKey, label_en: platformKey, categories: [] };
   }
+
+  // Get dynamic categories from cached provider services
+  const allCached = typeof getCachedSmmServices === "function" ? getCachedSmmServices() : [];
+  const platformCached = allCached.filter((item) => item.platformKey === platformKey);
+
+  const categoriesMap = new Map();
+  // 1. Add curated static categories
+  (platform.categories || []).forEach((cat) => {
+    categoriesMap.set(cat.key, {
+      key: cat.key,
+      label_ar: cat.label_ar,
+      label_en: cat.label_en,
+    });
+  });
+
+  // 2. Add dynamic categories found in cached provider services
+  platformCached.forEach((item) => {
+    const catKey = item.categoryKey || "general";
+    if (!categoriesMap.has(catKey)) {
+      categoriesMap.set(catKey, {
+        key: catKey,
+        label_ar: item.categoryLabelAr || item.categoryKey || "خدمات عامة",
+        label_en: item.categoryLabelEn || item.categoryKey || "General Services",
+      });
+    }
+  });
+
+  // 3. Add "All Services" category if dynamic services exist
+  if (platformCached.length > 0 && !categoriesMap.has("all")) {
+    categoriesMap.set("all", {
+      key: "all",
+      label_ar: "إظهار كافة الخدمات 🚀",
+      label_en: "All Available Services 🚀",
+    });
+  }
+
+  const mergedCategories = Array.from(categoriesMap.values());
+  const updatedPlatform = { ...platform, categories: mergedCategories };
 
   return sendOrEditMessage(
     bot,
     chatId,
-    buildSocialBoostCategoriesText(lang, platform),
-    getSocialBoostCategoriesKeyboard(platform, lang),
+    buildSocialBoostCategoriesText(lang, updatedPlatform),
+    getSocialBoostCategoriesKeyboard(updatedPlatform, lang),
     options.messageId,
     "sendSocialBoostCategoriesMenu"
   );
@@ -357,14 +395,21 @@ async function sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categ
     platform = { key: platformKey, label_ar: platformKey, label_en: platformKey, categories: [] };
   }
   if (!category) {
-    category = { key: categoryKey, label_ar: categoryKey, label_en: categoryKey, services: [] };
+    category = {
+      key: categoryKey,
+      label_ar: categoryKey === "all" ? "كافة الخدمات" : categoryKey,
+      label_en: categoryKey === "all" ? "All Services" : categoryKey,
+      services: [],
+    };
   }
 
   // Retrieve all services cached dynamically from provider(s)
   const allCached = typeof getCachedSmmServices === "function" ? getCachedSmmServices() : [];
-  const dynamicServices = allCached.filter(
-    (item) => item.platformKey === platformKey && item.categoryKey === categoryKey
-  );
+  const dynamicServices = allCached.filter((item) => {
+    if (item.platformKey !== platformKey) return false;
+    if (categoryKey === "all") return true;
+    return item.categoryKey === categoryKey;
+  });
 
   // Combine curated services with provider dynamic services without duplicates
   const serviceMap = new Map();
@@ -375,15 +420,13 @@ async function sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categ
       const cached = getCachedSmmServiceById(service.id);
       if (cached) {
         const sName = getSocialBoostServiceName(lang, serviceInfo, cached);
-        const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : null);
-        if (unitPrice) {
-          serviceMap.set(String(service.id), {
-            id: String(service.id),
-            name: sName,
-            price: unitPrice,
-            cached,
-          });
-        }
+        const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : "0.01");
+        serviceMap.set(String(service.id), {
+          id: String(service.id),
+          name: sName,
+          price: unitPrice,
+          cached,
+        });
       }
     });
   }
@@ -393,15 +436,13 @@ async function sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categ
     const idStr = String(cached.serviceId || cached.service);
     if (!serviceMap.has(idStr)) {
       const sName = lang === "ar" ? (cached.nameAr || cached.name) : (cached.nameEn || cached.name);
-      const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : null);
-      if (unitPrice) {
-        serviceMap.set(idStr, {
-          id: idStr,
-          name: sName,
-          price: unitPrice,
-          cached,
-        });
-      }
+      const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : "0.01");
+      serviceMap.set(idStr, {
+        id: idStr,
+        name: sName,
+        price: unitPrice,
+        cached,
+      });
     }
   });
 

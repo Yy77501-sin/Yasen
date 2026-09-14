@@ -34,6 +34,7 @@ const { handleProAccountsTextInput } = require("../services/proAccountsFlowServi
 const { handleCloudServicesTextInput } = require("../services/cloudServicesFlowService");
 const { handleDigitalServicesTextInput } = require("../services/digitalServicesFlowService");
 const { handleTemporaryEmailTextInput } = require("../services/tempEmailFlowService");
+const { fetchAndCacheSmmServices } = require("../services/smmCacheService");
 
 function normalizeApiUrl(raw) {
   let url = String(raw || "").trim();
@@ -898,6 +899,9 @@ async function handleAdminState(bot, msg, appStore) {
       });
 
       clearUserState(msg.from.id);
+
+      // Trigger automatic background fetching and caching of all SMM services from the new provider
+      fetchAndCacheSmmServices(true, appStore).catch(() => {});
 
       const res = await checkSmmProviderBalance(newProvider);
       const masked = key.length > 8 ? "••••" + key.slice(-6) : key;
