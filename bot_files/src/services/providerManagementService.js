@@ -36,13 +36,71 @@ async function checkSmsProviderBalance(providerKey, appStore) {
     };
   }
 
+  // Check if provider is 5SIM or 5sim.net
+  const is5sim = baseUrl.toLowerCase().includes("5sim") || String(name).toLowerCase().includes("5sim") || providerKey === "server4";
+  if (is5sim) {
+    try {
+      const profileUrl = baseUrl.includes("/v1/")
+        ? (baseUrl.endsWith("/profile") ? baseUrl : `${baseUrl.replace(/\/+$/, "")}/user/profile`)
+        : "https://5sim.net/v1/user/profile";
+
+      const fiveSimRes = await axios.get(profileUrl, {
+        headers: {
+          Authorization: `Bearer ${apiKey.trim()}`,
+          Accept: "application/json",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        },
+        timeout: 12000,
+      });
+
+      if (fiveSimRes?.data && (fiveSimRes.data.balance !== undefined || fiveSimRes.data.email !== undefined)) {
+        const balanceVal = String(fiveSimRes.data.balance ?? "0");
+        const email = fiveSimRes.data.email ? ` (${fiveSimRes.data.email})` : "";
+        return {
+          success: true,
+          key: providerKey,
+          name: name || "5SIM",
+          balance: balanceVal,
+          currency: "RUB",
+          formatted: `${balanceVal} ₽${email}`,
+          statusText: "متصل بنجاح ✅",
+          raw: fiveSimRes.data,
+        };
+      }
+    } catch (fiveErr) {
+      if (fiveErr?.response?.status === 401 || fiveErr?.response?.status === 403) {
+        return {
+          success: false,
+          key: providerKey,
+          name,
+          balance: "0.00",
+          currency: "RUB",
+          formatted: "مفتاح API غير صالح (401 Unauthorized) ❌",
+          statusText: "مفتاح خاطئ ❌",
+          raw: null,
+          error: "unauthorized",
+        };
+      }
+      // If 5sim direct failed, proceed to try standard handler_api
+    }
+  }
+
+  // Normalize baseUrl for standard SMS-Activate/Grizzly protocol
+  let requestUrl = baseUrl.trim();
+  if (!requestUrl.includes("/stubs/handler_api.php") && !requestUrl.includes("/api/") && !requestUrl.includes(".php")) {
+    requestUrl = requestUrl.replace(/\/+$/, "") + "/stubs/handler_api.php";
+  }
+
   try {
-    const response = await axios.get(baseUrl, {
+    const response = await axios.get(requestUrl, {
       params: {
-        api_key: apiKey,
+        api_key: apiKey.trim(),
         action: "getBalance",
       },
-      timeout: 12000,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+      },
+      timeout: 15000,
     });
 
     const data = String(response?.data || "").trim();
@@ -106,7 +164,7 @@ async function checkSmsProviderBalance(providerKey, appStore) {
       error: "unexpected_response",
     };
   } catch (err) {
-    logBotError("checkSmsProviderBalance", err, { providerKey, baseUrl });
+    logBotError("checkSmsProviderBalance", err, { providerKey, baseUrl: requestUrl });
     return {
       success: false,
       key: providerKey,

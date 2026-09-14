@@ -19,7 +19,7 @@ function getMainMenuKeyboard(lang = "ar") {
     virtual_numbers: lang === "ar" ? "📱 الأرقام الوهمية" : "📱 Virtual Numbers",
     social_boost: lang === "ar" ? "🚀 رشق الحسابات" : "🚀 Social Boost",
     game_topup: lang === "ar" ? "🎮 شحن الألعاب" : "🎮 Game Top-up",
-    social_accounts: lang === "ar" ? "👥 حسابات سوشيال" : "👥 Social Accounts",
+    telegram_ready: lang === "ar" ? "📱 أرقام تيليجرام جاهزة" : "📱 Ready Telegram Numbers",
     pro_accounts: lang === "ar" ? "💎 حسابات Pro" : "💎 Pro Accounts",
     cloud_services: lang === "ar" ? "☁️ خدمات سحابية" : "☁️ Cloud Services",
     virtual_visa: lang === "ar" ? "💳 فيزا افتراضية" : "💳 Virtual Visa",
@@ -45,7 +45,7 @@ function getMainMenuKeyboard(lang = "ar") {
         { text: L.game_topup, callback_data: "service:game_topup" },
       ],
       [
-        { text: L.social_accounts, callback_data: "service:social_accounts" },
+        { text: L.telegram_ready, callback_data: "service:telegram_ready" },
         { text: L.pro_accounts, callback_data: "service:pro_accounts" },
       ],
       [{ text: L.cloud_services, callback_data: "service:cloud_services" }],

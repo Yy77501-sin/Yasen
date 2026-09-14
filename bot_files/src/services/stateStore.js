@@ -8,18 +8,36 @@ function persist() {
 }
 
 function setUserState(userId, stateName, data = {}) {
-  userStates[userId] = {
-    name: stateName,
-    ...data,
+  const safeData = { ...data };
+  // If data happened to have a "name" property (e.g. provider name, site name), store it safely
+  if (safeData.name && safeData.name !== stateName) {
+    safeData.entityName = safeData.name;
+    safeData.providerName = safeData.name;
+    safeData.inputName = safeData.name;
+  }
+  delete safeData.name;
+  delete safeData.state;
+
+  const entry = {
+    ...safeData,
+    state: stateName,
+    name: stateName, // Guarantee state.name is strictly stateName
   };
+
+  const idStr = String(userId);
+  userStates[idStr] = entry;
+  userStates[userId] = entry;
   persist();
 }
 
 function getUserState(userId) {
-  return userStates[userId] || null;
+  const idStr = String(userId);
+  return userStates[idStr] || userStates[userId] || null;
 }
 
 function clearUserState(userId) {
+  const idStr = String(userId);
+  delete userStates[idStr];
   delete userStates[userId];
   persist();
 }

@@ -511,7 +511,8 @@ async function sendSocialBoostServiceDetails(bot, chatId, user, platformKey, cat
 
 function isValidBoostLink(value) {
   const text = String(value || "").trim();
-  return /^https?:\/\/\S+$/i.test(text) || /^@\w{3,}$/i.test(text);
+  if (!text || text.length < 2) return false;
+  return /^https?:\/\/\S+$/i.test(text) || /^@?[\w.-]{3,}$/i.test(text) || /^(t\.me|instagram\.com|tiktok\.com|youtube\.com|facebook\.com|x\.com|twitter\.com)\/\S+$/i.test(text);
 }
 
 function buildAwaitQuantityText(lang, payload) {
@@ -633,13 +634,25 @@ async function handleSocialBoostTextInput(bot, msg, appStore) {
 
       const quantity = Number(text);
       const cached = getCachedSmmServiceById(state.serviceId);
-      const serviceInfo = getServiceInfo(state.serviceId);
-      if (!cached || !serviceInfo) {
+      if (!cached) {
         clearUserState(user.userId);
         await safeTelegramCall("handleSocialBoostTextInput.missingService", () =>
           bot.sendMessage(msg.chat.id, lang === "ar" ? "الخدمة غير متاحة الآن." : "Service is unavailable now.")
         );
         return true;
+      }
+
+      let serviceInfo = getServiceInfo(state.serviceId);
+      if (!serviceInfo) {
+        serviceInfo = {
+          platform: { key: cached.platformKey || "other", label_ar: cached.platformLabelAr || "عام", label_en: cached.platformLabelEn || "General" },
+          category: { key: cached.categoryKey || "other", label_ar: cached.categoryLabelAr || "عام", label_en: cached.categoryLabelEn || "General" },
+          service: {
+            id: String(state.serviceId),
+            name_ar: cached.nameAr || cached.name,
+            name_en: cached.nameEn || cached.name,
+          },
+        };
       }
 
       const min = Number(cached.min || 1);

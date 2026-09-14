@@ -88,6 +88,31 @@ async function exportUsersList(bot, chatId, appStore) {
   }
 }
 
+async function handleReadyTelegramSearchInput(bot, msg, appStore) {
+  try {
+    const state = getUserState(msg.from.id);
+    if (!state || state.name !== "TG_READY_SEARCH") {
+      return false;
+    }
+    const text = String(msg.text || "").trim();
+    if (text.toLowerCase() === "cancel") {
+      clearUserState(msg.from.id);
+      const user = appStore.findUserById(msg.from.id) || appStore.getOrCreateUser(msg.from);
+      const { sendReadyTelegramMenu } = require("../services/telegramReadyService");
+      await sendReadyTelegramMenu(bot, msg.chat.id, user, 0);
+      return true;
+    }
+    clearUserState(msg.from.id);
+    const user = appStore.findUserById(msg.from.id) || appStore.getOrCreateUser(msg.from);
+    const { handleReadySearch } = require("../services/telegramReadyService");
+    await handleReadySearch(bot, msg.chat.id, user, text);
+    return true;
+  } catch (error) {
+    logBotError("handleReadyTelegramSearchInput", error, { userId: msg.from?.id });
+    return false;
+  }
+}
+
 async function handleTransferInput(bot, msg, appStore) {
   try {
     const state = getUserState(msg.from.id);
@@ -702,7 +727,7 @@ async function handleAdminState(bot, msg, appStore) {
         return true;
       }
 
-      setUserState(msg.from.id, "ADMIN_AWAITING_SMS_ADD_URL", { name });
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMS_ADD_URL", { providerName: name, entityName: name });
       await safeSendHtmlOrText(
         bot,
         msg.chat.id,
@@ -727,15 +752,16 @@ async function handleAdminState(bot, msg, appStore) {
         return true;
       }
 
-      setUserState(msg.from.id, "ADMIN_AWAITING_SMS_ADD_KEY", { name: state.name, url });
+      const provName = state.providerName || state.entityName || "مزود أرقام";
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMS_ADD_KEY", { providerName: provName, entityName: provName, url });
       await safeSendHtmlOrText(
         bot,
         msg.chat.id,
-        `🔑 <b>المزود:</b> ${escapeHtml(state.name)}\n` +
+        `🔑 <b>المزود:</b> ${escapeHtml(provName)}\n` +
         `🌐 <b>الرابط:</b> <code>${escapeHtml(url)}</code>\n\n` +
         `أرسل الآن مفتاح الـ API (API Key) الخاص بهذا الموقع:\n\n` +
         `<i>أو اكتب Cancel للإلغاء:</i>`,
-        `🔑 المزود: ${state.name}\n🌐 الرابط: ${url}\n\nأرسل الآن مفتاح الـ API (API Key) الخاص بهذا الموقع:\n\nأو اكتب Cancel للإلغاء:`
+        `🔑 المزود: ${provName}\n🌐 الرابط: ${url}\n\nأرسل الآن مفتاح الـ API (API Key) الخاص بهذا الموقع:\n\nأو اكتب Cancel للإلغاء:`
       );
       return true;
     }
@@ -762,9 +788,10 @@ async function handleAdminState(bot, msg, appStore) {
         }
       }
 
+      const provName = state.providerName || state.entityName || "مزود أرقام";
       const newSms = appStore.updateSmsProvider(targetKey, {
         key: targetKey,
-        name: state.name,
+        name: provName,
         baseUrl: state.url,
         apiKey: key,
         enabled: true,
@@ -812,7 +839,7 @@ async function handleAdminState(bot, msg, appStore) {
         return true;
       }
 
-      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_URL", { name });
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_URL", { providerName: name, entityName: name });
       await safeSendHtmlOrText(
         bot,
         msg.chat.id,
@@ -837,15 +864,16 @@ async function handleAdminState(bot, msg, appStore) {
         return true;
       }
 
-      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_KEY", { name: state.name, url });
+      const provName = state.providerName || state.entityName || "موقع رشق";
+      setUserState(msg.from.id, "ADMIN_AWAITING_SMM_KEY", { providerName: provName, entityName: provName, url });
       await safeSendHtmlOrText(
         bot,
         msg.chat.id,
-        `🔑 <b>الموقع:</b> ${escapeHtml(state.name)}\n` +
+        `🔑 <b>الموقع:</b> ${escapeHtml(provName)}\n` +
         `🌐 <b>الرابط:</b> <code>${escapeHtml(url)}</code>\n\n` +
         `أرسل الآن مفتاح الـ API (API Key) الخاص بموقع الرشق:\n\n` +
         `<i>أو اكتب Cancel للإلغاء:</i>`,
-        `🔑 الموقع: ${state.name}\n🌐 الرابط: ${url}\n\nأرسل الآن مفتاح الـ API (API Key) الخاص بموقع الرشق:\n\nأو اكتب Cancel للإلغاء:`
+        `🔑 الموقع: ${provName}\n🌐 الرابط: ${url}\n\nأرسل الآن مفتاح الـ API (API Key) الخاص بموقع الرشق:\n\nأو اكتب Cancel للإلغاء:`
       );
       return true;
     }
@@ -862,8 +890,9 @@ async function handleAdminState(bot, msg, appStore) {
         return true;
       }
 
+      const provName = state.providerName || state.entityName || "موقع رشق";
       const newProvider = appStore.addSmmProvider({
-        name: state.name,
+        name: provName,
         url: state.url,
         key,
       });
@@ -1070,6 +1099,11 @@ async function handleTextMessage(bot, msg, appStore) {
 
     const transferHandled = await handleTransferInput(bot, msg, appStore);
     if (transferHandled) {
+      return;
+    }
+
+    const tgReadySearchHandled = await handleReadyTelegramSearchInput(bot, msg, appStore);
+    if (tgReadySearchHandled) {
       return;
     }
 

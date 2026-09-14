@@ -92,6 +92,13 @@ const {
   buildProviderCheckReport,
 } = require("../services/providerManagementService");
 const { fetchAndCacheSmmServices } = require("../services/smmCacheService");
+const {
+  sendReadyTelegramMenu,
+  sendCountryDetails,
+  executeReadyTelegramBuy,
+  handleCheckSms,
+  handleCancelSms,
+} = require("../services/telegramReadyService");
 
 function resolveGrizzlyAppLabel(lang, serviceCode) {
   const { getGrizzlyServiceCode } = require("../constants/grizzly");
@@ -1260,8 +1267,71 @@ async function handleCallbackQuery(bot, query, appStore, appContext) {
           return true;
         }
 
-        if (query.data === "service:social_accounts") {
-          await sendSocialAccountsMenu(bot, chatId, user, { messageId });
+        // Ready Telegram Numbers Flow
+        if (query.data === "service:telegram_ready" || query.data === "service:social_accounts") {
+          clearUserState(user.userId);
+          await sendReadyTelegramMenu(bot, chatId, user, 0, { messageId });
+          return true;
+        }
+
+        if (query.data.startsWith("tg_ready:page:")) {
+          const page = parseInt(query.data.split(":")[2], 10) || 0;
+          await sendReadyTelegramMenu(bot, chatId, user, page, { messageId });
+          return true;
+        }
+
+        if (query.data.startsWith("tg_ready:country:")) {
+          const [, , countryId, pageStr] = query.data.split(":");
+          const page = parseInt(pageStr, 10) || 0;
+          await sendCountryDetails(bot, chatId, user, countryId, page, { messageId });
+          return true;
+        }
+
+        if (query.data.startsWith("tg_ready:buy:")) {
+          const [, , countryId, pageStr] = query.data.split(":");
+          const page = parseInt(pageStr, 10) || 0;
+          const { appStore } = require("../models/appStore");
+          await executeReadyTelegramBuy(bot, chatId, user, countryId, page, appStore);
+          return true;
+        }
+
+        if (query.data === "tg_ready:search") {
+          setUserState(user.userId, "TG_READY_SEARCH");
+          await bot.sendMessage(
+            chatId,
+            "🔍 <b>بحث عن رقم تيليجرام لدولة معينة:</b>\n\nأرسل الآن اسم الدولة (مثال: <code>السعودية</code> أو <code>اليمن</code> أو <code>مصر</code>) أو كود الدولة (مثال: <code>966</code> أو <code>967</code> أو <code>1</code>):",
+            {
+              parse_mode: "HTML",
+              reply_markup: {
+                inline_keyboard: [[{ text: "🔙 إلغاء والعودة", callback_data: "tg_ready:page:0" }]],
+              },
+            }
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("tg_ready:check:")) {
+          const [, , providerKey, activationId, priceRub] = query.data.split(":");
+          const { appStore } = require("../models/appStore");
+          await handleCheckSms(bot, chatId, query, providerKey, activationId, priceRub, appStore);
+          return true;
+        }
+
+        if (query.data.startsWith("tg_ready:cancel:")) {
+          const [, , providerKey, activationId, priceRub] = query.data.split(":");
+          const { appStore } = require("../models/appStore");
+          await handleCancelSms(bot, chatId, query, providerKey, activationId, priceRub, appStore);
+          return true;
+        }
+
+        if (query.data.startsWith("tg_ready:copy:")) {
+          const number = query.data.split(":")[2];
+          await safeTelegramCall("tg_ready.copy", () =>
+            bot.answerCallbackQuery(query.id, {
+              text: `تم نسخ الرقم: +${number}`,
+              show_alert: false,
+            })
+          );
           return true;
         }
 
