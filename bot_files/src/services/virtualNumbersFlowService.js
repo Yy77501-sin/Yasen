@@ -7,7 +7,6 @@ const { getUserState, setUserState, clearUserState } = require("./stateStore");
 const { getGrizzlyCountryMeta, getGrizzlyServiceCode, grizzlyServices } = require("../constants/grizzly");
 const { getSmsProvider } = require("../constants/smsProviders");
 const { getServicePrices, extractPrice, requestNumber, getSmsStatus, cancelNumber } = require("./grizzlyService");
-const { notifyAdminAlert } = require("./adminNotifier");
 const fs = require("fs");
 const path = require("path");
 
@@ -1003,7 +1002,7 @@ async function sendActivationToChannel(bot, lang, payload) {
   ].join("\n");
 
   await safeTelegramCall("virtualNumbersFlow.sendActivationToChannel", () =>
-    bot.sendMessage(ACTIVATIONS_CHANNEL_ID || -1004402036146, text, {
+    bot.sendMessage(ACTIVATIONS_CHANNEL_ID || -1003311851705, text, {
       parse_mode: "HTML",
       disable_web_page_preview: true,
       reply_markup: {
@@ -1100,31 +1099,6 @@ async function handleBuy(bot, query, appStore, serverKey, appKey, countryId, pri
   const providerCountryId = resolveProviderCountryId(serverKey, countryId);
   const response = await requestNumber(serviceCode, providerCountryId, providerKey);
   if (!response || /^(BAD_|ERROR|NO_)/i.test(response) || !String(response).includes("ACCESS_NUMBER")) {
-    const rawError = String(response || "NO_NUMBERS");
-    const isBadKey = /BAD_KEY|ERROR_KEY|INVALID_KEY|NO_KEY|AUTH_KEY/i.test(rawError);
-    const isBadBalance = /NO_BALANCE|LOW_BALANCE|BAD_BALANCE/i.test(rawError);
-
-    if (isBadKey || isBadBalance) {
-      const prov = getSmsProvider(providerKey);
-      const alertTitle = isBadKey ? "مفتاح المزود غير صالح أو معطل!" : "رصيد حساب المزود نفذ!";
-      const alertHtml = [
-        `🚨 <b>تنبيه هام للأدمن: ${alertTitle}</b>`,
-        `━━━━━━━━━━━━━━━━━━━`,
-        `🏢 <b>المزود:</b> ${prov?.name || providerKey} (<code>${providerKey}</code>)`,
-        `📱 <b>التطبيق المطلوب:</b> ${getAppLabel("ar", appKey)} (<code>${serviceCode}</code>)`,
-        `🌍 <b>الدولة:</b> <code>${countryId}</code>`,
-        `👤 <b>المستخدم:</b> ID: <code>${currentUser.userId}</code>`,
-        `❌ <b>الاستجابة:</b> <code>${rawError}</code>`,
-        `━━━━━━━━━━━━━━━━━━━`,
-        `⚠️ يرجى التوجه للوحة التحكم لتحديث بيانات المزود.`,
-      ].join("\n");
-
-      notifyAdminAlert(bot, alertHtml, {
-        alertKey: `buy_error_${providerKey}_${rawError}`,
-        cooldownMs: 60000,
-      }).catch(() => {});
-    }
-
     await safeTelegramCall("virtualNumbersFlow.handleBuy.noNumbers", () =>
       bot.editMessageText(`🐼 ${tx.buyFailed}`, {
         chat_id: chatId,
@@ -1314,21 +1288,19 @@ async function handleVirtualNumbersTextInput(bot, msg, appStore) {
       return true;
     }
 
-    const searchResults = await Promise.all(
-      matchedCountries.map(async (country) => {
-        const countryId = String(country.countryId || country.code || "");
-        const prices = await getCountryPriceRows(lang, appKey, countryId);
-        if (!prices.length) return null;
-        return {
-          countryId,
-          dialCode: country.dialCode || "",
-          flag: country.flag || "🌍",
-          name: lang === "ar" ? (country.name_ar || country.name_en) : (country.name_en || country.name_ar),
-          rows: prices,
-        };
-      })
-    );
-    const matchedRows = searchResults.filter(Boolean);
+    const matchedRows = [];
+    for (const country of matchedCountries) {
+      const countryId = String(country.countryId || country.code || "");
+      const prices = await getCountryPriceRows(lang, appKey, countryId);
+      if (!prices.length) continue;
+      matchedRows.push({
+        countryId,
+        dialCode: country.dialCode || "",
+        flag: country.flag || "🌍",
+        name: lang === "ar" ? (country.name_ar || country.name_en) : (country.name_en || country.name_ar),
+        rows: prices,
+      });
+    }
 
     if (!matchedRows.length) {
       await safeTelegramCall("virtualNumbersFlow.search.noPrice", () =>
@@ -1382,9 +1354,6 @@ async function handleVirtualNumbersTextInput(bot, msg, appStore) {
 async function handleVirtualNumbersCallback(bot, query, appStore) {
   try {
     const raw = String(query.data || "");
-    // Instantly answer callback query to remove Telegram loading spinner in fractions of a second
-    safeTelegramCall("virtualNumbersFlow.earlyAck", () => bot.answerCallbackQuery(query.id)).catch(() => {});
-
     const user = appStore.getOrCreateUser(query.from);
     const lang = getUserLang(user);
     const text = getText(lang);

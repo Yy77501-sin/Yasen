@@ -85,6 +85,10 @@ const {
   buildSmsProvidersMenu,
   buildSmmProvidersMenu,
   buildSingleSmmProviderMenu,
+  checkSmsProviderBalance,
+  checkSmmProviderBalance,
+  checkAllProviders,
+  buildProviderCheckReport,
 } = require("../services/providerManagementService");
 const { fetchAndCacheSmmServices } = require("../services/smmCacheService");
 
@@ -179,6 +183,54 @@ async function handleAdminCallbacks(bot, query, appStore) {
             },
           })
         );
+        return true;
+      }
+
+      case "admin:add_my_balance":
+        setUserState(ADMIN_ID, "ADMIN_AWAITING_MY_BALANCE_AMOUNT");
+        await safeTelegramCall("handleAdminCallbacks.addMyBalance", () =>
+          bot.sendMessage(
+            chatId,
+            "💳 <b>شحن رصيد المدير الشخصي</b>\n\nأرسل الآن المبلغ بالروبل الذي تريد إضافته إلى حسابك الشخصي في البوت:\n(مثال: <code>500</code> أو <code>1000</code> أو <code>5000</code>)\n\n<i>للإلغاء أرسل Cancel</i>",
+            { parse_mode: "HTML" }
+          )
+        );
+        return true;
+
+      case "admin:check_providers": {
+        const waitMsg = await safeTelegramCall("handleAdminCallbacks.checkProvidersWait", () =>
+          bot.sendMessage(chatId, "⏳ جاري فحص الاتصال وقراءة الأرصدة الحقيقية من جميع المزودين...")
+        );
+        try {
+          const report = await buildProviderCheckReport("ar", appStore);
+          if (waitMsg && waitMsg.message_id) {
+            await safeTelegramCall("handleAdminCallbacks.checkProvidersResult", () =>
+              bot.editMessageText(report.text, {
+                chat_id: chatId,
+                message_id: waitMsg.message_id,
+                parse_mode: "HTML",
+                reply_markup: report.keyboard,
+              })
+            );
+          } else {
+            await safeTelegramCall("handleAdminCallbacks.checkProvidersResultSend", () =>
+              bot.sendMessage(chatId, report.text, {
+                parse_mode: "HTML",
+                reply_markup: report.keyboard,
+              })
+            );
+          }
+        } catch (err) {
+          logBotError("admin:check_providers", err);
+          if (waitMsg && waitMsg.message_id) {
+            await safeTelegramCall("handleAdminCallbacks.checkProvidersError", () =>
+              bot.editMessageText(`❌ تعذر فحص المزودين: ${err.message}`, {
+                chat_id: chatId,
+                message_id: waitMsg.message_id,
+              })
+            );
+          }
+        }
         return true;
       }
 
@@ -420,6 +472,22 @@ async function handleAdminCallbacks(bot, query, appStore) {
           return true;
         }
 
+        if (query.data.startsWith("admin:test_sms:")) {
+          const pKey = query.data.split(":")[2];
+          await safeTelegramCall("handleAdminCallbacks.testSmsToast", () =>
+            bot.answerCallbackQuery(query.id, { text: "⏳ جاري فحص الرصيد من السيرفر...", show_alert: false })
+          );
+          const res = await checkSmsProviderBalance(pKey, appStore);
+          await safeTelegramCall("handleAdminCallbacks.testSmsAlert", () =>
+            bot.sendMessage(
+              chatId,
+              `📱 <b>فحص رصيد سيرفر الأرقام (${res.name}):</b>\n\n• الحالة: ${res.statusText}\n• الرصيد الحالي: <b>${res.formatted}</b>\n\n<i>${res.success ? "✅ الاتصال يعمل بشكل ممتاز" : "⚠️ تحقق من صحة المفتاح أو الرابط"}</i>`,
+              { parse_mode: "HTML" }
+            )
+          );
+          return true;
+        }
+
         if (query.data.startsWith("admin:toggle_sms:")) {
           const pKey = query.data.split(":")[2];
           const current = appStore.getSmsProvider(pKey);
@@ -452,6 +520,32 @@ async function handleAdminCallbacks(bot, query, appStore) {
           setUserState(query.from.id, "ADMIN_AWAITING_SMS_URL", { providerKey: pKey });
           await safeTelegramCall("handleAdminCallbacks.editSmsUrlPrompt", () =>
             bot.sendMessage(chatId, `أرسل الرابط (Base URL) الجديد لـ [${pKey}].\nأو اكتب Cancel للإلغاء:`)
+          );
+          return true;
+        }
+
+        if (query.data.startsWith("admin:smm_balance:")) {
+          const providerId = query.data.split(":")[2];
+          let provider = appStore.getSmmProviderById(providerId);
+          if (!provider && providerId === "smm_env_default") {
+            provider = { id: "smm_env_default", name: "SMM الرئيسي", url: process.env.SMM_API_URL, key: process.env.SMM_API_KEY };
+          }
+          if (!provider) {
+            await safeTelegramCall("handleAdminCallbacks.smmNotFound", () =>
+              bot.answerCallbackQuery(query.id, { text: "المزود غير موجود.", show_alert: true })
+            );
+            return true;
+          }
+          await safeTelegramCall("handleAdminCallbacks.smmBalToast", () =>
+            bot.answerCallbackQuery(query.id, { text: "⏳ جاري فحص الرصيد من موقع الرشق...", show_alert: false })
+          );
+          const res = await checkSmmProviderBalance(provider);
+          await safeTelegramCall("handleAdminCallbacks.smmBalAlert", () =>
+            bot.sendMessage(
+              chatId,
+              `🚀 <b>فحص رصيد موقع الرشق (${provider.name}):</b>\n\n• الحالة: ${res.statusText}\n• الرصيد المتوفر بالموقع: <b>${res.formatted}</b>\n\n<i>${res.success ? "✅ الموقع متصل ويعمل بنجاح" : "⚠️ تحقق من صحة المفتاح ورابط الـ API"}</i>`,
+              { parse_mode: "HTML" }
+            )
           );
           return true;
         }
@@ -1119,6 +1213,14 @@ async function handleCallbackQuery(bot, query, appStore, appContext) {
           clearUserState(user.userId);
           const platformKey = query.data.split(":")[3];
           await sendSocialBoostCategoriesMenu(bot, chatId, user, platformKey, { messageId });
+          return true;
+        }
+
+        if (query.data.startsWith("service_menu:social_boost:services_page:")) {
+          clearUserState(user.userId);
+          const [, , , platformKey, categoryKey, pageStr] = query.data.split(":");
+          const page = parseInt(pageStr, 10) || 1;
+          await sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categoryKey, { messageId, page });
           return true;
         }
 

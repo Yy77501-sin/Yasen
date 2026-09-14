@@ -1,4 +1,4 @@
-﻿const { ImapFlow } = require("imapflow");
+const { ImapFlow } = require("imapflow");
 const { logBotError } = require("./errorLogger");
 const { safeTelegramCall } = require("./telegramSafe");
 const { getUserLang } = require("../locales");

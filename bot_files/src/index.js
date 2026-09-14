@@ -19,7 +19,7 @@ const {
   getServicePrices,
   getProviderCountries,
 } = require("./services/grizzlyService");
-const { getSmsProvider, setSmsProviderAppStore } = require("./constants/smsProviders");
+const { getSmsProvider } = require("./constants/smsProviders");
 const { getGrizzlyServiceCode, getGrizzlyCountryMeta } = require("./constants/grizzly");
 const { t, getUserLang } = require("./locales");
 const {
@@ -28,7 +28,7 @@ const {
   grizzlyCountries,
 } = require("./services/grizzlyCacheService");
 const { smmServices, getPlatform, getCategory, getServiceInfo } = require("./constants/smmServices");
-const { fetchAndCacheSmmServices, getCachedSmmServiceById, createSmmOrder, setSmmAppStore } = require("./services/smmCacheService");
+const { fetchAndCacheSmmServices, getCachedSmmServiceById, createSmmOrder } = require("./services/smmCacheService");
 const { getGameTopupCatalog, getGamesByCategory, getGameByKey } = require("./services/gameTopupCatalogService");
 const { executeGameTopupOrder } = require("./services/gameTopupProviderService");
 const {
@@ -79,8 +79,8 @@ const telegramBaseApiUrl = String(process.env.TELEGRAM_BASE_API_URL || "").trim(
 const botOptions = {
   polling: {
     autoStart: true,
-    params: { timeout: 25 },
-    interval: 50,
+    params: { timeout: 20 },
+    interval: 800,
   },
   request: {
     forever: true,
@@ -95,10 +95,6 @@ if (telegramBaseApiUrl) {
 
 const bot = new TelegramBot(BOT_TOKEN, botOptions);
 const appStore = new AppStore();
-setSmsProviderAppStore(appStore);
-setSmmAppStore(appStore);
-const { setAdminNotifierBot } = require("./services/adminNotifier");
-setAdminNotifierBot(bot);
 const appContext = {
   botUsername: "VaultX",
 };
@@ -1134,9 +1130,9 @@ function buildSmsReceivedText(lang, { number, code, password = t(lang, "virtualN
 
 // cache is managed by grizzlyCacheService and SMM cache service
 fetchAndCachePrices();
-fetchAndCacheSmmServices();
+fetchAndCacheSmmServices(false, appStore);
 setInterval(fetchAndCachePrices, 24 * 60 * 60 * 1000);
-setInterval(fetchAndCacheSmmServices, 24 * 60 * 60 * 1000);
+setInterval(() => fetchAndCacheSmmServices(false, appStore), 24 * 60 * 60 * 1000);
 
 bot.onText(/\/start(?:\s+(.+))?/, async (msg) => {
   try {

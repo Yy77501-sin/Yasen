@@ -1,4 +1,4 @@
-﻿const { sendOrEditMessage } = require("./profileService");
+const { sendOrEditMessage } = require("./profileService");
 const { getUserLang } = require("../locales");
 const { formatRuble, escapeHtml } = require("../utils/formatters");
 const { getUserState, setUserState, clearUserState } = require("./stateStore");

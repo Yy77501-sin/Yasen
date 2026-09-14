@@ -1,4 +1,4 @@
-﻿const { safeTelegramCall } = require("./telegramSafe");
+const { safeTelegramCall } = require("./telegramSafe");
 const { getUserLang } = require("../locales");
 const { escapeHtml, getDisplayName } = require("../utils/formatters");
 const { getUserState, setUserState, clearUserState } = require("./stateStore");

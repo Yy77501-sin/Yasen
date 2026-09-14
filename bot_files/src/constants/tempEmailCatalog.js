@@ -1,4 +1,4 @@
-﻿const TEMP_EMAIL_GROUPS = {
+const TEMP_EMAIL_GROUPS = {
   plus: {
     key: "plus",
     arName: "حسابات إيميل بلس",

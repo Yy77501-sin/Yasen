@@ -1,4 +1,4 @@
-﻿const { PRO_ACCOUNTS_CHANNEL_ID, ADMIN_IDS } = require("../config");
+const { PRO_ACCOUNTS_CHANNEL_ID, ADMIN_IDS } = require("../config");
 const { sendOrEditMessage } = require("./profileService");
 const { safeTelegramCall } = require("./telegramSafe");
 const { logBotError } = require("./errorLogger");

@@ -1,4 +1,4 @@
-﻿const {
+const {
   getVirtualNumbersKeyboard,
   getVirtualNumbersServerSelectionKeyboard,
   getVirtualNumbersProviderAppsKeyboard,
@@ -23,7 +23,7 @@ const { sendOrEditMessage } = require("./profileService");
 const { safeTelegramCall } = require("./telegramSafe");
 const { logBotError } = require("./errorLogger");
 const { getGrizzlyVirtualNumberCatalog, paginateVirtualNumberCountries, getServicePrices, extractPrice } = require("./grizzlyService");
-const { getCachedSmmServiceById, createSmmOrder } = require("./smmCacheService");
+const { getCachedSmmServiceById, getCachedSmmServices, createSmmOrder } = require("./smmCacheService");
 const { smmServices, getPlatform, getCategory, getServiceInfo } = require("../constants/smmServices");
 const { getUserLang, getArray, t } = require("../locales");
 const { escapeHtml, formatRuble } = require("../utils/formatters");
@@ -350,31 +350,66 @@ async function sendSocialBoostCategoriesMenu(bot, chatId, user, platformKey, opt
 
 async function sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categoryKey, options = {}) {
   const lang = getUserLang(user);
-  const platform = getPlatform(platformKey);
-  const category = getCategory(platformKey, categoryKey);
+  let platform = getPlatform(platformKey);
+  let category = getCategory(platformKey, categoryKey);
 
-  if (!platform || !category) {
-    return sendOrEditMessage(bot, chatId, t(lang, "smm_invalid_category"), { inline_keyboard: [[{ text: t(lang, "socialBoost_btn_back"), callback_data: `service_menu:social_boost:platform:${platformKey}` }]] }, options.messageId, "sendSocialBoostServicesMenu.error");
+  if (!platform) {
+    platform = { key: platformKey, label_ar: platformKey, label_en: platformKey, categories: [] };
+  }
+  if (!category) {
+    category = { key: categoryKey, label_ar: categoryKey, label_en: categoryKey, services: [] };
   }
 
-  const serviceButtons = category.services.map((service) => {
-    const serviceInfo = getServiceInfo(service.id);
-    const cached = getCachedSmmServiceById(service.id);
-    if (!serviceInfo || !cached) return null;
+  // Retrieve all services cached dynamically from provider(s)
+  const allCached = typeof getCachedSmmServices === "function" ? getCachedSmmServices() : [];
+  const dynamicServices = allCached.filter(
+    (item) => item.platformKey === platformKey && item.categoryKey === categoryKey
+  );
 
-    const serviceName = getSocialBoostServiceName(lang, serviceInfo, cached);
-    const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : null);
-    if (!unitPrice) return null;
+  // Combine curated services with provider dynamic services without duplicates
+  const serviceMap = new Map();
 
-    return {
-      text: `🟢 ${serviceName} < ( ${unitPrice} ₽ )`,
-      callback_data: `service_menu:social_boost:service:${platformKey}:${categoryKey}:${service.id}`,
-    };
-  }).filter(Boolean);
+  if (Array.isArray(category.services)) {
+    category.services.forEach((service) => {
+      const serviceInfo = getServiceInfo(service.id);
+      const cached = getCachedSmmServiceById(service.id);
+      if (cached) {
+        const sName = getSocialBoostServiceName(lang, serviceInfo, cached);
+        const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : null);
+        if (unitPrice) {
+          serviceMap.set(String(service.id), {
+            id: String(service.id),
+            name: sName,
+            price: unitPrice,
+            cached,
+          });
+        }
+      }
+    });
+  }
 
-  if (!serviceButtons.length) {
+  // Add all dynamic services from providers
+  dynamicServices.forEach((cached) => {
+    const idStr = String(cached.serviceId || cached.service);
+    if (!serviceMap.has(idStr)) {
+      const sName = lang === "ar" ? (cached.nameAr || cached.name) : (cached.nameEn || cached.name);
+      const unitPrice = cached.pricePerUnitRubFormatted || (Number.isFinite(cached.pricePerUnitRub) ? Number(cached.pricePerUnitRub).toFixed(4) : null);
+      if (unitPrice) {
+        serviceMap.set(idStr, {
+          id: idStr,
+          name: sName,
+          price: unitPrice,
+          cached,
+        });
+      }
+    }
+  });
+
+  const availableServices = Array.from(serviceMap.values());
+
+  if (!availableServices.length) {
     const emptyText = lang === "ar"
-      ? "لا توجد خدمات مضافة لهذه الفئة بعد.\nيمكنك إضافتها لاحقًا من المزود."
+      ? "لا توجد خدمات مضافة لهذه الفئة حالياً.\nيمكنك الضغط على زر التحديث في لوحة التحكم لجلب الخدمات من المزود."
       : "No services are configured for this category yet.\nYou can add them later.";
     return sendOrEditMessage(
       bot,
@@ -391,16 +426,50 @@ async function sendSocialBoostServicesMenu(bot, chatId, user, platformKey, categ
     );
   }
 
-  return sendOrEditMessage(bot, chatId, buildSocialBoostServicesText(lang, platform, category), getSocialBoostServicesKeyboard(serviceButtons, platformKey, categoryKey, lang), options.messageId, "sendSocialBoostServicesMenu");
+  // Pagination support (6 services per page)
+  const PAGE_SIZE = 6;
+  const currentPage = Math.max(1, Number(options.page || 1));
+  const totalPages = Math.ceil(availableServices.length / PAGE_SIZE) || 1;
+  const pageServices = availableServices.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  const serviceButtons = pageServices.map((service) => ({
+    text: `🟢 ${service.name} < ( ${service.price} ₽ )`,
+    callback_data: `service_menu:social_boost:service:${platformKey}:${categoryKey}:${service.id}`,
+  }));
+
+  const pagination = totalPages > 1 ? { currentPage, totalPages } : null;
+
+  return sendOrEditMessage(
+    bot,
+    chatId,
+    buildSocialBoostServicesText(lang, platform, category),
+    getSocialBoostServicesKeyboard(serviceButtons, platformKey, categoryKey, lang, pagination),
+    options.messageId,
+    "sendSocialBoostServicesMenu"
+  );
 }
 
 async function sendSocialBoostServiceDetails(bot, chatId, user, platformKey, categoryKey, serviceId, options = {}) {
   const lang = getUserLang(user);
-  const serviceInfo = getServiceInfo(serviceId);
+  let serviceInfo = getServiceInfo(serviceId);
   const cached = getCachedSmmServiceById(serviceId);
 
-  if (!serviceInfo || !cached) {
+  if (!cached) {
     return sendOrEditMessage(bot, chatId, t(lang, "smm_service_not_found"), { inline_keyboard: [[{ text: t(lang, "socialBoost_btn_back"), callback_data: `service_menu:social_boost:category:${platformKey}:${categoryKey}` }]] }, options.messageId, "sendSocialBoostServiceDetails.error");
+  }
+
+  if (!serviceInfo) {
+    const platform = getPlatform(platformKey) || { key: platformKey, label_ar: cached.platformLabelAr || platformKey, label_en: cached.platformLabelEn || platformKey };
+    const category = getCategory(platformKey, categoryKey) || { key: categoryKey, label_ar: cached.categoryLabelAr || categoryKey, label_en: cached.categoryLabelEn || categoryKey };
+    serviceInfo = {
+      platform,
+      category,
+      service: {
+        id: String(serviceId),
+        name_ar: cached.nameAr || cached.name,
+        name_en: cached.nameEn || cached.name,
+      },
+    };
   }
 
   const serviceName = getSocialBoostServiceName(lang, serviceInfo, cached);

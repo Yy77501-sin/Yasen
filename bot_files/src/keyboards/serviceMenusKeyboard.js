@@ -1,4 +1,4 @@
-﻿const { t } = require("../locales");
+const { t } = require("../locales");
 
 function chunkButtons(items, mapFn, perRow = 2) {
   const rows = [];
@@ -149,17 +149,39 @@ function getSocialBoostCategoriesKeyboard(platform, lang = "ar") {
   };
 }
 
-function getSocialBoostServicesKeyboard(services, platformKey, categoryKey, lang = "ar") {
-  return {
-    inline_keyboard: [
-      [{ text: lang === "ar" ? "• 🔮 نوع السيرفر وسعر العضو الواحد •" : "• 🔮 Server type & price per unit •", callback_data: "noop" }],
-      ...services.map((service) => ([{ text: service.text, callback_data: service.callback_data }])),
-      [
-        { text: lang === "ar" ? "• ✖ رجوع •" : "• ✖ Back •", callback_data: `service_menu:social_boost:platform:${platformKey}` },
-        { text: lang === "ar" ? "• 🏠 الصفحة الرئيسية •" : "• 🏠 Main Page •", callback_data: "menu:main" },
-      ],
-    ],
-  };
+function getSocialBoostServicesKeyboard(services, platformKey, categoryKey, lang = "ar", pagination = null) {
+  const rows = [
+    [{ text: lang === "ar" ? "• 🔮 نوع السيرفر وسعر العضو الواحد •" : "• 🔮 Server type & price per unit •", callback_data: "noop" }],
+    ...services.map((service) => ([{ text: service.text, callback_data: service.callback_data }])),
+  ];
+
+  if (pagination && pagination.totalPages > 1) {
+    const pageNav = [];
+    if (pagination.currentPage > 1) {
+      pageNav.push({
+        text: lang === "ar" ? "⬅️ السابق" : "⬅️ Prev",
+        callback_data: `service_menu:social_boost:services_page:${platformKey}:${categoryKey}:${pagination.currentPage - 1}`,
+      });
+    }
+    pageNav.push({
+      text: `📄 ${pagination.currentPage} / ${pagination.totalPages}`,
+      callback_data: "noop",
+    });
+    if (pagination.currentPage < pagination.totalPages) {
+      pageNav.push({
+        text: lang === "ar" ? "التالي ➡️" : "Next ➡️",
+        callback_data: `service_menu:social_boost:services_page:${platformKey}:${categoryKey}:${pagination.currentPage + 1}`,
+      });
+    }
+    rows.push(pageNav);
+  }
+
+  rows.push([
+    { text: lang === "ar" ? "• ✖ رجوع •" : "• ✖ Back •", callback_data: `service_menu:social_boost:platform:${platformKey}` },
+    { text: lang === "ar" ? "• 🏠 الصفحة الرئيسية •" : "• 🏠 Main Page •", callback_data: "menu:main" },
+  ]);
+
+  return { inline_keyboard: rows };
 }
 
 function getSocialBoostServiceDetailsKeyboard(detailRows, backCallback, lang = "ar") {

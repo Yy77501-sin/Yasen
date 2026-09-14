@@ -1,4 +1,4 @@
-﻿const {
+const {
   getMainMenuKeyboard,
   getBackToMainMenuKeyboard,
   getAccountMenuKeyboard,

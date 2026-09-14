@@ -1,4 +1,4 @@
-﻿const { ADMIN_CHANNEL_ID } = require("../config");
+const { ADMIN_CHANNEL_ID } = require("../config");
 const { getUserLang } = require("../locales");
 const { safeTelegramCall } = require("./telegramSafe");
 const { logBotError } = require("./errorLogger");

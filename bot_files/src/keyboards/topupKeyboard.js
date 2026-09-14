@@ -1,4 +1,4 @@
-﻿const { t } = require("../locales");
+const { t } = require("../locales");
 
 function getTopupHomeKeyboard(lang = "ar") {
   return {

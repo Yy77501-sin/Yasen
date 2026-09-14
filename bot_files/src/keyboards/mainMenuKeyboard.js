@@ -156,16 +156,27 @@ function getAdminPanelKeyboard(lang = "ar") {
   return {
     inline_keyboard: [
       [
+        { text: lang === "ar" ? "💳 شحن رصيدي (المدير)" : "💳 Topup My Balance", callback_data: "admin:add_my_balance" },
+        { text: t(lang, "admin_btn_add_balance"), callback_data: "admin:add_balance" },
+      ],
+      [
+        { text: lang === "ar" ? "📡 فحص المزودين والأرصدة" : "📡 Check Providers & Balances", callback_data: "admin:check_providers" },
+      ],
+      [
+        { text: lang === "ar" ? "📱 مزودو الأرقام (SMS)" : "📱 SMS Providers", callback_data: "admin:providers" },
+        { text: lang === "ar" ? "🚀 مزودو الرشق (SMM)" : "🚀 SMM Providers", callback_data: "admin:smm_providers" },
+      ],
+      [
         { text: t(lang, "admin_btn_view_users"), callback_data: "admin:view_users" },
         { text: t(lang, "admin_btn_export_users"), callback_data: "admin:export_users" },
       ],
       [
-        { text: t(lang, "admin_btn_add_balance"), callback_data: "admin:add_balance" },
         { text: t(lang, "admin_btn_deduct_balance"), callback_data: "admin:deduct_balance" },
+        { text: t(lang, "admin_btn_earnings"), callback_data: "admin:earnings" },
       ],
       [
         { text: t(lang, "admin_btn_broadcast"), callback_data: "admin:broadcast" },
-        { text: t(lang, "admin_btn_earnings"), callback_data: "admin:earnings" },
+        { text: t(lang, "admin_btn_detailed_stats"), callback_data: "admin:detailed_stats" },
       ],
       [
         { text: t(lang, "admin_btn_edit_prices"), callback_data: "admin:edit_prices" },
@@ -176,10 +187,8 @@ function getAdminPanelKeyboard(lang = "ar") {
         { text: t(lang, "admin_btn_bot_errors"), callback_data: "admin:bot_errors" },
       ],
       [
-        { text: t(lang, "admin_btn_providers"), callback_data: "admin:providers" },
-        { text: t(lang, "admin_btn_smm_providers"), callback_data: "admin:smm_providers" },
+        { text: lang === "ar" ? "🔙 العودة للقائمة الرئيسية" : "🔙 Main Menu", callback_data: "menu:main" },
       ],
-      [{ text: t(lang, "admin_btn_detailed_stats"), callback_data: "admin:detailed_stats" }],
     ],
   };
 }

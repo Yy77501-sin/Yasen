@@ -1,4 +1,4 @@
-﻿const smmServices = [
+const smmServices = [
   {
     key: "instagram",
     label_ar: "انستقرام",
