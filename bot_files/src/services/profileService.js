@@ -38,13 +38,16 @@ async function sendOrEditMessage(bot, chatId, text, replyMarkup, messageId, scop
   };
 
   if (messageId) {
-    return safeTelegramCall(scope || "editMessageText", () =>
+    const editRes = await safeTelegramCall(scope || "editMessageText", () =>
       bot.editMessageText(text, {
         chat_id: chatId,
         message_id: messageId,
         ...payload,
       })
     );
+    if (editRes) {
+      return editRes;
+    }
   }
 
   return safeTelegramCall(scope || "sendMessage", () => bot.sendMessage(chatId, text, payload));

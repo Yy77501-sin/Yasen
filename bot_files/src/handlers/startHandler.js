@@ -136,7 +136,7 @@ async function handleStart(bot, msg, appStore) {
     const invitedBy = payload && /^\d+$/.test(payload) && Number(payload) !== msg.from.id ? payload : null;
     const user = appStore.getOrCreateUser(msg.from, { invitedBy });
 
-    if (!user.language || !user.isVerified) {
+    if (!user.language) {
       await sendLanguageMenu(bot, msg.chat.id);
       return;
     }
@@ -178,25 +178,28 @@ async function handleStart(bot, msg, appStore) {
 async function handleLanguageSelection(bot, query, appStore) {
   try {
     const selectedLanguage = query.data === "setlang_en" ? "en" : "ar";
-    const user = appStore.getOrCreateUser(query.from);
-    const updatedUser = appStore.updateUser(user.userId, { language: selectedLanguage });
+    const userId = query.from?.id;
+    const chatId = query.message?.chat?.id || userId;
+    const messageId = query.message?.message_id;
 
-    await safeTelegramCall("handleLanguageSelection.answer", () =>
-      bot.answerCallbackQuery(query.id, {
-        text: t(selectedLanguage, selectedLanguage === "ar" ? "start_lang_saved_ar" : "start_lang_saved_en"),
-      })
-    );
+    try {
+      await bot.answerCallbackQuery(query.id, {
+        text: selectedLanguage === "ar" ? "تم اختيار اللغة العربية 🇸🇦" : "English language selected 🇬🇧",
+      });
+    } catch (_) {}
+
+    const user = appStore.getOrCreateUser(query.from);
+    const updatedUser = appStore.updateUser(user.userId, {
+      language: selectedLanguage,
+      isVerified: true,
+    });
 
     if (!updatedUser) {
       return;
     }
 
-    if (!updatedUser.isVerified) {
-      await sendCaptchaChallenge(bot, query.message.chat.id, updatedUser.userId, selectedLanguage);
-      return;
-    }
-
-    await sendMainMenu(bot, query.message.chat.id, updatedUser, { messageId: query.message.message_id });
+    clearUserState(user.userId);
+    await sendMainMenu(bot, chatId, updatedUser, { messageId });
   } catch (error) {
     logBotError("handleLanguageSelection", error, { userId: query.from?.id });
   }

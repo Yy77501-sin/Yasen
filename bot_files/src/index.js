@@ -360,7 +360,7 @@ async function handleCryptomusWebhookEvent(rawBody, parsedPayload) {
   return { ok: true };
 }
 
-const renderPort = Number(process.env.PORT || 0);
+const renderPort = Number(process.env.PORT || 3000);
 if (Number.isFinite(renderPort) && renderPort > 0) {
   const readJsonBody = (req) => new Promise((resolve, reject) => {
     let body = "";
@@ -1618,29 +1618,8 @@ bot.on("polling_error", (error) => {
   try {
     logBotError("polling_error", error);
     const errText = String(error?.message || error?.code || "").toLowerCase();
-    const isConflict = errText.includes("409 conflict") || errText.includes("terminated by other getupdates");
-
-    if (!pollingRestartTimer) {
-      // If 409 conflict, back off longer (10s) to give previous instance time to exit
-      const delay = isConflict ? 10000 : pollingRestartDelayMs;
-      pollingRestartTimer = setTimeout(async () => {
-        pollingRestartTimer = null;
-        try {
-          await bot.stopPolling({ cancel: true }).catch(() => {});
-        } catch (_) {}
-        try {
-          await bot.startPolling({ restart: true });
-          pollingRestartDelayMs = 5000;
-          console.log("[polling] Successfully recovered and resumed Telegram polling.");
-        } catch (restartError) {
-          logBotError("polling_restart", restartError);
-          pollingRestartDelayMs = Math.min(pollingRestartDelayMs * 2, 30000);
-          // Retry starting polling again after 5s if start failed
-          setTimeout(() => {
-            bot.startPolling({ restart: true }).catch(() => {});
-          }, 5000);
-        }
-      }, delay);
+    if (errText.includes("409 conflict") || errText.includes("terminated by other getupdates")) {
+      console.warn("[polling] 409 Conflict detected. Another instance may be active using the same BOT_TOKEN.");
     }
   } catch (innerError) {
     console.error("Fatal polling logger failure:", innerError.message);
@@ -1648,15 +1627,14 @@ bot.on("polling_error", (error) => {
 });
 
 // --- 24/7 Self-Healing Heartbeat & Polling Supervisor ---
-// Runs every 10 seconds to ensure polling is ALWAYS ACTIVE and TCP connections never die
+// Runs every 10 seconds to ensure polling is ALWAYS ACTIVE
 setInterval(async () => {
   try {
     if (bot && typeof bot.isPolling === "function") {
       if (!bot.isPolling()) {
-        console.log("[heartbeat-supervisor] Polling detected as inactive. Restarting polling now...");
-        await bot.stopPolling({ cancel: true }).catch(() => {});
+        console.log("[heartbeat-supervisor] Polling detected as inactive. Starting polling now...");
         await bot.startPolling({ restart: true }).catch((err) => {
-          console.error("[heartbeat-supervisor] Polling restart error:", err?.message || err);
+          console.error("[heartbeat-supervisor] Polling start error:", err?.message || err);
         });
       }
     }
@@ -1665,20 +1643,16 @@ setInterval(async () => {
   }
 }, 10000);
 
-// Ping Telegram API every 1 minute to keep TCP network connection active and refresh getMe
+// Ping Telegram API every 2 minutes to keep network socket active
 setInterval(async () => {
   try {
     if (bot) {
       await bot.getMe();
     }
   } catch (pingErr) {
-    console.warn("[heartbeat-ping] getMe ping failed, attempting polling restart...", pingErr?.message);
-    try {
-      await bot.stopPolling({ cancel: true }).catch(() => {});
-      await bot.startPolling({ restart: true }).catch(() => {});
-    } catch (_) {}
+    console.warn("[heartbeat-ping] getMe ping warning:", pingErr?.message || pingErr);
   }
-}, 60000);
+}, 120000);
 
 bot.onText(/\/app/, async (msg) => {
   try {
