@@ -1680,18 +1680,20 @@ async function bootstrap() {
           },
         })
       );
-      await safeTelegramCall("bootstrap.sendProAppLaunch", () =>
-        bot.sendMessage(
-          ADMIN_CHANNEL_ID,
-          "VaultX Pro menu button configured.",
-          {
-            disable_web_page_preview: true,
-            reply_markup: {
-              inline_keyboard: [[{ text: "Open VaultX Pro", web_app: { url: webAppUrl } }]],
-            },
-          }
-        )
-      );
+      if (ADMIN_CHANNEL_ID) {
+        await safeTelegramCall("bootstrap.sendProAppLaunch", () =>
+          bot.sendMessage(
+            ADMIN_CHANNEL_ID,
+            "VaultX Pro menu button configured.",
+            {
+              disable_web_page_preview: true,
+              reply_markup: {
+                inline_keyboard: [[{ text: "Open VaultX Pro", web_app: { url: webAppUrl } }]],
+              },
+            }
+          )
+        );
+      }
     } else {
       console.log("[webapp] PUBLIC_BASE_URL/TELEGRAM_WEBAPP_URL is missing, menu button was not configured.");
     }
