@@ -982,7 +982,9 @@ async function handleCallbackQuery(bot, query, appStore, appContext) {
       return true;
     }
 
-    await safeTelegramCall("handleCallbackQuery.answer", () => bot.answerCallbackQuery(query.id));
+    try {
+      await bot.answerCallbackQuery(query.id);
+    } catch (_) {}
     if (query.data === "noop") {
       return true;
     }
