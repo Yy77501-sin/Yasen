@@ -136,7 +136,7 @@ async function handleStart(bot, msg, appStore) {
     const invitedBy = payload && /^\d+$/.test(payload) && Number(payload) !== msg.from.id ? payload : null;
     const user = appStore.getOrCreateUser(msg.from, { invitedBy });
 
-    if (!user.language) {
+    if (!user.language || !user.isVerified) {
       await sendLanguageMenu(bot, msg.chat.id);
       return;
     }
@@ -191,10 +191,14 @@ async function handleLanguageSelection(bot, query, appStore) {
     const user = appStore.getOrCreateUser(query.from);
     const updatedUser = appStore.updateUser(user.userId, {
       language: selectedLanguage,
-      isVerified: true,
     });
 
     if (!updatedUser) {
+      return;
+    }
+
+    if (!updatedUser.isVerified) {
+      await sendCaptchaChallenge(bot, chatId, updatedUser.userId, selectedLanguage);
       return;
     }
 

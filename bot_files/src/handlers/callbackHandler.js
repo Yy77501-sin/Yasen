@@ -160,8 +160,8 @@ async function handleAdminCallbacks(bot, query, appStore) {
       return true;
     }
 
-    const chatId = query.message.chat.id;
-    const messageId = query.message.message_id;
+    const chatId = query.message?.chat?.id || query.from?.id;
+    const messageId = query.message?.message_id;
     const services = appStore.getServices();
 
     switch (query.data) {
@@ -987,8 +987,8 @@ async function handleCallbackQuery(bot, query, appStore, appContext) {
       return true;
     }
     const user = appStore.getOrCreateUser(query.from);
-    const chatId = query.message.chat.id;
-    const messageId = query.message.message_id;
+    const chatId = query.message?.chat?.id || query.from?.id;
+    const messageId = query.message?.message_id;
     const socialCategoryLabels = getArray(getUserLang(user), "socialAccounts_categories").reduce((acc, item) => {
       if (item && item.key) {
         acc[item.key] = item.label;
